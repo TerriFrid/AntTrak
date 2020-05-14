@@ -1,0 +1,80 @@
+﻿@using AntTrak.Models
+@model IEnumerable<Project>
+
+
+<div class="row">
+    <!-- New Card row -->
+    <div class="col">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Projects</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>                    
+                </div>
+            </div>
+            <div class="card-body">
+
+
+                @Html.ActionLink("Create New", "Create")
+                @Html.AntiForgeryToken()
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Description)
+                            </th>
+                            <th>
+                                @Html.DisplayName("Project Manager")
+                            </th>                           
+                            <th>
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td>
+                                    @{
+                                        var db = new ApplicationDbContext();
+                                        var pm = db.Users.Find(item.ProjectManagerId);
+                                        var pmName = pm != null ? pm.Fullname : "Unassigned";
+                                    }
+                                    @pmName
+
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                    @Html.ActionLink("Manage Members", "ManageProjectLevelUsers", new { id = item.Id })
+
+                                    @if (User.IsInRole("Submitter"))
+                                    {
+                                        @Html.ActionLink("Create Ticket", "Create", "Tickets", new { projectId = item.Id }, null)
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+               
+            </div>  <!-- /.card-footer-->
+        </div>  <!-- /.card -->
+    </div>
+</div> <!-- (New Card row) -->

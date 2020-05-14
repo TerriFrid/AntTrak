@@ -1,0 +1,62 @@
+﻿@model IEnumerable<AntTrak.ViewModel.CustomUserData>
+
+@{
+    ViewBag.Title = "Manage Roles";
+}
+
+<h2>ManageRoles</h2>
+
+<div class="container">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken();
+
+        <div class="row">
+            <div class="col">
+                @Html.ListBox("UserIds")
+            </div>
+            <div class="col">
+                @Html.DropDownList("RoleName", "Select Role")
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col">
+                <button type="submit" class="btn-primary" style="width:100%">Manage Roles</button>
+            </div>
+        </div>
+    }
+</div>
+
+<hr />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Full Name")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RoleName)
+        </th>
+    </tr>
+
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => user.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => user.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(model => user.RoleName)
+            </td>
+        </tr>
+    }
+
+</table>
+

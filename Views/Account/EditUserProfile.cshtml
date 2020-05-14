@@ -1,0 +1,83 @@
+﻿@using AntTrak.ViewModel
+@model UserProfile
+
+
+@{
+    ViewBag.Title = "Edit UserProfile";
+}
+
+@using (Html.BeginForm("EditUserProfile", "Account", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model=>model.Id)
+    <div class="register-box">
+        @*<div class="register-logo">
+            <a href="../../index2.html">Dr. d'Bug</a>
+        </div>*@
+
+        <div class="card">
+            <div class="card-body register-card-body">
+                <p class="login-box-msg">User Profile</p>
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                @*<form action="../../index.html" method="post">*@
+           
+                <div class="input-group mb-3">
+                    @*<input type="text" name="FirstName" class="form-control" placeholder="First Name">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                             </div>
+                        </div>*@
+                    <div class="col-3">
+                        @Html.LabelFor(model => model.FirstName, new { @class = "control-label" })
+                    </div>
+                    <div class="col-9">
+                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+            </div>
+            <div class="input-group mb-3">
+                @*<input type="text" name="LastName" class="form-control" placeholder="First Name">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-user"></span>
+                    </div>
+                </div>*@
+                <div class="col-3">
+                    @Html.LabelFor(model => model.LastName, new { @class = "control-label" })
+                </div>
+                <div class="col-9">
+                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+            </div>
+            <div class="input-group mb-3">
+                @*<input type="email" name="email" class="form-control" placeholder="Email">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-envelope"></span>
+                    </div>
+                </div>*@
+                <div class="col-4">
+                    @Html.LabelFor(model => model.Email, new { @class = "control-label" })
+                </div>
+                <div class="col-8">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+                
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+                    </div>
+                    @*<div class="col">
+                        @Html.ActionLink("Cancel", "Dashboard", "Home", new { @class = "btn btn-dark btn-block" })
+                    </div>*@
+                </div>                               
+
+            
+        </div><!-- /.card -->
+    </div>
+}

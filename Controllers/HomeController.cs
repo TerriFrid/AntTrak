@@ -9,8 +9,8 @@ using System.Web.Configuration;
 using System.Web.Mail;
 using System.Web.Mvc;
 using System.Net.Mail;
-
-
+using Microsoft.AspNet.Identity;
+using AntTrak.ViewModel;
 
 namespace AntTrak.Controllers
 {
@@ -18,15 +18,30 @@ namespace AntTrak.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private ProjectHelper projHelper = new ProjectHelper();
+        private UserRolesHelper roleHelper = new UserRolesHelper();
+        private TicketHelper ticketHelper = new TicketHelper();
         public ActionResult Index()
         {
             return View();
         }
 
+        [Authorize]
         public ActionResult Dashboard()
         {
-            var tickets = db.Tickets;
-            return View(tickets.ToList());
+            var model = new Dashboard();
+
+            model.AllMyTickets = ticketHelper.ListMyTickets();
+            model.AllTickets = db.Tickets.ToList();
+            if (User.IsInRole("Developer")) 
+            {  
+                var currentUserId = User.Identity.GetUserId();
+                model.AllMyProjectsTickets = ticketHelper.ListMyProjectsTickets(currentUserId);
+                ViewBag.CardTitleDev = "My Projects' Tickets";
+
+            }
+            ViewBag.CardTitle = "All Tickets";
+            ViewBag.CardTitle2 = "My Tickets";
+            return View(model);
             
         }
         public ActionResult About()

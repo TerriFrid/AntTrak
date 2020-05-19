@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using AntTrak.Helpers;
 using AntTrak.Models;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 
 namespace AntTrak.Controllers
@@ -16,6 +17,8 @@ namespace AntTrak.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private ProjectHelper projHelper = new ProjectHelper();
+        private UserRolesHelper roleHelper = new UserRolesHelper();
+        private TicketHelper ticketHelper = new TicketHelper();
 
         // GET: Tickets
         public ActionResult Index()
@@ -47,10 +50,16 @@ namespace AntTrak.Controllers
             // show only longed on users project
             var myUserId = User.Identity.GetUserId();
             var myProjects = projHelper.ListUserProjects(myUserId);
+            ViewBag.CardTitle = "Creat New Ticket ";
 
             if (projectId == null)
             { 
-                ViewBag.ProjectId = new SelectList(myProjects, "Id", "Name");
+                ViewBag.ProjectId = new SelectList(myProjects, "Id", "Name");                
+            }
+            else
+            {
+                var projName = db.Projects.Find(projectId).Name;
+                ViewBag.CardTitle += "for " + projName;
             }
 
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name");
@@ -104,6 +113,10 @@ namespace AntTrak.Controllers
         }
 
         // GET: Tickets/Edit/5
+        [Authorize]
+
+        //Custom Action Filter that detects whether or they should be here
+        //[SpecialTicketAuth]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -115,13 +128,30 @@ namespace AntTrak.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.DeveloperId = new SelectList(db.Users, "Id", "FirstName", ticket.DeveloperId);
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
-            ViewBag.SubmitterId = new SelectList(db.Users, "Id", "FirstName", ticket.SubmitterId);
-            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
-            ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Name", ticket.TicketStatusId);
-            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
-            return View(ticket);
+
+            var currentUserId = User.Identity.GetUserId();
+            var bMyTicket = ticketHelper.IsMyTicket(ticket.Id);
+                
+            if (bMyTicket)
+            {
+                var projName = ticketHelper.TicketProjectName(ticket.Id);
+                var DeveloperId = ticketHelper.AssignableDevelopers(ticket.ProjectId);
+                ViewBag.MyTicket = bMyTicket;
+                ViewBag.MyRoleName = roleHelper.ListUserRoles(currentUserId).FirstOrDefault();
+                ViewBag.CardTitle = projName + ": " + ticket.Title;
+                
+                ViewBag.DeveloperId = new SelectList(DeveloperId, "Id", "FullName", ticket.DeveloperId);
+                ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
+                ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Name", ticket.TicketStatusId);
+                ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
+                return View(ticket);
+            }
+           else
+            {
+                TempData["InvalidSelection"] = $"You are not authorized to edit this ticket.";
+                return RedirectToAction("Dashboard", "Home");
+            }
+                                 
         }
 
         // POST: Tickets/Edit/5
@@ -129,17 +159,34 @@ namespace AntTrak.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,ProjectId,SubmitterId,DeveloperId,TicketTypeId,TicketStatusId,TicketPriorityId,Title,Description,Created,Updated,IsArchived")] Ticket ticket)
+        public ActionResult Edit([Bind(Include = "Id,ProjectId,SubmitterId,DeveloperId,TicketTypeId,TicketStatusId,TicketPriorityId,Title,Description,Created, IsArchived")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
+                //AsNoTracking() to get a Momento Ticket object
+               Ticket OldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+
+                    //Need to change this to a switch and evaluate if ticket status Archived then ticket.IsArchived = true
+                if (ticket.TicketStatusId == db.TicketStatus.FirstOrDefault(t => t.Name == "Unassigned").Id &&  ticket.DeveloperId != null)
+                {
+                    ticket.TicketStatusId = db.TicketStatus.FirstOrDefault(t => t.Name == "Assigned").Id;
+                }
+                
+                ticket.Updated = DateTime.Now;
                 db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
+
+                //Now I can compare new ticket to the old ticket for changes that need to be recorded in the Ticket History table
+                // call History Helper
+
+
                 return RedirectToAction("Dashboard", "Home");
+               // return RedirectToAction(ReturnUrl);
             }
-            ViewBag.DeveloperId = new SelectList(db.Users, "Id", "FirstName", ticket.DeveloperId);
+
+            //TLF this needs to match Edit GET
+            ViewBag.DeveloperId = new SelectList(db.Users, "Id", "FullName", ticket.DeveloperId);
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
-            ViewBag.SubmitterId = new SelectList(db.Users, "Id", "FirstName", ticket.SubmitterId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Name", ticket.TicketStatusId);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);

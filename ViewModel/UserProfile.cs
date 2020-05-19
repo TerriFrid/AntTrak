@@ -27,6 +27,8 @@ namespace AntTrak.ViewModel
         [Display(Name = "Email")]
         public string Email { get; set; }
         public string AvatarUrl{ get; set; }
+        public string Role { get; set; }
+        
 
         public string FullName
         {

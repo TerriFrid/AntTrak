@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Management.Instrumentation;
 using System.Web;
@@ -23,7 +24,11 @@ namespace AntTrak.Models
         #region Description
         public string Title { get; set; }
         public string Description { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:MMM dd, yyyy}")]
         public DateTime Created { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:MMM dd, yyyy}")]
         public DateTime? Updated { get; set; }
 
         public bool IsArchived { get; set; }

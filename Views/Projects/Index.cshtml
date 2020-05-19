@@ -5,9 +5,9 @@
 <div class="row">
     <!-- New Card row -->
     <div class="col">
-        <div class="card">
+        <div class="card card-olive">
             <div class="card-header">
-                <h3 class="card-title">Projects</h3>
+                <h3 class="card-title">@ViewBag.CardTitle</h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
                         <i class="fas fa-minus"></i>
@@ -15,9 +15,10 @@
                 </div>
             </div>
             <div class="card-body">
-
-
-                @Html.ActionLink("Create New", "Create")
+                @if (ViewBag.MyRole == "Admin" || ViewBag.MyRole =="ProjectManager")
+                {
+                    @Html.ActionLink("Create New", "Create")
+                }
                 @Html.AntiForgeryToken()
 
                 <table class="table table-striped">
@@ -31,7 +32,7 @@
                             </th>
                             <th>
                                 @Html.DisplayName("Project Manager")
-                            </th>                           
+                            </th>
                             <th>
                                 Actions
                             </th>
@@ -57,9 +58,9 @@
 
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                    @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |*@
                                     @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                    @Html.ActionLink("Manage Members", "ManageProjectLevelUsers", new { id = item.Id })
+                                    @Html.ActionLink("Manage Members", "TeamManagement", new { id = item.Id })
 
                                     @if (User.IsInRole("Submitter"))
                                     {

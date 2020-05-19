@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -17,6 +18,8 @@ namespace AntTrak.Models
         public string Property { get; set; }
         public string OldValue { get; set; }
         public string NewValue { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:MMM dd, yyyy}")]
         public DateTime ChangedOn { get; set; }
 
         #endregion

@@ -1,80 +1,106 @@
 ﻿@using AntTrak.Models
 @model Project
-<div class="row">
-    <!-- New Card row -->
-    <br />
-    <br />
-
-    <div class="col-2"></div>@*skinny up the card*@
-    <div class="col-8">
-        @*body col*@
-        <div class="card card-olive">
-            <!-- /.card -->
-            <div class="card-header">
-                <h1 class="card-title">Edit Project </h1>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="card-body">
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.HiddenFor(model => model.Id)
-                    @Html.HiddenFor(model => model.Created)
-                    @Html.HiddenFor(model => model.IsArchived)
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <hr />
-                    <div class="row">
-                        <div class="col">
-
-                            @Html.DropDownList("ProjectManagerId")
-                            @Html.ValidationMessageFor(model => model.ProjectManagerId, "", new { @class = "text-danger" })
+    <div class="container">
+        <div class="row">
+            <!-- New Card row -->
+            <br />
+            <br />           
+            <div class="col-8">
+                @*body col*@
+                <div class="card card-olive">
+                    <!-- /.card -->
+                    <div class="card-header">
+                        <h1 class="card-title">@ViewBag.CardTitle </h1>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
                         </div>
                     </div>
-                    <br />
-                    <div class="row">
-                        <div class="col">
-                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
-                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col">
-                        </div>
-                    </div>
-                    <br />
-                    <div class="row">
-                        <div class="col">
-                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
-                            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    <div class="card-body">
+                        @using (Html.BeginForm("Edit", "Projects", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(model => model.Id)
+                            @*@Html.HiddenFor(model => model.IsArchived)*@
 
-                        </div>
-                    </div>
-                    <br />
-                    <br />
-                    <div class="row">
-                        <br />
-                        <div class="col-8">
-                        </div>
-                        <div class="col-4">
-                            <input type="submit" value="Save Changes" class="btn btn-success" />
-                            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-dark" })
-                        </div>
-                    </div>
+                            @*@Html.HiddenFor(model => model.Created)*@
+
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="row">
+                                        @Html.Label("Project Manager", new { @class = "form-label" })
+                                    </div>
+                                    <div class="row">
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            @Html.DropDownList("ProjectManagerId", null, new {@class = "form-control" })
+                                        }
+                                        else
+                                        {
+                                            @*@Html.DropDownList("ProjectManagerId", null, null, new { @class = "form-control .disabled" })*@
+                                            var db = new ApplicationDbContext();
+                                            var pm = db.Users.Find(Model.ProjectManagerId);
+                                            var pmName = pm != null ? pm.Fullname : "Unassigned";
+
+                                            @pmName
+                                        }
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.ProjectManagerId, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-8">
+                                    <span class="float-right">
+                                        <div class="row">
+                                            <div class="col">
+                                                @Html.Label("Archive Project", new { @class = "form-label" })
+                                            </div>
+                                            <div class="col">
+                                                @Html.CheckBoxFor(model => model.IsArchived, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
+                                    @Html.TextArea("Description", new { @class = "form-control h-100" })
+                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <br />
+                            <br />
+                            <div class="row">
+                                <br />
+                                <div class="col">
+                                    <span class="float-right">
+                                        <input type="submit" value="Save Changes" class="btn btn-success" />
+                                        @Html.ActionLink("Back To Project", "Details", new { id = Model.Id }, new { @class = "btn btn-dark" })
+                                    </span>
+                                </div>
+                            </div>
 
 
 
 
-                }
-            </div> <!-- /.card-body -->
+                        }
+                    </div> <!-- /.card-body -->
                 </div> <!-- /.card -->
-    </div>@*body col*@
-    <div class="col-2"></div> @*skinny up the card*@
-</div> <!-- (New Card row) -->
-
+            </div>@*body col*@
+          
+        </div> <!-- (New Card row) -->
+    </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

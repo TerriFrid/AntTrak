@@ -58,6 +58,7 @@ namespace AntTrak.Controllers
                     if (!string.IsNullOrEmpty(roleName))
                     {
                         roleHelper.AddUserToRole(userId, roleName);
+                        // TLF if the role is admin the user needs to be added to all existing projects.
                     }
                     
                 }

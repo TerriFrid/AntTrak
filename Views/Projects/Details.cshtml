@@ -1,66 +1,256 @@
-﻿@model AntTrak.Models.Project
+﻿@using AntTrak.ViewModel
+@model ProjectDetails
 
-@{
-    ViewBag.Title = "Details";
-}
+@Html.AntiForgeryToken()
+    <div class="container">
+        <div class="row">
+            <!-- New Card row -->
+            <div class="col-6">
+                @*body col*@
+                <div class="card card-olive">
+                    <!-- /.card -->
+                    <div class="card-header">
+                        <h1 class="card-title">@ViewBag.CardTitle </h1>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @Html.HiddenFor(model => model.Id)
+                        @Html.HiddenFor(model => model.IsArchived)
+                        <div class="row">
+                            <div class="col-4">
+                                @Html.Label("Project Manager", new { @class = "form-label" })
+                                <p>@Model.ProjectManagerName</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                @Html.Label("Description", new { @class = "control-label" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <p>@Model.Description</p>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                            {
+                                @Html.ActionLink("Edit information", "Edit", new { id = Model.Id }, new { @class = "btn btn-success" })
+                                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-dark" })
+                            }
+                        </div>  <!-- /.card-footer-->
 
-<h2>Details</h2>
+                    </div> <!-- /.card-body -->
+                </div> <!-- /.card -->
+            </div>@*body col*@
+            <div class="col-6">
+                @*<div class="col">*@
+                <div class="card card-olive">
+                    <div class="card-header">
+                        <h3 class="card-title">Project Members</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
 
-<div>
-    <h4>Project</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            @foreach (var member in Model.ProjectMembers)
+                            {
+                                <li>
+                                    @member.Fullname
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                        {
+                            @Html.ActionLink("Update Members", "TeamManagement", new { id = Model.Id }, new { @class = "btn btn-success" })
+                        }
+                    </div>  <!-- /.card-footer-->
+                </div>  <!-- /.card -->
+            </div>@*Project Members*@
+        </div> <!-- (New Card row) -->
+        <div class="row">
+            @*Tickets Card*@
+            <div class="col-12">
+                <div class="col-12">
+                    <div class="card card-olive card-tabs">
+                        <div class="card-header p-0 pt-1">
+                            <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Active Tickets</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">All Tickets</a>
+                                </li>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content" id="custom-tabs-one-tabContent">
+                                <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+                                                <th>
+                                                    @Html.DisplayName("Developer")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Title")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Submitter")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Priority")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Type")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Status")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Created")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Last Updated")
+                                                </th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.ActiveTickets)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @{
+                                                            var dev = item.Developer;
+                                                            var devName = dev != null ? dev.Fullname : "Unassigned";
+                                                        }
+                                                        @devName
+                                                    </td>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+                                                    <td>
+                                                        @item.Title
+                                                    </td>
+                                                    <td>
+                                                        @item.Submitter.Fullname
+                                                    </td>
+                                                    <td>
+                                                        @item.TicketPriority.Name
+                                                    </td>
+                                                    <td>
+                                                        @item.TicketType.Name
+                                                    </td>
+                                                    <td>
+                                                        @item.TicketStatus.Name
+                                                    </td>
+                                                    <td class="noWrap">
+                                                        @Html.DisplayFor(modelItem => item.Created)
+                                                    </td>
+                                                    <td class="noWrap">
+                                                        @Html.DisplayFor(modelItem => item.Updated)
+                                                    </td>
+                                                    <td>
+                                                        @Html.ActionLink("Details", "Details", "Tickets", new { id = item.Id }, null)
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ProjectManagerId)
-        </dt>
+                                                <th>
+                                                    @Html.DisplayName("Developer")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Title")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Submitter")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Priority")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Type")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Status")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Created")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Last Updated")
+                                                </th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.AllTickets)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @{
+                                                            var dev = item.Developer;
+                                                            var devName = dev != null ? dev.Fullname : "Unassigned";
+                                                        }
+                                                        @devName
+                                                    </td>
 
-        <dd>
-            @Html.DisplayFor(model => model.ProjectManagerId)
-        </dd>
+                                                    <td>
+                                                        @item.Title
+                                                    </td>
+                                                    <td>
+                                                        @item.Submitter.Fullname
+                                                    </td>
+                                                    <td>
+                                                        @item.TicketPriority.Name
+                                                    </td>
+                                                    <td>
+                                                        @item.TicketType.Name
+                                                    </td>
+                                                    <td>
+                                                        @item.TicketStatus.Name
+                                                    </td>
+                                                    <td class="noWrap">
+                                                        @Html.DisplayFor(modelItem => item.Created)
+                                                    </td>
+                                                    <td class="noWrap">
+                                                        @Html.DisplayFor(modelItem => item.Updated)
+                                                    </td>
+                                                    <td>
+                                                        @Html.ActionLink("Details", "Details", "Tickets", new { id = item.Id }, null)
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div><!-- /.card -->
+                    </div>
+                </div>
+            </div>
+        </div> @*Tickets Card*@
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Created)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Updated)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Updated)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsArchived)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsArchived)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+    </div>
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

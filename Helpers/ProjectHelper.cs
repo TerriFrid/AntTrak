@@ -10,6 +10,7 @@ namespace AntTrak.Helpers
     public class ProjectHelper
     {
         ApplicationDbContext db = new ApplicationDbContext();
+        UserRolesHelper rolesHelper = new UserRolesHelper();
 
         public bool IsUserOnProject(string userId, int projectId)
         {
@@ -59,6 +60,24 @@ namespace AntTrak.Helpers
         public ICollection<ApplicationUser>ListUsersOnProject(int projectId)
         {
             return db.Projects.Find(projectId).Users;
+        }
+
+        public ICollection<ApplicationUser> ProjectMembers (int projectId)
+        {
+            var usersOnProject = db.Projects.Find(projectId).Users;
+            var members = new List<ApplicationUser>();
+
+            foreach (var user in usersOnProject)
+            {
+                if (!rolesHelper.IsUserInRole(user.Id, "Admin"))
+                {
+                    members.Add(user);
+                }
+
+            }
+
+            return members;
+
         }
         public ICollection<Project>ListProjectsForUser(string userId)
         {

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AntTrak.Models;
+using Microsoft.AspNet.Identity;
 
 namespace AntTrak.Controllers
 {
@@ -49,18 +50,26 @@ namespace AntTrak.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TicketId,UserId,Body,Created,Updated")] TicketComment ticketComment)
+        public ActionResult Create(string commentBody, int ticketId,  TicketComment ticketComment)
         {
             if (ModelState.IsValid)
             {
-                db.TicketComments.Add(ticketComment);
+                var newComment = new TicketComment
+                {
+                    Body = commentBody,
+                    TicketId = ticketId,
+                    UserId = User.Identity.GetUserId(),
+                    Created = DateTime.Now
+                };
+               
+                db.TicketComments.Add(newComment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit", "Tickets", new { ticketId });
             }
 
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketComment.TicketId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketComment.UserId);
-            return View(ticketComment);
+            return RedirectToAction("Edit", "Tickets", new { ticketId });
         }
 
         // GET: TicketComments/Edit/5

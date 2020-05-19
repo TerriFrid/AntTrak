@@ -1,0 +1,116 @@
+﻿@using AntTrak.Models
+
+@model Project
+
+@using (Html.BeginForm("TeamManagement", "Projects", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="container">
+        <div class="card card-olive">
+            <div class="card-header">
+                <h3 class="card-title">@ViewBag.CardTitle</h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        @Html.DropDownList("ProjectManagerId", "Select Project Manager")
+                    }
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="row">
+                            @Html.Label("Submitters")
+                        </div>
+                        <div class="row">
+                            @Html.ListBox("SubmitterIds")
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            @Html.Label("Developers")
+                        </div>
+                        <div class="row">
+                            @Html.ListBox("DeveloperIds")
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        @Html.ActionLink("Assign to Project", "AssignMember", new { id = Model.Id }, new { @class = "btn btn-success" })
+
+                    </div>
+                    <div class="col">
+                        @Html.ActionLink("Remove from Project", "RemoveMember", new { id = Model.Id }, new { @class = "btn btn-success" })
+
+                    </div>
+                </div>
+                <div class="row">
+
+                    <hr />
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayName("Full Name")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Email")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Role")
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var projUser in Model.Users)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(model => projUser.Fullname)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => projUser.Email)
+                                    </td>
+                                    <td>
+                                        Role Name
+                                        @*@Html.DisplayFor(model => projUser.)*@
+                                        @*@projUser.Roles.FirstOrDefault();*@
+                                    </td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+            <div class="row">
+                <br />      
+                <div class="col-8">
+                    
+                </div>
+                <div class="col-4">
+                    <span class="float-right">                        
+                        @Html.ActionLink("Back To Project", "Details", new { id = Model.Id }, new { @class = "btn btn-dark" })
+                    </span>
+                </div>
+            </div>
+        </div>
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+}

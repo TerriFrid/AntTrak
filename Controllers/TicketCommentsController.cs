@@ -64,12 +64,12 @@ namespace AntTrak.Controllers
                
                 db.TicketComments.Add(newComment);
                 db.SaveChanges();
-                return RedirectToAction("Edit", "Tickets", new { ticketId });
+                return RedirectToAction("Details", "Tickets", new { ticketId });
             }
 
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketComment.TicketId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketComment.UserId);
-            return RedirectToAction("Edit", "Tickets", new { ticketId });
+            return RedirectToAction("Details", "Tickets", new { ticketId });
         }
 
         // GET: TicketComments/Edit/5

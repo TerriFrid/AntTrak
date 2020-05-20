@@ -356,8 +356,12 @@ namespace AntTrak.Controllers
                 db.Entry(project).State = EntityState.Modified;
                 project.Updated = DateTime.Now;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Projects", new {project.Id } );
             }
+            var ProjectManagerId = roleHelper.UsersInRole("ProjectManager").ToList();
+            ViewBag.ProjectManagerId = new SelectList(ProjectManagerId, "Id", "FullName", project.ProjectManagerId);
+            ViewBag.CardTitle = project.Name;
+
             return View(project);
         }
 

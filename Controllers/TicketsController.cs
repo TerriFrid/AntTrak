@@ -19,6 +19,7 @@ namespace AntTrak.Controllers
         private ProjectHelper projHelper = new ProjectHelper();
         private UserRolesHelper roleHelper = new UserRolesHelper();
         private TicketHelper ticketHelper = new TicketHelper();
+        private HistoryHelper historyHelper = new HistoryHelper();
 
         // GET: Tickets
         public ActionResult Index()
@@ -39,6 +40,9 @@ namespace AntTrak.Controllers
             {
                 return HttpNotFound();
             }
+            
+            var projName = ticketHelper.TicketProjectName(ticket.Id);
+            ViewBag.CardTitle = projName + ": " + ticket.Title;
             return View(ticket);
         }
 
@@ -128,16 +132,13 @@ namespace AntTrak.Controllers
             {
                 return HttpNotFound();
             }
-
-            var currentUserId = User.Identity.GetUserId();
             var bMyTicket = ticketHelper.IsMyTicket(ticket.Id);
                 
             if (bMyTicket)
             {
                 var projName = ticketHelper.TicketProjectName(ticket.Id);
                 var DeveloperId = ticketHelper.AssignableDevelopers(ticket.ProjectId);
-                ViewBag.MyTicket = bMyTicket;
-                ViewBag.MyRoleName = roleHelper.ListUserRoles(currentUserId).FirstOrDefault();
+                ViewBag.CardTitle = "";
                 ViewBag.CardTitle = projName + ": " + ticket.Title;
                 
                 ViewBag.DeveloperId = new SelectList(DeveloperId, "Id", "FullName", ticket.DeveloperId);
@@ -164,32 +165,53 @@ namespace AntTrak.Controllers
             if (ModelState.IsValid)
             {
                 //AsNoTracking() to get a Momento Ticket object
-               Ticket OldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+               Ticket oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
 
                     //Need to change this to a switch and evaluate if ticket status Archived then ticket.IsArchived = true
                 if (ticket.TicketStatusId == db.TicketStatus.FirstOrDefault(t => t.Name == "Unassigned").Id &&  ticket.DeveloperId != null)
                 {
                     ticket.TicketStatusId = db.TicketStatus.FirstOrDefault(t => t.Name == "Assigned").Id;
                 }
-                
+
+                if (ticket.TicketStatusId == db.TicketStatus.FirstOrDefault(t => t.Name == "Archived").Id)
+                {
+                    ticket.IsArchived = true;
+                }
+
+
                 ticket.Updated = DateTime.Now;
                 db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
 
                 //Now I can compare new ticket to the old ticket for changes that need to be recorded in the Ticket History table
                 // call History Helper
+                historyHelper.ManageHistoryRecordCreation(oldTicket, ticket);
 
-
-                return RedirectToAction("Dashboard", "Home");
+                return View(ticket);
                // return RedirectToAction(ReturnUrl);
             }
 
             //TLF this needs to match Edit GET
-            ViewBag.DeveloperId = new SelectList(db.Users, "Id", "FullName", ticket.DeveloperId);
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
-            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
-            ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Name", ticket.TicketStatusId);
-            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
+            var bMyTicket = ticketHelper.IsMyTicket(ticket.Id);
+
+            if (bMyTicket)
+            {
+                var projName = ticketHelper.TicketProjectName(ticket.Id);
+                var DeveloperId = ticketHelper.AssignableDevelopers(ticket.ProjectId);
+                ViewBag.CardTitle = "";
+                ViewBag.CardTitle = projName + ": " + ticket.Title;
+
+                ViewBag.DeveloperId = new SelectList(DeveloperId, "Id", "FullName", ticket.DeveloperId);
+                ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
+                ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Name", ticket.TicketStatusId);
+                ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
+                return View(ticket);
+            }
+            else
+            {
+                TempData["InvalidSelection"] = $"You are not authorized to edit this ticket.";
+                return RedirectToAction("Dashboard", "Home");
+            }
             return View(ticket);
         }
 

@@ -87,5 +87,12 @@ namespace AntTrak.Controllers
             EmailModel model = new EmailModel();
             return View(model);
         }
+
+        public PartialViewResult _SideNav()
+        {
+            var model = db.Users.Find(User.Identity.GetUserId());
+
+            return PartialView(model);
+        }
     }
 }

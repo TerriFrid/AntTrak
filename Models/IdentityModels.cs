@@ -62,9 +62,7 @@ namespace AntTrak.Models
 
         public System.Data.Entity.DbSet<AntTrak.Models.Project> Projects { get; set; }
 
-        public System.Data.Entity.DbSet<AntTrak.Models.Ticket> Tickets { get; set; }
-
-        // TLF public System.Data.Entity.DbSet<AntTrak.Models.ApplicationUser> ApplicationUsers { get; set; }
+        public System.Data.Entity.DbSet<AntTrak.Models.Ticket> Tickets { get; set; }        
 
         public System.Data.Entity.DbSet<AntTrak.Models.TicketAttachment> TicketAttachments { get; set; }
 
@@ -80,6 +78,8 @@ namespace AntTrak.Models
 
         public System.Data.Entity.DbSet<AntTrak.Models.TicketType> TicketTypes { get; set; }
 
-        //public System.Data.Entity.DbSet<AntTrak.Models.ApplicationUser> ApplicationUsers { get; set; }
+       
+
+        
     }
 }

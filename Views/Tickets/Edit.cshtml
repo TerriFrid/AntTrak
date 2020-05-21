@@ -19,7 +19,7 @@
                             @Html.AntiForgeryToken()
                             @Html.HiddenFor(Model => Model.ProjectId)
                             @Html.HiddenFor(Model => Model.SubmitterId)
-                            @Html.HiddenFor(Model => Model.Title)
+                            @*@Html.HiddenFor(Model => Model.Title)*@
                             @Html.HiddenFor(Model => Model.Created)
                             @Html.HiddenFor(Model => Model.TicketStatusId)
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -92,7 +92,7 @@
                                     <input type="submit" value="Save" class="form-control btn btn-primary" />
                                 </div>
                                 <div class="col">
-                                    @Html.ActionLink("Back to List", "Dashboard", "Home", null, new { @class = "form-control btn btn-dark" })
+                                    @Html.ActionLink("Back to Ticket", "Details", "Tickets", new { id = Model.Id }, new { @class = "form-control btn btn-dark" })
                                 </div>
                             </div>
                         </div> <!-- /.card-footer-->

@@ -1,0 +1,113 @@
+﻿@model AntTrak.Models.ApplicationUser
+
+<!-- Main Sidebar Container -->
+
+<aside class="main-sidebar sidebar-dark-orange elevation-4">
+    <!-- Brand Logo -->
+    <a href="index3.html" class="brand-link">
+        @*<img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">*@
+        <i class="fas fa-user-md"></i>
+        <span class="brand-text font-weight-light">Dr. d'Bug</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        @if (User.Identity.IsAuthenticated)
+        {
+            
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <div class="image">
+                    <img src="~/Uploads/Tfrid-img.jpg" class="img-circle elevation-2" alt="User Image">
+                </div>
+                <div class="info">
+                    <a href="@Url.Action("EditUserProfile", "Account")" class="d-block">@Model.Fullname</a>
+
+
+                </div>
+            </div>
+        }
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">
+                <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+                <li class="nav-item has-treeview menu-open">
+                    <a href="@Url.Action("Dashboard", "Home")" class="nav-link active">
+                        <i class="nav-icon fas fa-hospital-alt"></i>
+                        <p>
+                            Dashboard
+                        </p>
+                    </a>
+                </li>
+                @if (User.IsInRole("Admin"))
+                {
+                    <li class="nav-item has-treeview menu-open">                      
+                        <i class="nav-icon fas fa-users"></i>
+                        <p> Users <i class="nav-link right fas fa-angle-left"></i></p>
+
+                        <ul class="nav nav-treeview">
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("ManageRoles", "Admin")" class="nav-link active">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Role Assignment</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("ManageProjectAssignments", "Projects")" class="nav-link active">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Project Assignment</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+            </ul>
+            
+                @*<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">*@
+                    <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+                    
+                @*</ul>*@
+         
+            @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+            {
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+                    <li class="nav-item has-treeview menu-open">
+                        <a href="@Url.Action("ManageProjectAssignments", "Projects")" class="nav-link active">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p> Manage Project Assignment@*<i class="right fas fa-angle-left"></i>*@</p>
+                        </a>
+                    </li>
+                </ul>
+            }
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+                <li class="nav-item has-treeview menu-open">
+                    <a href="@Url.Action("Index", "Projects")" class="nav-link active">
+                        <i class="fas fa-people-carry"></i>
+                        <p> Projects@*<i class="right fas fa-angle-left"></i>*@</p>
+                    </a>
+                </li>
+            </ul>
+            @if (User.IsInRole("Submitter"))
+            {
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">
+                    <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+                    <li class="nav-item has-treeview menu-open">
+                        <a href="@Url.Action("Create", "Tickets")" class="nav-link active">
+                            <i class="nav-icon fas fa-tag"></i>
+                            <p>
+                                New Ticket
+                            </p>
+                        </a>
+                    </li>
+
+                </ul>
+            }
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>

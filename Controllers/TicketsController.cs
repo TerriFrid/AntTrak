@@ -20,6 +20,7 @@ namespace AntTrak.Controllers
         private UserRolesHelper roleHelper = new UserRolesHelper();
         private TicketHelper ticketHelper = new TicketHelper();
         private HistoryHelper historyHelper = new HistoryHelper();
+        private NotificationHelper notificationHelper = new NotificationHelper();
 
         // GET: Tickets
         public ActionResult Index()
@@ -164,11 +165,8 @@ namespace AntTrak.Controllers
         {
             if (ModelState.IsValid)
             {
-                //AsNoTracking() to get a Momento Ticket object
-               Ticket oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
 
-                    //Need to change this to a switch and evaluate if ticket status Archived then ticket.IsArchived = true
-                if (ticket.TicketStatusId == db.TicketStatus.FirstOrDefault(t => t.Name == "Unassigned").Id &&  ticket.DeveloperId != null)
+                if (ticket.TicketStatusId == db.TicketStatus.FirstOrDefault(t => t.Name == "Unassigned").Id && ticket.DeveloperId != null)
                 {
                     ticket.TicketStatusId = db.TicketStatus.FirstOrDefault(t => t.Name == "Assigned").Id;
                 }
@@ -178,17 +176,23 @@ namespace AntTrak.Controllers
                     ticket.IsArchived = true;
                 }
 
+                //AsNoTracking() to get a Momento Ticket object
+                Ticket oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);           
+               
+
 
                 ticket.Updated = DateTime.Now;
                 db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
 
+                Ticket newTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
                 //Now I can compare new ticket to the old ticket for changes that need to be recorded in the Ticket History table
                 // call History Helper
                 historyHelper.ManageHistoryRecordCreation(oldTicket, ticket);
+                notificationHelper.ManageNotifications(oldTicket, ticket);
 
-                return View(ticket);
-               // return RedirectToAction(ReturnUrl);
+                return RedirectToAction("Details", "Tickets", new { ticket.Id });
+               
             }
 
             //TLF this needs to match Edit GET

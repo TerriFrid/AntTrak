@@ -183,7 +183,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\HistoriesDisplayHelper.cs" />
     <Compile Include="Helpers\HistoryHelper.cs" />
+    <Compile Include="Helpers\MessageHelper.cs" />
+    <Compile Include="Helpers\NotificationHelper.cs" />
     <Compile Include="Helpers\ProjectHelper.cs" />
     <Compile Include="Helpers\TicketHelper.cs" />
     <Compile Include="Helpers\UserHelper.cs" />
@@ -207,6 +210,7 @@
     <Compile Include="ViewModel\CustomUserData.cs" />
     <Compile Include="ViewModel\Dashboard.cs" />
     <Compile Include="ViewModel\ProjectDetails.cs" />
+    <Compile Include="ViewModel\TeamManagementVM.cs" />
     <Compile Include="ViewModel\TicketDetail.cs" />
     <Compile Include="ViewModel\UserProfile.cs" />
   </ItemGroup>
@@ -281,7 +285,6 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Projects\Create.cshtml" />
     <Content Include="Views\Projects\Delete.cshtml" />
-    <Content Include="Views\Projects\EditOLD.cshtml" />
     <Content Include="Views\TicketAttachments\Create.cshtml" />
     <Content Include="Views\TicketAttachments\Delete.cshtml" />
     <Content Include="Views\TicketAttachments\Details.cshtml" />
@@ -355,11 +358,12 @@
     <Content Include="Views\Projects\Index.cshtml" />
     <Content Include="Views\Projects\Edit.cshtml" />
     <Content Include="Views\Tickets\Edit.cshtml" />
-    <Content Include="Views\Projects\Details - Copy.cshtml" />
     <Content Include="Views\Projects\TeamManagement.cshtml" />
     <Content Include="Views\Home\DashboardOriginal.cshtml" />
     <Content Include="Views\Projects\Details.cshtml" />
     <Content Include="Views\Tickets\Details.cshtml" />
+    <Content Include="Views\Shared\_SideNav.cshtml" />
+    <Content Include="Views\Shared\_TicketTable.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

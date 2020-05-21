@@ -35,19 +35,19 @@ namespace AntTrak.Migrations
                 roleManager.Create(new IdentityRole { Name = "Admin" });
 
                 if (!context.Roles.Any(r => r.Name == "ProjectManager"))
-            {
-                roleManager.Create(new IdentityRole { Name = "ProjectManager" });
-            }
+                {
+                    roleManager.Create(new IdentityRole { Name = "ProjectManager" });
+                }
 
-            if (!context.Roles.Any(r => r.Name == "Developer"))
-            {
-                roleManager.Create(new IdentityRole { Name = "Developer" });
-            }
+                if (!context.Roles.Any(r => r.Name == "Developer"))
+                {
+                    roleManager.Create(new IdentityRole { Name = "Developer" });
+                }
 
-            if (!context.Roles.Any(r => r.Name == "Submitter"))
-            {
-                roleManager.Create(new IdentityRole { Name = "Submitter" });
-            }
+                if (!context.Roles.Any(r => r.Name == "Submitter"))
+                {
+                    roleManager.Create(new IdentityRole { Name = "Submitter" });
+                }
 
                 #endregion
 
@@ -77,12 +77,12 @@ namespace AntTrak.Migrations
                         UserName = "JasonTwichell@coderfoundry.com",
                         Email = "JasonTwichell@coderfoundry.com",
                         FirstName = "Jason",
-                        LastName = "Twichell"                       
+                        LastName = "Twichell"
                     };
 
                     userManager.Create(user, "Abc&123!");
                     userManager.AddToRoles(user.Id, "Admin");
-                }                         
+                }
 
                 if (!context.Users.Any(u => u.Email == "aRussell@coderfoundry.com"))
                 {
@@ -129,6 +129,46 @@ namespace AntTrak.Migrations
 
                 }
 
+                if (!context.Users.Any(u => u.Email == "SRedman@mailinator.com"))
+                {
+                    var user = new ApplicationUser
+                    {
+                        UserName = "SRedman@mailinator.com",
+                        Email = "SRedman@mailinator.com",
+                        FirstName = "Stuart",
+                        LastName = "Redman"
+                    };
+                    userManager.Create(user, "Test123!");
+                    userManager.AddToRoles(user.Id, "ProjectManager");
+                }
+
+                if (!context.Users.Any(u => u.Email == "GBateman@mailinator.com"))
+                {
+                    var user = new ApplicationUser
+                    {
+                        UserName = "GBateman@mailinator.com",
+                        Email = "GBateman@mailinator.com",
+                        FirstName = "Glen",
+                        LastName = "Bateman"
+                    };
+                    userManager.Create(user, "Test123!");
+                    userManager.AddToRoles(user.Id, "ProjectManager");
+                }
+
+                if (!context.Users.Any(u => u.Email == "WHorgan@mailinator.com"))
+                {
+                    var user = new ApplicationUser
+                    {
+                        UserName = "WHorgan@mailinator.com",
+                        Email = "WHorgan@mailinator.com",
+                        FirstName = "Whitney",
+                        LastName = "Horgan"
+                    };
+                    userManager.Create(user, "Test123!");
+                    userManager.AddToRoles(user.Id, "ProjectManager");
+
+                }
+
                 if (!context.Users.Any(u => u.Email == "FGoldsmith@Mailinator.com"))
                 {
                     var user = new ApplicationUser
@@ -157,18 +197,59 @@ namespace AntTrak.Migrations
 
                 }
 
-                //if (!context.Users.Any(u => u.Email == "LloydHenreid@gmail.com"))
-                //{
-                //    var user = new ApplicationUser
-                //    {
-                //        UserName = "LloydHenreid@gmail.com",
-                //        Email = "LloydHenreid@gmail.com",
-                //        FirstName = "Lloyd",
-                //        LastName = "Henreid"
-                //    };
-                //    userManager.Create(user, "Test123!");
-                //    userManager.AddToRoles(user.Id, "Developer");
-                //}
+                if (!context.Users.Any(u => u.Email == "LHenreid@mailinator.com"))
+                {
+                    var user = new ApplicationUser
+                    {
+                        UserName = "LHenreid@mailinator.com",
+                        Email = "LHenreid@mailinator.com",
+                        FirstName = "Lloyd",
+                        LastName = "Henreid"
+                    };
+                    userManager.Create(user, "Test123!");
+                    userManager.AddToRoles(user.Id, "Developer");
+                }
+
+                if (!context.Users.Any(u => u.Email == "DJurgens@mailinator.com"))
+                {
+                    var user = new ApplicationUser
+                    {
+                        UserName = "DJurgens@mailinator.com",
+                        Email = "DJurgens@mailinator.com",
+                        FirstName = "Dayna",
+                        LastName = "Jurgens"
+                    };
+                    userManager.Create(user, "Test123!");
+                    userManager.AddToRoles(user.Id, "Developer");
+                }
+
+                if (!context.Users.Any(u => u.Email == "NCross@mailinator.com"))
+                {
+                    var user = new ApplicationUser
+                    {
+                        UserName = "NCross@mailinator.com",
+                        Email = "NCross@mailinator.com",
+                        FirstName = "Nadine",
+                        LastName = "Cross"
+                    };
+                    userManager.Create(user, "Test123!");
+                    userManager.AddToRoles(user.Id, "Developer");
+                }
+
+
+                if (!context.Users.Any(u => u.Email == "CCampion@mailinator.com"))
+                {
+                    var user = new ApplicationUser
+                    {
+                        UserName = "CCampion@mailinator.com",
+                        Email = "CCampion@mailinator.com",
+                        FirstName = "Charlie",
+                        LastName = "Campion"
+                    };
+                    userManager.Create(user, "Test123!");
+                    userManager.AddToRoles(user.Id, "Developer");
+                }
+
 
                 if (!context.Users.Any(u => u.Email == "HLauder@mailinator.com"))
                 {
@@ -197,64 +278,53 @@ namespace AntTrak.Migrations
                 }
 
 
-                //if (!context.Users.Any(u => u.Email == "SusanStern@gmail.com"))
-                //{
-                //    var user = new ApplicationUser
-                //    {
-                //        UserName = "SusanStern@gmail.com",
-                //        Email = "SusanStern@gmail.com",
-                //        FirstName = "Susan",
-                //        LastName = "Stern"
-                //    };
-                //    userManager.Create(user, "Test123!");
-                //    userManager.AddToRoles(user.Id, "Submitter");
-                //}
+                if (!context.Users.Any(u => u.Email == "SusanStern@mailinator.com"))
+                {
+                    var user = new ApplicationUser
+                    {
+                        UserName = "SusanStern@mailinator.com",
+                        Email = "SusanStern@mailinator.com",
+                        FirstName = "Susan",
+                        LastName = "Stern"
+                    };
+                    userManager.Create(user, "Test123!");
+                    userManager.AddToRoles(user.Id, "Submitter");
+                }
 
-                //if (!context.Users.Any(u => u.Email == "NadineCross@gmail.com"))
-                //{
-                //    var user = new ApplicationUser
-                //    {
-                //        UserName = "NadineCross@gmail.com",
-                //        Email = "NadineCross@gmail.com",
-                //        FirstName = "Nadine",
-                //        LastName = "Cross"
-                //    };
-                //    userManager.Create(user, "Test123!");
-                //    userManager.AddToRoles(user.Id, "Submitter");
+                #endregion
+
+                #region Load Up Ticket Types
+                context.TicketTypes.AddOrUpdate(
+                    t => t.Name,
+                         new TicketType { Name = "Defect" },
+                         new TicketType { Name = "Display" },
+                         new TicketType { Name = "Functionality" },
+                        new TicketType { Name = "New Feature" }
+                    );
+
+                #endregion
+                #region Load Up Ticket Priorities
+                context.TicketPriorities.AddOrUpdate(
+                    t => t.Name,
+                         new TicketPriority { Name = "High" },
+                         new TicketPriority { Name = "Medium" },
+                         new TicketPriority { Name = "Low" }
+
+                    );
+
+                #endregion
+
+                #region Load Up Ticket Status
+                context.TicketStatus.AddOrUpdate(
+                    t => t.Name,
+                         new TicketStatus { Name = "Unassigned" },
+                         new TicketStatus { Name = "Assigned" },
+                         new TicketStatus { Name = "Completed" },
+                        new TicketStatus { Name = "Archived" }
+                    );
+
+                #endregion
             }
-            #endregion
-
-            #region Load Up Ticket Types
-            context.TicketTypes.AddOrUpdate(
-                t => t.Name,
-                     new TicketType { Name = "Defect" },
-                     new TicketType { Name = "Display" },
-                     new TicketType { Name = "Functionality" },
-                    new TicketType { Name = "New Feature" }
-                );
-
-            #endregion
-            #region Load Up Ticket Priorities
-            context.TicketPriorities.AddOrUpdate(
-                t => t.Name,
-                     new TicketPriority { Name ="High" },
-                     new TicketPriority { Name = "Medium" },
-                     new TicketPriority { Name = "Low" }
-                   
-                );
-
-            #endregion
-
-            #region Load Up Ticket Status
-            context.TicketStatus.AddOrUpdate(
-                t => t.Name,
-                     new TicketStatus { Name = "Unassigned" },
-                     new TicketStatus { Name = "Assigned" },
-                     new TicketStatus { Name = "Completed" },
-                    new TicketStatus { Name = "Archived" }
-                );
-
-            #endregion
         }
     }
 }

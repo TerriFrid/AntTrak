@@ -1,4 +1,5 @@
 ﻿@using AntTrak.Models
+
 @model Ticket
 
     <div class="container">
@@ -25,8 +26,11 @@
                             <div class="row">
                                 @*row for select input*@
                                 <div class="col">
-                                    @{if (Model.DeveloperId = null)}
-                                    <p>@Html.Label("Assigned Developer"): @Model.Developer.Fullname</p>
+                                    @{
+                                        var dev = @Model.Developer;
+                                        var devName = dev != null ? dev.Fullname : "Unassigned";
+                                    }
+                                    <p>@Html.Label("Assigned Developer"): @devName</p>
                                 </div>
                             </div>
                             <div class="row">
@@ -37,7 +41,7 @@
                                     <p>@Html.Label("Priority"): @Model.TicketPriority.Name</p>
                                 </div>
                                 <div class="col">
-                                    <p>@Html.Label("Type"): @Model.TicketPriority.Name</p>
+                                    <p>@Html.Label("Type"): @Model.TicketType.Name</p>
                                 </div>
                             </div>
                             <div class="row">
@@ -62,9 +66,10 @@
                             <div class="row">
                                 <br />
                                 <div class="col">
-                                    @Html.ActionLink("Edit information", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })
+                                    @Html.ActionLink("Edit information", "Edit", new { id = Model.Id }, new { @class = "form-control btn btn-primary " })
                                 </div>
                                 <div class="col">
+                                    @*@Html.ActionLink("Back to List", null, null, new { @class = "form-control btn btn-dark" }, new { href = Request.Url.Referrer })*@
                                     @Html.ActionLink("Back to List", "Index", null, new { @class = "form-control btn btn-dark" })
                                 </div>
                             </div>
@@ -202,8 +207,6 @@
                                             @Html.DisplayFor(modelItem => item.OldValue)
                                         </td>
                                         <td>
-                                            @*if(item.ProperName == "DeveloperId"){*@
-
                                             @Html.DisplayFor(modelItem => item.NewValue)
                                         </td>
                                         <td>

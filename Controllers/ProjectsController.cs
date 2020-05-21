@@ -130,7 +130,7 @@ namespace AntTrak.Controllers
                 ViewBag.ProjectManagerId = new SelectList(roleHelper.UsersInRole("ProjectManager"), "Id", "FullName", project.ProjectManagerId);
             }
             
-            ViewBag.CardTitle = "Team Management:" + projName;
+            ViewBag.CardTitle = "Team Management: " + projName;
             ViewBag.SubmitterIds = new MultiSelectList(roleHelper.UsersInRole("Submitter"), "Id", "FullName");           
             ViewBag.DeveloperIds = new MultiSelectList(roleHelper.UsersInRole("Developer"), "Id", "FullName");
            

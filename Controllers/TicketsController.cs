@@ -165,6 +165,9 @@ namespace AntTrak.Controllers
         {
             if (ModelState.IsValid)
             {
+                //AsNoTracking() to get a Momento Ticket object
+                Ticket oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+
                 var ticketStatusName = db.TicketStatus.Find(ticket.TicketStatusId).Name;
                 switch (ticketStatusName)
                 {
@@ -186,8 +189,7 @@ namespace AntTrak.Controllers
 
                 }
                
-                //AsNoTracking() to get a Momento Ticket object
-                Ticket oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);           
+                          
                
                 ticket.Updated = DateTime.Now;
                 db.Entry(ticket).State = EntityState.Modified;

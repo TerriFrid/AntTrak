@@ -71,7 +71,7 @@ namespace AntTrak.Controllers
                 var newValue = newTicket.Comments.Count();
                 var oldValue = newValue - 1;
 
-                var success = notificationHelper.CreateNotification(newTicket, "number of comments", oldValue.ToString(), newValue.ToString());
+                var success = notificationHelper.CreateNotification(newTicket, "number of comments", oldValue.ToString(), newValue.ToString(), true);
                  
                 if(success)
                 {

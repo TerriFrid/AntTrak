@@ -2,7 +2,7 @@
 @using AntTrak.Helpers
 @model Project
 
-@using (Html.BeginForm("TeamManagement", "Projects", FormMethod.Post))
+@*@using (Html.BeginForm("TeamManagement", "Projects", FormMethod.Post))*@
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id)
@@ -57,7 +57,7 @@
                     <div class="row">
                         <br />
                         <div class="col">
-                            @Html.ActionLink("Assign to Project", "AssignMembers", new { id = Model.Id }, new { @class = "form-control btn btn-success" })
+                            @Html.ActionLink("Assign to Project", "AssignMembers", new { id = Model.Id }, new { @class = "form-control btn btn-success" })                            
                         </div>
                         <div class="col">
                             @Html.ActionLink("Remove from Project", "RemoveMembers", new { id = Model.Id }, new { @class = "form-control btn btn-danger" })
@@ -95,11 +95,11 @@
 
                                 @foreach (var projUser in Model.Users)
                                 {
-                                    
-                                        var roleName = rolesHelper.ListUserRoles(projUser.Id).FirstOrDefault();
 
-                                        if(roleName =="Developer" || roleName == "Submitter")
-                                        {
+                                    var roleName = rolesHelper.ListUserRoles(projUser.Id).FirstOrDefault();
+
+                                    if (roleName == "Developer" || roleName == "Submitter")
+                                    {
                                         <tr>
                                             <td>
                                                 @Html.DisplayFor(model => projUser.Fullname)
@@ -114,10 +114,10 @@
                                             </td>
                                         </tr>
 
-                                        }
+                                    }
 
-                                    
-                                    
+
+
 
                                 }
                             </tbody>

@@ -18,11 +18,10 @@
                         <div class="card-body">
                             @Html.AntiForgeryToken()
                             @Html.HiddenFor(Model => Model.ProjectId)
-                            @Html.HiddenFor(Model => Model.SubmitterId)
-                            @*@Html.HiddenFor(Model => Model.Title)*@
+                            @Html.HiddenFor(Model => Model.SubmitterId)                           
                             @Html.HiddenFor(Model => Model.Created)
-                            @Html.HiddenFor(Model => Model.TicketStatusId)
-                            @Html.HiddenFor(Model => Model.DeveloperId)
+                           
+                           
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             <div class="row">
                                 @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -38,17 +37,20 @@
                                     @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                                     {
                                         @Html.DropDownList("DeveloperId", null, "Unassigned", new { @class = "form-control" })
+
                                         @Html.ValidationMessageFor(model => model.DeveloperId, "", new { @class = "text-danger" })
                                     }
                                     @if (User.IsInRole("Developer") || User.IsInRole("Submitter"))
                                     {
-                                    <p>@Html.Label("Developer"): @Model.Developer.Fullname</p> 
+                                        @Html.HiddenFor(Model => Model.DeveloperId)
+                                        <p>@Html.Label("Developer"): @Model.Developer.Fullname</p>
                                     }
                                 </div>
                                 <div class="col-6">
                                     @if (User.IsInRole("Submitter"))
                                     {
-                                    <p>@Html.Label("Status") @Model.TicketStatus.Name</p> 
+                                        @Html.HiddenFor(Model => Model.TicketStatusId)
+                                        <p>@Html.Label("Status") @Model.TicketStatus.Name</p>
                                     }
                                     else
                                     {

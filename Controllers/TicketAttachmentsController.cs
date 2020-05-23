@@ -79,7 +79,7 @@ namespace AntTrak.Controllers
                 var newValue = newTicket.Attachments.Count();
                 var oldValue = newValue - 1;
 
-                var success = notificationHelper.CreateNotification(newTicket, "number of attachments", oldValue.ToString(), newValue.ToString());
+                var success = notificationHelper.CreateNotification(newTicket, "number of attachments", oldValue.ToString(), newValue.ToString(), true);
                 return RedirectToAction("Details", "Tickets", new{Id=ticketAttachment.TicketId });
             }
 

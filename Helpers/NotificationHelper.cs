@@ -14,7 +14,7 @@ namespace AntTrak.Helpers
         {
             //Manage a Developer Assignmentment
             GenerateTicketAssignmentNotifications(oldTicket, newTicket);
-            //manage some other general notification
+            //manage ticket attribute notifications
             GenerateTicketChangeNotication(oldTicket, newTicket);
         }
 
@@ -66,26 +66,26 @@ namespace AntTrak.Helpers
         private void GenerateTicketChangeNotication(Ticket oldTicket, Ticket newTicket)
         {
             var isChanged = false;
-            if (CreateNotification(newTicket, "title", oldTicket.Title, newTicket.Title))
+            if (CreateNotification(newTicket, "title", oldTicket.Title, newTicket.Title, false))
             {
                 isChanged = true;
             }
-            if (CreateNotification(newTicket, "description", oldTicket.Description, newTicket.Description))
-            {
-                isChanged = true;
-            }
-
-            if (CreateNotification(newTicket, "ticket type", oldTicket.TicketType.Name, newTicket.TicketType.Name))
+            if (CreateNotification(newTicket, "description", oldTicket.Description, newTicket.Description, false))
             {
                 isChanged = true;
             }
 
-            if (CreateNotification(newTicket, "status", oldTicket.TicketStatus.Name, newTicket.TicketStatus.Name))
+            if (CreateNotification(newTicket, "ticket type", oldTicket.TicketType.Name, newTicket.TicketType.Name, false))
             {
                 isChanged = true;
             }
 
-            if (CreateNotification(newTicket, "priority", oldTicket.TicketPriority.Name, newTicket.TicketPriority.Name))
+            if (CreateNotification(newTicket, "status", oldTicket.TicketStatus.Name, newTicket.TicketStatus.Name, false))
+            {
+                isChanged = true;
+            }
+
+            if (CreateNotification(newTicket, "priority", oldTicket.TicketPriority.Name, newTicket.TicketPriority.Name, false))
             {
                 isChanged = true;
             }
@@ -97,7 +97,7 @@ namespace AntTrak.Helpers
         }
         
 
-        public bool CreateNotification(Ticket newTicket, string property, string oldValue, string newValue)
+        public bool CreateNotification(Ticket newTicket, string property, string oldValue, string newValue, bool saveWithin)
         {
             if (oldValue != newValue)
             {
@@ -106,11 +106,15 @@ namespace AntTrak.Helpers
                     Created = DateTime.Now,
                     TicketId = newTicket.Id,
                     SenderId = HttpContext.Current.User.Identity.GetUserId(),
-                    RecipientId = newTicket.DeveloperId,
+                    RecipientId = newTicket.DeveloperId != null ? newTicket.DeveloperId : oldValue,
                     Subject = "One of your assigned tickets has changed",
                     NotificationBody = $"Project: {newTicket.Project.Name} Ticket: { newTicket.Title} has been updated. The {property} has changed from {oldValue} to {newValue}."
                 });
 
+                if (saveWithin)
+                {
+                    db.SaveChanges();
+                }
                 
                 return true;
             }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using AntTrak.Helpers;
 using AntTrak.Models;
 using Microsoft.AspNet.Identity;
 
@@ -14,6 +15,7 @@ namespace AntTrak.Controllers
     public class TicketCommentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private NotificationHelper notificationHelper = new NotificationHelper();
 
         // GET: TicketComments
         public ActionResult Index()
@@ -64,6 +66,18 @@ namespace AntTrak.Controllers
                
                 db.TicketComments.Add(newComment);
                 db.SaveChanges();
+
+                var newTicket = db.Tickets.Find(ticketId);
+                var newValue = newTicket.Comments.Count();
+                var oldValue = newValue - 1;
+
+                var success = notificationHelper.CreateNotification(newTicket, "number of comments", oldValue.ToString(), newValue.ToString());
+                 
+                if(success)
+                {
+                    db.SaveChanges();
+                }
+                
                 return RedirectToAction("Details", "Tickets", new { id =ticketId });
             }
 

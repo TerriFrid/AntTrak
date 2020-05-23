@@ -1,5 +1,5 @@
 ﻿@using AntTrak.Models
-
+@using AntTrak.Helpers
 @model Project
 
 @using (Html.BeginForm("TeamManagement", "Projects", FormMethod.Post))
@@ -57,10 +57,10 @@
                     <div class="row">
                         <br />
                         <div class="col">
-                            @Html.ActionLink("Assign to Project", "AssignMember", new { id = Model.Id }, new { @class = "form-control btn btn-success" })
+                            @Html.ActionLink("Assign to Project", "AssignMembers", new { id = Model.Id }, new { @class = "form-control btn btn-success" })
                         </div>
                         <div class="col">
-                            @Html.ActionLink("Remove from Project", "RemoveMember", new { id = Model.Id }, new { @class = "form-control btn btn-danger" })
+                            @Html.ActionLink("Remove from Project", "RemoveMembers", new { id = Model.Id }, new { @class = "form-control btn btn-danger" })
                         </div>
                         <div class="col">
                             @Html.ActionLink("Back To Project", "Details", new { id = Model.Id }, new { @class = "form-control btn btn-dark" })
@@ -69,11 +69,11 @@
                 </div><!-- /.card-footer-->
             </div>
         </div>
-    @*New Card for Table*@
+        @*New Card for Table*@
         <div class="row">
             <div class="col-8">
                 <div class="card">
-                   <div class="card-body">
+                    <div class="card-body">
                         <table class="table">
                             <thead>
                                 <tr>
@@ -89,21 +89,35 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @{
+                                    UserRolesHelper rolesHelper = new UserRolesHelper();
+                                }
+
                                 @foreach (var projUser in Model.Users)
                                 {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(model => projUser.Fullname)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(model => projUser.Email)
-                                        </td>
-                                        <td>
-                                            Role Name
-                                            @*@Html.DisplayFor(model => projUser.)*@
-                                            @*@projUser.Roles.FirstOrDefault();*@
-                                        </td>
-                                    </tr>
+                                    
+                                        var roleName = rolesHelper.ListUserRoles(projUser.Id).FirstOrDefault();
+
+                                        if(roleName =="Developer" || roleName == "Submitter")
+                                        {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(model => projUser.Fullname)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => projUser.Email)
+                                            </td>
+                                            <td>
+
+                                                @roleName
+                                                @*@projUser.Roles.FirstOrDefault();*@
+                                            </td>
+                                        </tr>
+
+                                        }
+
+                                    
+                                    
 
                                 }
                             </tbody>
@@ -111,12 +125,12 @@
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
-                       
+
                     </div>
                     <!-- /.card-footer-->
                 </div>
                 <!-- /.card -->
             </div>
-        </div>    
+        </div>
     </div>
 }

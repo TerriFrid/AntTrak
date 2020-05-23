@@ -165,22 +165,30 @@ namespace AntTrak.Controllers
         {
             if (ModelState.IsValid)
             {
-
-                if (ticket.TicketStatusId == db.TicketStatus.FirstOrDefault(t => t.Name == "Unassigned").Id && ticket.DeveloperId != null)
+                var ticketStatusName = db.TicketStatus.Find(ticket.TicketStatusId).Name;
+                switch (ticketStatusName)
                 {
-                    ticket.TicketStatusId = db.TicketStatus.FirstOrDefault(t => t.Name == "Assigned").Id;
-                }
+                    case ("Unassigned"):
+                        if (ticket.DeveloperId != null)
+                        {
+                            ticket.TicketStatusId = db.TicketStatus.FirstOrDefault(t => t.Name == "Assigned").Id;
+                        }
+                        break;
+                    case ("Assigned"):
+                        if (ticket.DeveloperId == null)
+                        {
+                            ticket.TicketStatusId = db.TicketStatus.FirstOrDefault(t => t.Name == "Unassigned").Id;
+                        }
+                        break;
+                    case ("Archived"):
+                        ticket.IsArchived = true;
+                        break;
 
-                if (ticket.TicketStatusId == db.TicketStatus.FirstOrDefault(t => t.Name == "Archived").Id)
-                {
-                    ticket.IsArchived = true;
                 }
-
+               
                 //AsNoTracking() to get a Momento Ticket object
                 Ticket oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);           
                
-
-
                 ticket.Updated = DateTime.Now;
                 db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
@@ -188,8 +196,8 @@ namespace AntTrak.Controllers
                 Ticket newTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
                 //Now I can compare new ticket to the old ticket for changes that need to be recorded in the Ticket History table
                 // call History Helper
-                historyHelper.ManageHistoryRecordCreation(oldTicket, ticket);
-                notificationHelper.ManageNotifications(oldTicket, ticket);
+                historyHelper.ManageHistoryRecordCreation(oldTicket, newTicket);
+                notificationHelper.ManageNotifications(oldTicket, newTicket);
 
                 return RedirectToAction("Details", "Tickets", new { ticket.Id });
                

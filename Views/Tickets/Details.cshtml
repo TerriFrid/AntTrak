@@ -1,93 +1,96 @@
 ﻿@using AntTrak.Models
+@using AntTrak.Helpers
 
 @model Ticket
 
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                @*<div class="row">*@
-                    <div class="card card-blue">
-                        <div class="card-header">
-                            <h4 class="card-title">@ViewBag.CardTitle</h4>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            @Html.AntiForgeryToken()
-                            @Html.HiddenFor(Model => Model.ProjectId)
-                            @*@Html.HiddenFor(Model => Model.SubmitterId)
-                            @Html.HiddenFor(Model => Model.Title)
-                            @Html.HiddenFor(Model => Model.Created)
-                            @Html.HiddenFor(Model => Model.TicketStatusId)
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
-                            <div class="row">
-                                @*row for select input*@
-                                <div class="col">
-                                    @{
-                                        var dev = @Model.Developer;
-                                        var devName = dev != null ? dev.Fullname : "Unassigned";
-                                    }
-                                    <p>@Html.Label("Assigned Developer"): @devName</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <p>@Html.Label("Status"): @Model.TicketStatus.Name</p>
-                                </div>
-                                <div class="col">
-                                    <p>@Html.Label("Priority"): @Model.TicketPriority.Name</p>
-                                </div>
-                                <div class="col">
-                                    <p>@Html.Label("Type"): @Model.TicketType.Name</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <p>@Html.Label("Submitter"): @Model.Submitter.Fullname</p>
-                                </div>
-                                <div class="col">
-                                    <p>@Html.Label("Created"):  @Model.Created.ToString("MMM, dd, yyyy")</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-5" })
-
-                                    @Html.TextArea("Description", new { @class = "form-control h-100" })
-                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                                    <br />
-                                </div>
-                            </div>
-                        </div><!-- /.card-body -->
-                        <div class="card-footer">
-                            <div class="row">
-                                <br />
-                                <div class="col">
-                                    @Html.ActionLink("Edit information", "Edit", new { id = Model.Id }, new { @class = "form-control btn btn-primary " })
-                                </div>
-                                <div class="col">
-                                    @*@Html.ActionLink("Back to List", null, null, new { @class = "form-control btn btn-dark" }, new { href = Request.Url.Referrer })*@
-                                    @Html.ActionLink("Back to List", "Index", null, new { @class = "form-control btn btn-dark" })
-                                </div>
-                            </div>
-                        </div> <!-- /.card-footer-->
-                    </div><!-- /.card -->
-                @*</div>*@
-            </div>
-            <div class="col">
-                <div class="card card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title">Comments</h3>
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            @*<div class="row">*@
+            <div class="card card-blue">
+                <div class="card-header">
+                    <h4 class="card-title">@ViewBag.CardTitle</h4>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(Model => Model.ProjectId)
+                    @*@Html.HiddenFor(Model => Model.SubmitterId)
+                        @Html.HiddenFor(Model => Model.Title)
+                        @Html.HiddenFor(Model => Model.Created)
+                        @Html.HiddenFor(Model => Model.TicketStatusId)
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
+                    <div class="row">
+                        @*row for select input*@
+                        <div class="col">
+                            @{
+                                var dev = @Model.Developer;
+                                var devName = dev != null ? dev.Fullname : "Unassigned";
+                            }
+                            <p>@Html.Label("Assigned Developer"): @devName</p>
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col">
+                            <p>@Html.Label("Status"): @Model.TicketStatus.Name</p>
+                        </div>
+                        <div class="col">
+                            <p>@Html.Label("Priority"): @Model.TicketPriority.Name</p>
+                        </div>
+                        <div class="col">
+                            <p>@Html.Label("Type"): @Model.TicketType.Name</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p>@Html.Label("Submitter"): @Model.Submitter.Fullname</p>
+                        </div>
+                        <div class="col">
+                            <p>@Html.Label("Created"):  @Model.Created.ToString("MMM, dd, yyyy")</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-5" })
+
+                            @Html.TextArea("Description", new { @class = "form-control h-100" })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            <br />
+                        </div>
+                    </div>
+                </div><!-- /.card-body -->
+                <div class="card-footer">
+                    <div class="row">
+                        <br />
+                        <div class="col">
+                            @Html.ActionLink("Edit information", "Edit", new { id = Model.Id }, new { @class = "form-control btn btn-primary " })
+                        </div>
+                        <div class="col">
+                            @*@Html.ActionLink("Back to List", null, null, null, Request.UrlReferrer.ToString(), null, null, new { @class = "form-control btn btn-primary " })*@
+                            <a href="@Url.Action(Request.UrlReferrer.ToString()) " class="form-control btn btn-dark">back to list </a>
+                            @*@Html.ActionLink("Back to List", "Index", null, new { @class = "form-control btn btn-dark" })*@
+                        </div>
+                    </div>
+                </div> <!-- /.card-footer-->
+            </div><!-- /.card -->
+            @*</div>*@
+        </div>
+        <div class="col">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Comments</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
                         <div class="card-body">
                             <div class="direct-chat-messages">
                                 <!-- Message. Default to the left -->
@@ -118,115 +121,173 @@
                             {
                                 @Html.AntiForgeryToken()
                                 @Html.Hidden("ticketId", Model.Id)
-                            <div class="input-group">
-                                <input type="text" name="commentBody" placeholder="Type Comment ..." class="form-control">
-                                <span class="input-group-append">
-                                    <button type="submit" class="btn btn-primary">Add</button>
-                                </span>
-                            </div>
-                            
+                                <div class="input-group">
+                                    <input type="text" name="commentBody" placeholder="Type Comment ..." class="form-control">
+                                    <span class="input-group-append">
+                                        <button type="submit" class="btn btn-primary">Add</button>
+                                    </span>
+                                </div>
+
                             }
                         </div> <!-- /.card-footer-->
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-                
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Attachments</h3>
+    </div>
+    <div class="row">
+        <div class="col">
 
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
-                                    <i class="fas fa-times"></i>
-                                </button>
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Attachments</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <tr>
+                            
+                                <th>
+
+                                </th>
+                            <th>
+
+                                @Html.DisplayName("File Name")
+                            </th>
+                            @*<th>
+                                    @Html.DisplayNameFor(model => model.Created)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Updated)
+                                </th>
+                                <th></th>*@
+                        </tr>
+
+                        @foreach (var item in Model.Attachments)
+                        {
+                            <tr>
+                                <td>
+                                    <img src="@AttachmentHelper.ShowIcon(item.FilePath)" />
+                                </td>
+                                <td>
+                                    <a target="_blank" href="@Url.Content(item.FilePath)">@item.FileName</a>
+
+                                    @*@Html.DisplayFor(modelItem => item.FileName)*@
+                                </td>
+                            </tr>
+                        }
+                    </table>
+
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    @using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("TicketId", Model.Id)
+
+                        <div class="row">
+                            <div class="col">
+                                @Html.LabelFor(model => model.Attachments, htmlAttributes: new { @class = "control-label col-md-5" })
+                                <input name="Attachment" type="file" class="form-control" id="fileUpload" />
                             </div>
                         </div>
-                        <div class="card-body">
-                            Start creating your amazing application!
-                        </div>
-                        <!-- /.card-body -->
-                        <div class="card-footer">
-                            Footer
-                        </div>
-                        <!-- /.card-footer-->
-                    </div>
-                    <!-- /.card -->
+                        <div class="row">
+                            <div class="col">
 
-                
-            </div>
-
-            <div class="col">
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Ticket History</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
+                                <input name="FileName" class="form-control" placeholder="File Name">
                             </div>
                         </div>
-                        <div class="card-body">
-                            <table class="table">
-                                <tr>
 
-                                    <th>
-                                        @Html.DisplayName("Changed By")
-                                    </th>
-                                    <th>
-                                        @Html.DisplayName("Property")
-                                    </th>
-                                    <th>
-                                        @Html.DisplayName("OldValue")
-                                    </th>
-                                    <th>
-                                        @Html.DisplayName("NewValue")
-                                    </th>
-                                    <th>
-                                        @Html.DisplayName("Changed On")
-                                    </th>
-                                    
-                                </tr>
+                        <div class="row">
+                            <div class="col offset-8">
+                                <button type="submit" class="btn btn-primary">Save Attachment</button>
+                            </div>
+                        </div>
 
-                                @foreach (var item in Model.Histories)
-                                {
-                                    <tr>
+                    }
 
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.User.Fullname)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Property)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.OldValue)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.NewValue)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ChangedOn)
-                                        </td>
-                                        
-                                    </tr>
-                                }
-
-                            </table>
-                        </div> <!-- /.card-body -->
-                        <div class="card-footer">
-
-                        </div> <!-- /.card-footer-->
-                    </div>
-                    <!-- /.card -->
-               
-
+                </div>
+                <!-- /.card-footer-->
             </div>
+            <!-- /.card -->
+
 
         </div>
+
+        <div class="col">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Ticket History</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <tr>
+
+                            <th>
+                                @Html.DisplayName("Changed By")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Property")
+                            </th>
+                            <th>
+                                @Html.DisplayName("OldValue")
+                            </th>
+                            <th>
+                                @Html.DisplayName("NewValue")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Changed On")
+                            </th>
+
+                        </tr>
+
+                        @foreach (var item in Model.Histories)
+                        {
+                            <tr>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.User.Fullname)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Property)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OldValue)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NewValue)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ChangedOn)
+                                </td>
+
+                            </tr>
+                        }
+
+                    </table>
+                </div> <!-- /.card-body -->
+                <div class="card-footer">
+
+                </div> <!-- /.card-footer-->
+            </div>
+            <!-- /.card -->
+
+
+        </div>
+
     </div>
-    
+</div>

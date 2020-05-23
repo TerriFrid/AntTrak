@@ -6,13 +6,18 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using AntTrak.Helpers;
 using AntTrak.Models;
+using Microsoft.AspNet.Identity;
 
 namespace AntTrak.Controllers
 {
     public class TicketAttachmentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private StringUtilities StringUtilities = new StringUtilities();
+        private NotificationHelper notificationHelper = new NotificationHelper();
+
 
         // GET: TicketAttachments
         public ActionResult Index()
@@ -49,18 +54,37 @@ namespace AntTrak.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TicketId,UserId,FilePath,FileUrl,Description,Created,Updated")] TicketAttachment ticketAttachment)
+        public ActionResult Create([Bind(Include = "TicketId, FileName")] TicketAttachment ticketAttachment,HttpPostedFileBase Attachment)
         {
             if (ModelState.IsValid)
             {
+                if(Attachment != null)
+                { 
+                    var justFileName = System.IO.Path.GetFileNameWithoutExtension(Attachment.FileName);
+                    justFileName = StringUtilities.URLFriendly(justFileName);
+                    justFileName = $"{justFileName}--{DateTime.Now.Ticks}";
+                    justFileName = $"{justFileName}{System.IO.Path.GetExtension(Attachment.FileName)}";
+
+                    ticketAttachment.FilePath = "/Attachments/" + justFileName;
+                    Attachment.SaveAs(System.IO.Path.Combine(Server.MapPath("~/Attachments/"), justFileName));
+
+                }
+               
+                ticketAttachment.Created = DateTime.Now;
+                ticketAttachment.UserId = User.Identity.GetUserId();
                 db.TicketAttachments.Add(ticketAttachment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                var newTicket = db.Tickets.Find(ticketAttachment.TicketId);
+                var newValue = newTicket.Attachments.Count();
+                var oldValue = newValue - 1;
+
+                var success = notificationHelper.CreateNotification(newTicket, "number of attachments", oldValue.ToString(), newValue.ToString());
+                return RedirectToAction("Details", "Tickets", new{Id=ticketAttachment.TicketId });
             }
 
-            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketAttachment.TicketId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketAttachment.UserId);
-            return View(ticketAttachment);
+           
+            return RedirectToAction("Details", "Tickets", new{ticketAttachment.TicketId});
         }
 
         // GET: TicketAttachments/Edit/5

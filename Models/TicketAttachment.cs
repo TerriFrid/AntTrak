@@ -14,7 +14,7 @@ namespace AntTrak.Models
         #endregion
         #region Descriptions
         public string FilePath { get; set; }
-        public string FileUrl { get; set; }
+        public string FileName { get; set; }
         public string Description { get; set; }
         public DateTime Created { get; set; }
         public DateTime? Updated { get; set; }

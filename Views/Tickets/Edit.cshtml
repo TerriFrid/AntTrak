@@ -22,6 +22,7 @@
                             @*@Html.HiddenFor(Model => Model.Title)*@
                             @Html.HiddenFor(Model => Model.Created)
                             @Html.HiddenFor(Model => Model.TicketStatusId)
+                            @Html.HiddenFor(Model => Model.DeveloperId)
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             <div class="row">
                                 @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })

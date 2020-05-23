@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
 
@@ -12,85 +13,62 @@ namespace AntTrak.Helpers
         private ApplicationDbContext db = new ApplicationDbContext();
         public void ManageHistoryRecordCreation(Ticket OldTicket, Ticket NewTicket)
         {
-            if (OldTicket.Title != NewTicket.Title)
-            {
-                var newHistoryRecord = new TicketHistory();
-               
-                newHistoryRecord.ChangedOn = (DateTime)NewTicket.Updated;
-                newHistoryRecord.UserId = HttpContext.Current.User.Identity.GetUserId();
-                newHistoryRecord.Property = "Title";
-                newHistoryRecord.OldValue = OldTicket.Title;
-                newHistoryRecord.NewValue = NewTicket.Title;
-                newHistoryRecord.TicketId = NewTicket.Id;
-                db.TicketHistories.Add(newHistoryRecord);
-            }
-            if (OldTicket.Description != NewTicket.Description)
-            {
-                var newHistoryRecord = new TicketHistory();
+            var isCreated = false;
 
-                newHistoryRecord.ChangedOn = (DateTime)NewTicket.Updated;
-                newHistoryRecord.UserId = HttpContext.Current.User.Identity.GetUserId();
-                newHistoryRecord.Property = "Description";
-                newHistoryRecord.OldValue = OldTicket.Description;
-                newHistoryRecord.NewValue = NewTicket.Description;
-                newHistoryRecord.TicketId = NewTicket.Id;
-                db.TicketHistories.Add(newHistoryRecord);
-            }
-            if (OldTicket.DeveloperId != NewTicket.DeveloperId)
+            if (CreateHistoryRecord(NewTicket, "Title", OldTicket.Title, NewTicket.Title))
             {
-                var newHistoryRecord = new TicketHistory();
-
-                newHistoryRecord.ChangedOn = (DateTime)NewTicket.Updated;
-                newHistoryRecord.UserId = HttpContext.Current.User.Identity.GetUserId();
-                newHistoryRecord.Property = "DeveloperId";
-                newHistoryRecord.OldValue = OldTicket.DeveloperId == null ? "Unassigned" : db.Users.Find(OldTicket.DeveloperId).Fullname; ;
-                newHistoryRecord.NewValue = NewTicket.DeveloperId == null ? "Unassigned" : db.Users.Find(NewTicket.DeveloperId).Fullname;
-                newHistoryRecord.TicketId = NewTicket.Id;
-                db.TicketHistories.Add(newHistoryRecord);
-            }
-            if (OldTicket.TicketTypeId != NewTicket.TicketTypeId)
-            {
-                var newHistoryRecord = new TicketHistory();
-
-                newHistoryRecord.ChangedOn = (DateTime)NewTicket.Updated;
-                newHistoryRecord.UserId = HttpContext.Current.User.Identity.GetUserId();
-                newHistoryRecord.Property = "TicketTypeId";
-                newHistoryRecord.OldValue = db.TicketTypes.Find(OldTicket.TicketTypeId).Name;
-                newHistoryRecord.NewValue = db.TicketTypes.Find(NewTicket.TicketTypeId).Name;
-                newHistoryRecord.TicketId = NewTicket.Id;
-                db.TicketHistories.Add(newHistoryRecord);
-            }
-            if (OldTicket.TicketStatusId != NewTicket.TicketStatusId)
-            {
-                var newHistoryRecord = new TicketHistory();
-
-                newHistoryRecord.ChangedOn = (DateTime)NewTicket.Updated;
-                newHistoryRecord.UserId = HttpContext.Current.User.Identity.GetUserId();
-                newHistoryRecord.Property = "TicketStatusId";
-                newHistoryRecord.OldValue = db.TicketStatus.Find(OldTicket.TicketStatusId).Name;
-                newHistoryRecord.NewValue = db.TicketStatus.Find(NewTicket.TicketStatusId).Name;
-                newHistoryRecord.TicketId = NewTicket.Id;
-                db.TicketHistories.Add(newHistoryRecord);
-            }
-            if (OldTicket.TicketPriorityId != NewTicket.TicketPriorityId)
-            {
-                var newHistoryRecord = new TicketHistory();
-
-                newHistoryRecord.ChangedOn = (DateTime)NewTicket.Updated;
-                newHistoryRecord.UserId = HttpContext.Current.User.Identity.GetUserId();
-                newHistoryRecord.Property = "TicketPriorityId";
-                newHistoryRecord.OldValue = db.TicketPriorities.Find(OldTicket.TicketPriorityId).Name;
-                newHistoryRecord.NewValue = db.TicketPriorities.Find(NewTicket.TicketPriorityId).Name;
-                newHistoryRecord.TicketId = NewTicket.Id;
-                db.TicketHistories.Add(newHistoryRecord);
+                isCreated = true;
             }
 
+            if (CreateHistoryRecord(NewTicket, "Description", OldTicket.Description, NewTicket.Description))
+            {
+                isCreated = true;
+            }
 
+            if (CreateHistoryRecord(NewTicket, "DeveloperId", OldTicket.DeveloperId, NewTicket.DeveloperId))
+            {
+                isCreated = true;
+            }
+            if (CreateHistoryRecord(NewTicket, "TicketTypeId", OldTicket.TicketType.Name, NewTicket.TicketType.Name))
+            {
+                isCreated = true;
+            }
 
+            if (CreateHistoryRecord(NewTicket, "TicketStatusId", OldTicket.TicketStatus.Name, NewTicket.TicketStatus.Name))
+            {
+                isCreated = true;
+            }
 
+            if (CreateHistoryRecord(NewTicket, "TicketPriorityId", OldTicket.TicketPriority.Name, NewTicket.TicketPriority.Name))
+            {
+                isCreated = true;
+            }
 
-            db.SaveChanges();
+            if (isCreated)
+            {
+                db.SaveChanges();
+            }            
         }
 
+        private bool CreateHistoryRecord (Ticket NewTicket, string property, string oldValue, string newValue)
+        {
+           if(oldValue != newValue)
+            {                  
+                db.TicketHistories.Add (new TicketHistory
+                {
+                    ChangedOn = (DateTime)NewTicket.Updated,
+                    UserId = HttpContext.Current.User.Identity.GetUserId(),
+                    Property = property,
+                    OldValue = property != "DeveloperId" ? oldValue : oldValue == null ? "unassigned" : db.Users.Find(oldValue).Fullname,
+                    NewValue = property != "DeveloperId" ? newValue : newValue == null ? "unassigned" : db.Users.Find(newValue).Fullname,
+                    TicketId = NewTicket.Id
+                });                
+                return true;
+            }
+           else
+            {
+                return false;
+            }
+        }
     }
 }

@@ -5,7 +5,7 @@
 <div class="row">
     <!-- New Card row -->
     <div class="col">
-        <div class="card card-olive">
+        <div class="card card-navy">
             <div class="card-header">
                 <h3 class="card-title">@ViewBag.CardTitle</h3>
                 <div class="card-tools">
@@ -29,7 +29,7 @@
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.Description)
-                            </th>
+                            </th>juh32
                             <th>
                                 @Html.DisplayName("Project Manager")
                             </th>
@@ -58,9 +58,8 @@
 
                                 </td>
                                 <td>
-                                    @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |*@
+                                 
                                     @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                    @Html.ActionLink("Manage Members", "TeamManagement", new { id = item.Id })
 
                                     @if (User.IsInRole("Submitter"))
                                     {

@@ -67,11 +67,15 @@
                     <div class="row">
                         <br />
                         <div class="col">
-                            @Html.ActionLink("Edit information", "Edit", new { id = Model.Id }, new { @class = "form-control btn btn-primary " })
+                            @if (!Model.IsArchived)
+                            {
+                                @Html.ActionLink("Edit information", "Edit", new { id = Model.Id }, new { @class = "form-control btn btn-primary " })
+                            }
+
                         </div>
                         <div class="col">
-                            @*@Html.ActionLink("Back to List", null, null, null, Request.UrlReferrer.ToString(), null, null, new { @class = "form-control btn btn-primary " })*@
-                            <a href="@Url.Action(Request.UrlReferrer.ToString()) " class="form-control btn btn-dark">back to list </a>
+                            @Html.ActionLink("Back to List", null, null, null, Request.UrlReferrer.ToString(), null, null, new { @class = "form-control btn btn-primary " })
+                            <a href="@Url.Action(Request.UrlReferrer.ToString()) " class="form-control btn btn-dark">Back to list </a>
                             @*@Html.ActionLink("Back to List", "Index", null, new { @class = "form-control btn btn-dark" })*@
                         </div>
                     </div>
@@ -152,14 +156,11 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table class="table">
-                        <tr>
-                            
-                                <th>
-
-                                </th>
+                    <table class="table table-striped">
+                        <tr>                            
                             <th>
-
+                            </th>
+                            <th>
                                 @Html.DisplayName("File Name")
                             </th>
                             @*<th>
@@ -219,8 +220,6 @@
                 <!-- /.card-footer-->
             </div>
             <!-- /.card -->
-
-
         </div>
 
         <div class="col">
@@ -234,9 +233,8 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table class="table">
+                    <table class="table table-striped">
                         <tr>
-
                             <th>
                                 @Html.DisplayName("Changed By")
                             </th>

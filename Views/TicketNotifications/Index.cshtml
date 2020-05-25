@@ -1,58 +1,69 @@
 ﻿@model IEnumerable<AntTrak.Models.TicketNotification>
 
-@{
-    ViewBag.Title = "Index";
-}
+    <div class="container">
+        <div class="row">
+            <!-- New Card row -->
+            <div class="col">
+                <div class="card card-warning">
+                    <div class="card-header">
+                        <h3 class="card-title">@ViewBag.CardTitle</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Subject)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Message")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Created)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Read?")
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                <tr>
+                                    <td>
+                                    @Html.DisplayFor(modelItem => item.Subject)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NotificationBody)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Created)
+                                    </td>
+                                    <td>
+                                        
+                                        @Html.DisplayFor(modelItem => item.IsRead)
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Created)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsRead)
-        </th>
-        <th>
-            @Html.DisplayName("Recipient")
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Subject)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NotificationBody)
-        </th>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        Footer
+                    </div>  <!-- /.card-footer-->
+                </div>  <!-- /.card -->
+            </div>
+        </div> <!-- (New Card row) -->
+    </div>
 
 
-    </tr>
-
-@foreach (var item in Model) {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.Created)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.IsRead)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Recipient.Email)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Subject)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.NotificationBody)
-    </td>
-
-
-
-
-
-</tr>
-}
-
-</table>

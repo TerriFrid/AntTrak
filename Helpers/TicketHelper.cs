@@ -61,8 +61,9 @@ namespace AntTrak.Helpers
             return myTickets;
 
         }
-        public List<Ticket> ListMyProjectsTickets(string userId)
+        public List<Ticket> ListMyProjectsTickets()
         {
+            var userId = HttpContext.Current.User.Identity.GetUserId();
             var myProjects = projHelper.ListProjectsForUser(userId);
             var myProjectTickets = myProjects.SelectMany(p => p.Tickets).ToList();
             return myProjectTickets;

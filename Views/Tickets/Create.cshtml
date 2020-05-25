@@ -1,11 +1,11 @@
 ﻿@using AntTrak.Models
 @model Ticket
 
-    <div class="row">
-        <!-- New Card row -->
-        <div class="col-2"> </div>
-            <div class="col-8">   @*center col*@
-                <div class="col">
+    <div class="container">
+        <div class="row">
+            <!-- New Card row -->           
+            @*<div class="col-8">*@               
+                <div class="col-8">
                     <div class="card card-blue">
                         <div class="card-header">
                             <h4 class="card-title">@ViewBag.CardTitle</h4>
@@ -15,65 +15,72 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="card-body">
-                            @using (Html.BeginForm("Create", "Tickets", FormMethod.Post))
-                            {
-                                @Html.AntiForgeryToken()
-                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-
-                            <div class="col">
-                                <div class="form-group">
+                        @using (Html.BeginForm("Create", "Tickets", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="card-body">                               
                                     <div class="row">
-                                        @*I don't want to give Submitter the option of chosing the project if navigation is from the project*@
-                                        @if (Model.ProjectId == 0)
-                                        {
-                                            @*@Html.DropDownList("ProjectId", null, new { @class = "form-control" })*@
-                                            @Html.DropDownList("ProjectId", "Select Project")
-                                            @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
-                                        }
-                                        else
-                                        {
-                                            @Html.HiddenFor(m => Model.ProjectId)
-                                            var db = new ApplicationDbContext();
-                                            var projName = db.Projects.Find(Model.ProjectId);
-                                            <p> @projName</p>
-                                        }
+                                        <div class="col-5">
+                                            @*I don't want to give Submitter the option of chosing the project if navigation is from the project*@
+                                            @if (Model.ProjectId == 0)
+                                            {
+                                                @Html.DropDownList("ProjectId", null, "Select Project", new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
+                                            }
+                                            else
+                                            {
+                                                @Html.HiddenFor(m => Model.ProjectId)
+                                                var db = new ApplicationDbContext();
+                                                var projName = db.Projects.Find(Model.ProjectId);
+                                                <p> @projName</p>
+                                            }
+                                        </div>
                                     </div>
                                     <div class="row">
-                                        @Html.DropDownList("TicketPriorityId", "Select Priority")
-                                        @Html.ValidationMessageFor(model => model.TicketPriorityId, "", new { @class = "text-danger" })
+                                        <div class="col-5">
+                                            @Html.DropDownList("TicketPriorityId", null, "Select Priority", new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.TicketPriorityId, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
                                     <div class="row">
-                                        @Html.DropDownList("TicketTypeId", "Select Type")
-                                        @Html.ValidationMessageFor(model => model.TicketTypeId, "", new { @class = "text-danger" })
+                                        <div class="col-5">
+                                            @Html.DropDownList("TicketTypeId", null, "Select Type", new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.TicketTypeId, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
-                                </div>
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-                                        <div class="col-md-6">
+                                    
+                                    <div class="row">
+                                        <div class="col">
+                                            <br />
+                                            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <br />
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">                                           
                                             @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-5" })
-                                        <div class="col">
-                                          
-                                            @Html.TextArea("Description", new { @class = "form-control rows = 50, cols = 40" })
-                                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                                        </div>
+                                    
+                                <div class="row">
+                                    <div class="col">
+                                        <br />
+                                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
                                     </div>
                                 </div>
-                                @*<div class="col">
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.Attachments, htmlAttributes: new { @class = "control-label col-md-2" })
-                                        <div class="col-md-10">
-                                            <input name="Attachment" type="file" class="form-control" id="fileUpload" />
-                                        </div>
+                                <div class="row">
+                                    <div class="col">
+                                        @Html.TextArea("Description", new { @class = "form-control rows = 50, cols = 40" })
+                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                                     </div>
-                                </div>*@
+                                </div>                                  
+                            @*</div>*@
+                                
+
+                            </div> <!-- /.card-body -->
+                            <div class="card-footer">
                                 <div class="row">
                                     <br />
                                     <div class="col-8"></div>
@@ -82,13 +89,10 @@
                                         @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-dark" })
                                     </div>
                                 </div>
-
-
-
-                                }
-                            </div> <!-- /.card-body -->
-                            </div> <!-- /.card -->
+                            </div>
+                        }
+                    </div> <!-- /.card -->    
                 </div>
-                </div> @*center col*@
-            <div class="col-2"></div>
+            @*</div>*@             
         </div> <!-- (New Card row) -->
+    </div>

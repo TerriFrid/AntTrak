@@ -1,13 +1,17 @@
 ﻿@using AntTrak.ViewModel
+@using AntTrak.Helpers
 @model ProjectDetails
 
+@{
+    TicketHelper ticketHelper = new TicketHelper();
+}
 @Html.AntiForgeryToken()
     <div class="container">
         <div class="row">
             <!-- New Card row -->
             <div class="col-6">
                 @*body col*@
-                <div class="card card-olive">
+                <div class="card card-navy">
                     <!-- /.card -->
                     <div class="card-header">
                         <h1 class="card-title">@ViewBag.CardTitle </h1>
@@ -49,7 +53,7 @@
             </div>@*body col*@
             <div class="col-6">
                 @*<div class="col">*@
-                <div class="card card-olive">
+                <div class="card card-navy">
                     <div class="card-header">
                         <h3 class="card-title">Project Members</h3>
                         <div class="card-tools">
@@ -83,14 +87,14 @@
             @*Tickets Card*@
             <div class="col-12">
                 <div class="col-12">
-                    <div class="card card-olive card-tabs">
+                    <div class="card card-navy card-tabs">
                         <div class="card-header p-0 pt-1">
                             <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Active Tickets</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">All Tickets</a>
+                                    <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Closed Tickets</a>
                                 </li>
 
                             </ul>
@@ -98,10 +102,9 @@
                         <div class="card-body">
                             <div class="tab-content" id="custom-tabs-one-tabContent">
                                 <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
-                                    <table class="table">
+                                    <table class="table table-striped">
                                         <thead>
                                             <tr>
-
                                                 <th>
                                                     @Html.DisplayName("Developer")
                                                 </th>
@@ -132,49 +135,55 @@
                                         <tbody>
                                             @foreach (var item in Model.ActiveTickets)
                                             {
-                                                <tr>
-                                                    <td>
-                                                        @{
-                                                            var dev = item.Developer;
-                                                            var devName = dev != null ? dev.Fullname : "Unassigned";
-                                                        }
-                                                        @devName
-                                                    </td>
-
-                                                    <td>
-                                                        @item.Title
-                                                    </td>
-                                                    <td>
-                                                        @item.Submitter.Fullname
-                                                    </td>
-                                                    <td>
-                                                        @item.TicketPriority.Name
-                                                    </td>
-                                                    <td>
-                                                        @item.TicketType.Name
-                                                    </td>
-                                                    <td>
-                                                        @item.TicketStatus.Name
-                                                    </td>
-                                                    <td class="noWrap">
-                                                        @Html.DisplayFor(modelItem => item.Created)
-                                                    </td>
-                                                    <td class="noWrap">
-                                                        @Html.DisplayFor(modelItem => item.Updated)
-                                                    </td>
+                                            <tr>
+                                                <td>
+                                                    @{
+                                                        var dev = item.Developer;
+                                                        var devName = dev != null ? dev.Fullname : "Unassigned";
+                                                    }
+                                                    @devName
+                                                </td>
+                                                <td>
+                                                    @item.Title
+                                                </td>
+                                                <td>
+                                                    @item.Submitter.Fullname
+                                                </td>
+                                                <td>
+                                                    @item.TicketPriority.Name
+                                                </td>
+                                                <td>
+                                                    @item.TicketType.Name
+                                                </td>
+                                                <td>
+                                                    @item.TicketStatus.Name
+                                                </td>
+                                                <td class="noWrap">
+                                                    @Html.DisplayFor(modelItem => item.Created)
+                                                </td>
+                                                <td class="noWrap">
+                                                    @Html.DisplayFor(modelItem => item.Updated)
+                                                </td>
+                                                @if (ticketHelper.IsMyTicket(item.Id))
+                                                {
                                                     <td>
                                                         @Html.ActionLink("Details", "Details", "Tickets", new { id = item.Id }, null)
                                                     </td>
-                                                </tr>
+                                                }
+                                                else
+                                                {
+                                                    <td></td>
+                                                }
+
+                                            </tr>
                                             }
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
-                                    <table class="table">
+                                    <table class="table table-striped ">
                                         <thead>
                                             <tr>
-
                                                 <th>
                                                     @Html.DisplayName("Developer")
                                                 </th>
@@ -203,42 +212,48 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (var item in Model.AllTickets)
+                                            @foreach (var item in Model.ClosedTickets)
                                             {
-                                                <tr>
-                                                    <td>
-                                                        @{
-                                                            var dev = item.Developer;
-                                                            var devName = dev != null ? dev.Fullname : "Unassigned";
-                                                        }
-                                                        @devName
-                                                    </td>
-
-                                                    <td>
-                                                        @item.Title
-                                                    </td>
-                                                    <td>
-                                                        @item.Submitter.Fullname
-                                                    </td>
-                                                    <td>
-                                                        @item.TicketPriority.Name
-                                                    </td>
-                                                    <td>
-                                                        @item.TicketType.Name
-                                                    </td>
-                                                    <td>
-                                                        @item.TicketStatus.Name
-                                                    </td>
-                                                    <td class="noWrap">
-                                                        @Html.DisplayFor(modelItem => item.Created)
-                                                    </td>
-                                                    <td class="noWrap">
-                                                        @Html.DisplayFor(modelItem => item.Updated)
-                                                    </td>
+                                            <tr>
+                                                <td>
+                                                    @{
+                                                        var dev = item.Developer;
+                                                        var devName = dev != null ? dev.Fullname : "Unassigned";
+                                                    }
+                                                    @devName
+                                                </td>
+                                                <td>
+                                                    @item.Title
+                                                </td>
+                                                <td>
+                                                    @item.Submitter.Fullname
+                                                </td>
+                                                <td>
+                                                    @item.TicketPriority.Name
+                                                </td>
+                                                <td>
+                                                    @item.TicketType.Name
+                                                </td>
+                                                <td>
+                                                    @item.TicketStatus.Name
+                                                </td>
+                                                <td class="noWrap">
+                                                    @Html.DisplayFor(modelItem => item.Created)
+                                                </td>
+                                                <td class="noWrap">
+                                                    @Html.DisplayFor(modelItem => item.Updated)
+                                                </td>
+                                                @if (ticketHelper.IsMyTicket(item.Id))
+                                                {
                                                     <td>
                                                         @Html.ActionLink("Details", "Details", "Tickets", new { id = item.Id }, null)
                                                     </td>
-                                                </tr>
+                                                }
+                                                else
+                                                {
+                                                    <td></td>
+                                                }
+                                            </tr>
                                             }
                                         </tbody>
                                     </table>

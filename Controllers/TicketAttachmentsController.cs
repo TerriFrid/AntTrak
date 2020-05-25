@@ -75,11 +75,14 @@ namespace AntTrak.Controllers
                 db.TicketAttachments.Add(ticketAttachment);
                 db.SaveChanges();
 
-                var newTicket = db.Tickets.Find(ticketAttachment.TicketId);
-                var newValue = newTicket.Attachments.Count();
-                var oldValue = newValue - 1;
+                if (!User.IsInRole("Developer"))
+                {
+                    var newTicket = db.Tickets.Find(ticketAttachment.TicketId);
+                    var newValue = newTicket.Attachments.Count();
+                    var oldValue = newValue - 1;
 
-                var success = notificationHelper.CreateNotification(newTicket, "number of attachments", oldValue.ToString(), newValue.ToString(), true);
+                    var success = notificationHelper.CreateNotification(newTicket, "number of attachments", oldValue.ToString(), newValue.ToString(), true);
+                }
                 return RedirectToAction("Details", "Tickets", new{Id=ticketAttachment.TicketId });
             }
 

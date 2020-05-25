@@ -34,13 +34,13 @@ namespace AntTrak.Controllers
             model.AllTickets = db.Tickets.ToList();
             if (User.IsInRole("Developer")) 
             {  
-                var currentUserId = User.Identity.GetUserId();
-                model.AllMyProjectsTickets = ticketHelper.ListMyProjectsTickets(currentUserId);
+                //var currentUserId = User.Identity.GetUserId();
+                model.AllMyProjectsTickets = ticketHelper.ListMyProjectsTickets();
                 ViewBag.CardTitleDev = "My Projects' Tickets";
 
             }
-            ViewBag.CardTitle = "All Tickets";
-            ViewBag.CardTitle2 = "My Tickets";
+            ViewBag.CardTitle = "My Tickets";
+            ViewBag.CardTitle2 =  "All Tickets";
             return View(model);
             
         }
@@ -88,11 +88,55 @@ namespace AntTrak.Controllers
             return View(model);
         }
 
+        //public void Dismiss(int id)
+        //{
+        //    var notification = db.TicketNotifications.Find(id);
+        //    notification.IsRead = true;
+        //    db.SaveChanges();
+            
+        //}
         public PartialViewResult _SideNav()
         {
             var model = db.Users.Find(User.Identity.GetUserId());
 
             return PartialView(model);
         }
+
+        //public PartialViewResult _TicketTable( int tableMode)
+        //{
+        //    var model = db.Tickets.ToList();
+
+        //    switch (tableMode)
+        //    {
+                
+        //        case (1):
+        //            ViewBag.MyTickets = true;
+        //            ViewBag.ProjectLevel = false;
+        //            model = ticketHelper.ListMyTickets();
+        //            break;
+        //        case (2):
+        //            ViewBag.MyTickets = false;
+        //            ViewBag.ProjectLevel = false;                    
+        //            break;
+        //        case (3):
+        //            ViewBag.MyTickets = false;
+        //            ViewBag.ProjectLevel = false;
+        //            var currentUserId = User.Identity.GetUserId();
+        //            model = ticketHelper.ListMyProjectsTickets(currentUserId);
+        //            break;
+        //        case (4):
+        //            ViewBag.MyTickets = true;
+        //            ViewBag.ProjectLevel = true;
+        //            break;
+        //        case (5):
+        //            ViewBag.MyTickets = false;
+        //            ViewBag.ProjectLevel = false;
+        //            break;
+        //    }
+          
+            
+        //    return PartialView("_TicketTable", model);
+        //}
+
     }
 }

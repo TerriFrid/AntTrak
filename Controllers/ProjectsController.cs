@@ -26,10 +26,10 @@ namespace AntTrak.Controllers
         private AssignmentHelper assignHelper = new AssignmentHelper();
 
         [Authorize(Roles = "Admin")]
-        public ActionResult ManageProjectAssignments()
+        public ActionResult ManageUserProjectAssignments()
         {                
             var viewData = new List<CustomUserData>();
-            var users = db.Users.ToList();
+            var users = roleHelper.UsersNotInRole("ProjectManager").ToList().OrderBy(u=>u.Fullname);
                                       
             //Load Multi Select of Users
             ViewBag.UserIds = new MultiSelectList(users, "Id", "FullName");
@@ -40,83 +40,107 @@ namespace AntTrak.Controllers
             //Load View Model
 
             foreach (var user in users)
-            {  
-                    viewData.Add(new CustomUserData
-                    {
-                        FirstName = user.FirstName,
-                        LastName = user.LastName,
-                        Email = user.Email,
-                        ProjectNames = projHelper.ListUserProjects(user.Id).Select(p => p.Name).ToList()
-                    });
+            {                  
+                viewData.Add(new CustomUserData
+                {
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    ProjectNames = projHelper.ListUserProjects(user.Id).Select(p => p.Name).ToList()
+                });
                
-                               
-            }          
+            }
+            ViewBag.CardTitle = "Manage User Project Assignment";
             return View(viewData);           
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AssignUsersToProjects (List<string> userIds, List<int> projectIds)
+        public ActionResult ManageUserProjectAssignments(List<string> userIds, List<int> projectIds, bool addUser)
         {
             if (userIds == null || projectIds == null)
             {
-                return RedirectToAction("ManageProjectAssignments");
+                TempData["InvalidSelection"] = "Please select both a user and a project";
+               
             }
-
-            var pmCount = 0;
-            foreach (var userId in userIds)
-            {
-                if (roleHelper.IsUserInRole(userId, "ProjectManager"))
-                {
-                    pmCount += 1;
-                }
-            }
-            if (pmCount > 1)
-            {
-                TempData["UnconfirmedEmailError"] = "You may only select one project manager per assignment.";
-                return RedirectToAction("ManageProjectAssignments");
-            }
-            else 
+            else
             {
                 foreach (var userId in userIds)
                 {
-                    foreach(var projectId in projectIds)
+                    foreach (var projectId in projectIds)
                     {
-                        projHelper.AddUserToProject(userId, projectId);
-                        if (roleHelper.IsUserInRole(userId, "ProjectManager"))
+                        if(addUser)
+                        { 
+                            projHelper.AddUserToProject(userId, projectId);
+                        }
+                        else
                         {
-                            var proj = db.Projects.Find(projectId);
-                            proj.ProjectManagerId = userId;
-                            db.SaveChanges();
+                            projHelper.RemoveUserFromProject(userId, projectId);
                         }
                     }
-
-               
-
                 }
             }
-            return RedirectToAction("ManageProjectAssignments");
+            return RedirectToAction("ManageUserProjectAssignments");
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult ManageProjectUserAssignments()
+        {
+            //var viewData = new List<CustomUserData>();
+            var users = roleHelper.UsersNotInRole("ProjectManager").ToList().OrderBy(u => u.Fullname);
+            var projects = db.Projects.Where(p => p.IsArchived == false).OrderBy(p => p.Name);
+
+            var projectVM = new List <ProjectDetails>();
+            foreach(var project in projects)
+            {
+                projectVM.Add(new ProjectDetails
+                {
+                    Id = project.Id,
+                    Name = project.Name,
+                    ProjectManagerId = project.ProjectManagerId,
+                    ProjectManagerName = project.ProjectManagerId == null ? "Unassigned" : db.Users.Find(project.ProjectManagerId).Fullname,
+                    ProjectMembers = projHelper.ProjectMembers(project.Id).ToList()
+                }); 
+            }
+
+            //Load Multi Select of Users
+            ViewBag.UserIds = new MultiSelectList(users, "Id", "FullName");
+
+            //Load Multi Select of Projects
+            ViewBag.ProjectIds = new MultiSelectList(projects, "Id", "Name");
+
+            
+            ViewBag.CardTitle = "Manage Project User Assignment";
+            return View(projectVM);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RemoveUsersFromProject (List<string> userIds, List<int> projectIds)
+        public ActionResult ManageProjectUserAssignments(List<string> userIds, List<int> projectIds, bool addUser)
         {
             if (userIds == null || projectIds == null)
             {
-                return RedirectToAction("ManageProjectAssignments");
-            }
+                TempData["InvalidSelection"] = "Please select both a user and a project";
 
-            foreach (var userId in userIds)
+            }
+            else
             {
-                foreach (var projectId in projectIds)
+                foreach (var userId in userIds)
                 {
-                    projHelper.RemoveUserFromProject(userId, projectId);
+                    foreach (var projectId in projectIds)
+                    {
+                        if (addUser)
+                        {
+                            projHelper.AddUserToProject(userId, projectId);
+                        }
+                        else
+                        {
+                            projHelper.RemoveUserFromProject(userId, projectId);
+                        }
+                    }
                 }
-
             }
-
-            return RedirectToAction("ManageProjectAssignments");
+            return RedirectToAction("ManageProjectUserAssignments");
         }
 
         [Authorize(Roles = "Admin, ProjectManager")]
@@ -124,10 +148,12 @@ namespace AntTrak.Controllers
         {
             var project = db.Projects.Find(id);
             var projName = project.Name;
+            var ProjectManagerId = roleHelper.UsersInRole("ProjectManager").ToList();
 
             if (User.IsInRole("Admin"))
             {
-                ViewBag.ProjectManagerId = new SelectList(roleHelper.UsersInRole("ProjectManager"), "Id", "FullName", project.ProjectManagerId);
+                ViewBag.ProjectManagerId = new SelectList(ProjectManagerId, "Id", "FullName", project.ProjectManagerId);
+               // ViewBag.ProjectManagerId = new SelectList(, "Id", "FullName", project.ProjectManagerId);
             }
             
             ViewBag.CardTitle = "Team Management: " + projName;
@@ -137,6 +163,54 @@ namespace AntTrak.Controllers
             return View(project);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult TeamManagement(int id, string projectManagerId, List<string> SubmitterIds, List<string> DeveloperIds, bool addMember)
+        {
+            var project = db.Projects.Find(id);
+
+            if (SubmitterIds == null && DeveloperIds == null)
+            {
+                TempData["InvalidSelection"] = "Please select a user";
+            }
+            else
+            {
+                if (SubmitterIds != null)
+                {
+                    foreach (var submitterId in SubmitterIds)
+                    {
+                        if (projHelper.IsUserOnProject(submitterId, project.Id) && !addMember)
+                        {
+                            projHelper.RemoveUserFromProject(submitterId, project.Id);
+                        }
+                        else if (!projHelper.IsUserOnProject(submitterId, project.Id) && addMember)
+                        {
+                            projHelper.AddUserToProject(submitterId, project.Id);
+                        }
+                    }
+                }
+
+                if (DeveloperIds != null)
+                {
+                    foreach (var developerId in DeveloperIds)
+                    {
+                        if (projHelper.IsUserOnProject(developerId, project.Id) && !addMember)
+                        {
+                            projHelper.RemoveUserFromProject(developerId, project.Id);
+                        }
+                        else if (!projHelper.IsUserOnProject(developerId, project.Id) && addMember)
+                        {
+                            projHelper.AddUserToProject(developerId, project.Id);
+                        }
+                    }
+                }   
+            }
+
+            project.ProjectManagerId = projectManagerId;
+            db.SaveChanges();
+
+            return RedirectToAction("TeamManagement", new {project.Id });
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AssignMembers(int id, string projectManagerId, List<string> SubmitterIds, List<string> DeveloperIds)
@@ -242,16 +316,19 @@ namespace AntTrak.Controllers
             }
             ViewBag.CardTitle = project.Name;
             var model = new ProjectDetails();
-            ApplicationUser projManager = db.Users.Find(project.ProjectManagerId);
-            var projManagerName = projManager.Fullname;
-
+            var projManagerName = "Unassigned";
+            if (project.ProjectManagerId!=null)
+            { 
+                ApplicationUser projManager = db.Users.Find(project.ProjectManagerId);
+                projManagerName = projManager.Fullname;
+            }
             model.Id = project.Id;
             model.Name = project.Name;
             model.Description = project.Description;
             model.ProjectManagerId = project.ProjectManagerId;
             model.ProjectManagerName = projManagerName;
                        
-            model.AllTickets = project.Tickets.ToList();
+            model.ClosedTickets = project.Tickets.Where(t => t.IsArchived == true).ToList();
             model.ActiveTickets = project.Tickets.Where(t => t.IsArchived == false).ToList();
 
 
@@ -282,43 +359,20 @@ namespace AntTrak.Controllers
         {
             if (ModelState.IsValid)
             {
-                var pmId = project.ProjectManagerId;
-                if (pmId == null)
-                {
-                    if (User.IsInRole("Admin"))
+                    project.Created = DateTime.Now;
+                    project.IsArchived = false;
+                    db.Projects.Add(project);
+                    db.SaveChanges();
+
+                    //projHelper.AddUserToProject(pmId, project.Id);
+                    //need to add all the admins to the project
+                    var Admins = roleHelper.UsersInRole("Admin").ToList();
+                    foreach (var admin in Admins)
                     {
-                        TempData["InvalidSelection"] = "Please assign a project manager.";
-                        var newProject = new Project();
-                        var ProjectManagerId = roleHelper.UsersInRole("ProjectManager").ToList();
-                        ViewBag.ProjectManagerId = new SelectList(ProjectManagerId, "Id", "FullName");
-
-
-                        return View(newProject);
-                    }
-                    else 
-                    {
-                        pmId = User.Identity.GetUserId();                    
-                        
-                    }
-                }
-
-                project.ProjectManagerId = pmId;
-                project.Created = DateTime.Now;
-                project.IsArchived = false;
-                db.Projects.Add(project);
-                db.SaveChanges();
-
-                projHelper.AddUserToProject(pmId, project.Id);
-                //need to add all the admins to the project
-                var Admins = roleHelper.UsersInRole("Admin").ToList();
-                foreach (var admin in Admins)
-                {
-                    projHelper.AddUserToProject(admin.Id, project.Id);
-                };
-
+                        projHelper.AddUserToProject(admin.Id, project.Id);
+                    };
                 return RedirectToAction("Index");
-            }
-
+            }  
             return View(project);
         }
 

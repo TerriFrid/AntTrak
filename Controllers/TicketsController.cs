@@ -199,8 +199,11 @@ namespace AntTrak.Controllers
                 //Now I can compare new ticket to the old ticket for changes that need to be recorded in the Ticket History table
                 // call History Helper
                 historyHelper.ManageHistoryRecordCreation(oldTicket, newTicket);
-                notificationHelper.ManageNotifications(oldTicket, newTicket);
 
+                if(!User.IsInRole("Developer") )
+                { 
+                    notificationHelper.ManageNotifications(oldTicket, newTicket);
+                }
                 return RedirectToAction("Details", "Tickets", new { ticket.Id });
                
             }

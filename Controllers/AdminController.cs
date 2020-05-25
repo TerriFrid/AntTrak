@@ -20,24 +20,38 @@ namespace AntTrak.Controllers
         // GET: Admin
         public ActionResult ManageRoles()
         {
-            var viewData = new List<CustomUserData>();
-            var users = db.Users.ToList();
-            foreach(var user in users)
-            {
-                viewData.Add(new CustomUserData
-                {
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Email = user.Email,
-                    RoleName = roleHelper.ListUserRoles(user.Id).FirstOrDefault() ?? "Unassigned"
-                });
-            }
+            var roleManagementVMs = new List<RoleManagement>();
 
-            ViewBag.UserIds = new MultiSelectList(db.Users, "Id", "Email");
 
-            ViewBag.RoleName = new SelectList(db.Roles,"Name","Name");
 
-            return View(viewData);
+            //var viewData = new List<CustomUserData>();
+            var allUsers = db.Users.ToList();
+            //foreach (var user in allUsers)
+            //{
+            //    roleManagementVMs.Add(new RoleManagement
+            //    {
+            //        customUser
+            //        {
+            //            ful
+            //        }
+            //        Roles = new SelectList(db.Roles, "Id", "Name", user.Roles.FirstOrDefault().RoleId)
+            //    });
+
+                //viewData.Add(new CustomUserData
+                //{
+                //    FirstName = user.FirstName,
+                //    LastName = user.LastName,
+                //    Email = user.Email,
+                //    RoleName = roleHelper.ListUserRoles(user.Id).FirstOrDefault() ?? "Unassigned"
+                //});
+          // }
+
+        // ViewBag.UserIds = new MultiSelectList(db.Users, "Id", "Email");
+
+        // ViewBag.CardTitle = "Manage User Roles";           
+
+       // View(roleManagementVMs);
+            return View();
         }
 
         [HttpPost]
@@ -59,12 +73,15 @@ namespace AntTrak.Controllers
                     {
                         roleHelper.AddUserToRole(userId, roleName);
                         // TLF if the role is admin the user needs to be added to all existing projects.
+
+                   
                     }
                     
                 }
 
             }
-            return RedirectToAction("ManageRoles");        }
+
+            return RedirectToAction("Dashboard", "Home");        }
         
 
     }

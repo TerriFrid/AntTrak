@@ -10,7 +10,7 @@
     <div class="col-2"></div>@*skinny up the card*@
     <div class="col-8">
         @*body col*@
-        <div class="card card-olive">
+        <div class="card card-navy">
             <!-- /.card -->
             <div class="card-header">
                 <h1 class="card-title">Create New Project </h1>
@@ -27,11 +27,11 @@
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <hr />
                     <div class="row">
-                        <div class="col">
+                        <div class="col-4">
                             @if (User.IsInRole("Admin"))
                             {
-                                @Html.DropDownList("ProjectManagerId", "Select Project Manager")
-                                @Html.ValidationMessageFor(model => model.ProjectManagerId, "", new { @class = "text-danger" })
+                                @Html.DropDownList("ProjectManagerId", null,  "Select Project Manager", new {@class = "form-control" })
+                                @*@Html.ValidationMessageFor(model => model.ProjectManagerId, "", new { @class = "text-danger" })*@
                             }
 
                         </div>
@@ -60,7 +60,7 @@
                         <div class="col-8">
                         </div>
                         <div class="col-4">
-                            <input type="submit" value="Create" class="btn btn-success" />
+                            <input type="submit" value="Create" class="btn btn-primary" />
                             @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-dark" })
                         </div>
                     </div>

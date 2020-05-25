@@ -212,11 +212,15 @@
     <Compile Include="ViewModel\CustomUserData.cs" />
     <Compile Include="ViewModel\Dashboard.cs" />
     <Compile Include="ViewModel\ProjectDetails.cs" />
+    <Compile Include="ViewModel\ProjectVM.cs" />
+    <Compile Include="ViewModel\RoleManagement.cs" />
     <Compile Include="ViewModel\TeamManagementVM.cs" />
     <Compile Include="ViewModel\TicketDetail.cs" />
+    <Compile Include="ViewModel\TicketTable.cs" />
     <Compile Include="ViewModel\UserProfile.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Avatars\blank-avatar.jpg" />
     <Content Include="Content\adminlte.min.css" />
     <Content Include="Content\all.min.css" />
     <Content Include="Content\dataTables.bootstrap4.min.css" />
@@ -249,8 +253,8 @@
     <Content Include="Scripts\responsive.bootstrap4.min.js" />
     <Content Include="Scripts\summernote.js" />
     <Content Include="Scripts\tempusdominus-bootstrap-4.min.js" />
-    <Content Include="Uploads\Tfrid-img.jpg" />
-    <Content Include="Uploads\TomCullen.png" />
+    <Content Include="Avatars\Tfrid-img.jpg" />
+    <Content Include="Avatars\TomCullen.png" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -327,6 +331,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Attachments\" />
     <Folder Include="Icons\" />
+    <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -350,11 +355,11 @@
     <Content Include="Scripts\adminlte.js.map" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Home\Dashboard.cshtml" />
+    <Content Include="Views\Home\DashboardAlternate.cshtml" />
     <Content Include="Views\Admin\ManageRoles.cshtml" />
     <Content Include="private.config" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
-    <Content Include="Views\Projects\ManageProjectAssignments.cshtml" />
+    <Content Include="Views\Projects\ManageProjectUserAssignments.cshtml" />
     <Content Include="Views\Account\EditUserProfile.cshtml" />
     <Content Include="Views\Tickets\Create.cshtml" />
     <Content Include="Views\Tickets\Delete.cshtml" />
@@ -363,12 +368,13 @@
     <Content Include="Views\Projects\Edit.cshtml" />
     <Content Include="Views\Tickets\Edit.cshtml" />
     <Content Include="Views\Projects\TeamManagement.cshtml" />
-    <Content Include="Views\Home\DashboardOriginal.cshtml" />
     <Content Include="Views\Projects\Details.cshtml" />
     <Content Include="Views\Tickets\Details.cshtml" />
     <Content Include="Views\Shared\_SideNav.cshtml" />
     <Content Include="Views\Shared\_TicketTable.cshtml" />
     <None Include="Properties\PublishProfiles\AntTrak - Web Deploy.pubxml" />
+    <Content Include="Views\Home\Dashboard.cshtml" />
+    <Content Include="Views\Projects\ManageUserProjectAssignments.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

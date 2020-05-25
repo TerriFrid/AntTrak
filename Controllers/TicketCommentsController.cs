@@ -67,17 +67,19 @@ namespace AntTrak.Controllers
                 db.TicketComments.Add(newComment);
                 db.SaveChanges();
 
-                var newTicket = db.Tickets.Find(ticketId);
-                var newValue = newTicket.Comments.Count();
-                var oldValue = newValue - 1;
+                if (!User.IsInRole("Developer"))
+                { 
+                    var newTicket = db.Tickets.Find(ticketId);
+                    var newValue = newTicket.Comments.Count();
+                    var oldValue = newValue - 1;
 
-                var success = notificationHelper.CreateNotification(newTicket, "number of comments", oldValue.ToString(), newValue.ToString(), true);
-                 
-                if(success)
-                {
-                    db.SaveChanges();
+                    var success = notificationHelper.CreateNotification(newTicket, "number of comments", oldValue.ToString(), newValue.ToString(), true);
                 }
-                
+                //if(success)
+                //{
+                //    db.SaveChanges();
+                //}
+
                 return RedirectToAction("Details", "Tickets", new { id =ticketId });
             }
 

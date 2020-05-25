@@ -35,8 +35,8 @@
                                     </div>
                                     <div class="row">
                                         @if (User.IsInRole("Admin"))
-                                        {
-                                            @Html.DropDownList("ProjectManagerId", null, new {@class = "form-control" })
+                                        {                                           
+                                            @Html.DropDownList("ProjectManagerId", null, "Unassigned", new { @class = "form-control" })
                                         }
                                         else
                                         {

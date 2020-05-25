@@ -25,7 +25,7 @@ namespace AntTrak.ViewModel
         public bool IsArchived { get; set; }
 
         public List<Ticket> ActiveTickets { get; set; }
-        public List<Ticket> AllTickets { get; set; }
+        public List<Ticket> ClosedTickets { get; set; }
 
         public List<ApplicationUser> ProjectMembers { get; set; }
     }

@@ -17,6 +17,7 @@ namespace AntTrak.Controllers
         // GET: TicketNotifications
         public ActionResult Index()
         {
+            ViewBag.CardTitle = "Notifications";
             var ticketNotifications = db.TicketNotifications.Include(t => t.Recipient).Include(t => t.Sender).Include(t => t.Ticket);
             return View(ticketNotifications.ToList());
         }
@@ -127,7 +128,13 @@ namespace AntTrak.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
+        public ActionResult Dismiss(int id)
+        {
+            var notification = db.TicketNotifications.Find(id);
+            notification.IsRead = true;
+            db.SaveChanges();
+            return RedirectToAction("Dashboard", "Home");
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

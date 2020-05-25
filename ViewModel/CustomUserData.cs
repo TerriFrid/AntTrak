@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace AntTrak.ViewModel
 {
@@ -11,6 +12,8 @@ namespace AntTrak.ViewModel
         public string LastName { get; set; }
         public string Email { get; set; }
         public string RoleName { get; set; }
+        public int RoleId { get; set; }
+        
         public List <string> ProjectNames { get; set; }
 
         public string FullName
@@ -20,6 +23,8 @@ namespace AntTrak.ViewModel
                 return $"{LastName}, {FirstName}";
             }
         }
-        //public string FullName => $"{LastName}, {FullName}";
+        
+      
     }
+
 }

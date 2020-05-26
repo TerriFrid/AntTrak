@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <div class="card card-blue">
+                <div class="card card-ticket">
                     <div class="card-header">
                         <h4 class="card-title">@ViewBag.CardTitle</h4>
                         <div class="card-tools">
@@ -92,7 +92,7 @@
                             <div class="row">
                                 <br />
                                 <div class="col">
-                                    <input type="submit" value="Save" class="form-control btn btn-primary" />
+                                    <input type="submit" value="Save" class="form-control btn btn-ticket" />
                                 </div>
                                 <div class="col">
                                     @Html.ActionLink("Back to Ticket", "Details", "Tickets", new { id = Model.Id }, new { @class = "form-control btn btn-dark" })

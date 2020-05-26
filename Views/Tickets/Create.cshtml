@@ -6,7 +6,7 @@
             <!-- New Card row -->           
             @*<div class="col-8">*@               
                 <div class="col-8">
-                    <div class="card card-blue">
+                    <div class="card card-ticket">
                         <div class="card-header">
                             <h4 class="card-title">@ViewBag.CardTitle</h4>
                             <div class="card-tools">
@@ -82,11 +82,15 @@
                             </div> <!-- /.card-body -->
                             <div class="card-footer">
                                 <div class="row">
-                                    <br />
-                                    <div class="col-8"></div>
-                                    <div class="col-4">
-                                        <input type="submit" value="Create" class="btn btn-primary" />
-                                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-dark" })
+                                    <br />    
+                                    <div class="col">
+                                        <input type="submit" value="Create" class="form-control btn btn-ticket" />
+                                    </div>
+                                    <div class="col">
+                                        @*<span class="float-right">*@
+                                            
+                                            @Html.ActionLink("Back to List", "Dashboard", "Home", new { @class = "form-control btn btn-dark" })
+                                        @*</span>*@
                                     </div>
                                 </div>
                             </div>

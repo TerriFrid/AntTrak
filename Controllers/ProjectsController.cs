@@ -88,7 +88,7 @@ namespace AntTrak.Controllers
         {
             //var viewData = new List<CustomUserData>();
             var users = roleHelper.UsersNotInRole("ProjectManager").ToList().OrderBy(u => u.Fullname);
-            var projects = db.Projects.Where(p => p.IsArchived == false).OrderBy(p => p.Name);
+            var projects = db.Projects.Where(p => p.IsArchived == false).OrderBy(p => p.Name).ToList();
 
             var projectVM = new List <ProjectDetails>();
             foreach(var project in projects)

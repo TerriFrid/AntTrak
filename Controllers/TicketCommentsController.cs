@@ -83,8 +83,8 @@ namespace AntTrak.Controllers
                 return RedirectToAction("Details", "Tickets", new { id =ticketId });
             }
 
-            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketComment.TicketId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketComment.UserId);
+           // ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketComment.TicketId);
+           // ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketComment.UserId);
             return RedirectToAction("Details", "Tickets", new { id = ticketId });
         }
 
@@ -114,12 +114,13 @@ namespace AntTrak.Controllers
         {
             if (ModelState.IsValid)
             {
+                ticketComment.Updated = DateTime.Now;
                 db.Entry(ticketComment).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Tickets", new {id = ticketComment.TicketId });
             }
-            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketComment.TicketId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketComment.UserId);
+            //ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketComment.TicketId);
+            //ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketComment.UserId);
             return View(ticketComment);
         }
 
@@ -146,7 +147,7 @@ namespace AntTrak.Controllers
             TicketComment ticketComment = db.TicketComments.Find(id);
             db.TicketComments.Remove(ticketComment);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Tickets", new { id = ticketComment.TicketId });
         }
 
         protected override void Dispose(bool disposing)

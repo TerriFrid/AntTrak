@@ -1,0 +1,78 @@
+/* your styles go here */
+
+
+.btn-ticket {
+    color: white;
+    background-color: cornflowerblue;
+    border-color: cornflowerblue;
+    
+}
+.btn-projectx {
+    color: white;
+    background-color: #001f3f;
+    border-color: #001f3f;
+}
+.btn-project {
+    color: white;
+    background-color: midnightblue;
+    border-color: midnightblue;
+}
+
+
+.btn-user {
+    color: white;
+    background-color: olive;
+    border-color: olive;
+}
+
+.card-project:not(.card-outline) > .card-header {
+    background-color: midnightblue;
+    color: #ffffff;
+}
+.card-ticket:not(.card-outline) > .card-header {
+    background-color: cornflowerblue;
+    color: #ffffff;
+}
+
+card-ticket:not(.card-outline) > .card-header,
+.card-ticket:not(.card-outline) > .card-header a {
+    color: #ffffff;
+}
+
+.card-ticket:not(.card-outline) > .card-header a.active {
+    color: #1F2D3D;
+}
+
+.card-ticket.card-outline {
+    border-top: 3px solid cornflowerblue;
+}
+
+.card-primary.card-outline-tabs > .card-header a:hover {
+    border-top: 3px solid #dee2e6;
+}
+
+.card-primary.card-outline-tabs > .card-header a.active {
+    border-top: 3px solid cornflowerblue;
+}
+
+
+.txt-edit{
+    color:magenta;
+}
+
+.txt-detail{
+    color:midnightblue;
+}
+
+.txt-delete {
+    color:firebrick;
+}
+.txt-project {
+    color: midnightblue;
+}
+.txt-ticket {
+    color: cornflowerblue;
+}
+.txt-user {
+    color: olive;
+}

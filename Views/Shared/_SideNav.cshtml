@@ -2,7 +2,7 @@
 
 <!-- Main Sidebar Container -->
 
-<aside class="main-sidebar sidebar-dark-orange elevation-4">
+<aside class="main-sidebar sidebar-dark-danger elevation-5">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
         @*<img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">*@
@@ -18,7 +18,7 @@
 
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                 <div class="image">
-                    <img src=@Model.AvatarPath class="img-circle elevation-2" alt="User Image">
+                    <img src=@Model.AvatarPath class="img-circle elevation-2" alt="">
                 </div>
                 <div class="info">
                     <a href="@Url.Action("EditUserProfile", "Account")" class="d-block">@Model.Fullname</a>
@@ -40,7 +40,7 @@
             </a>
         </li>*@
             <li class="nav-item">
-                <a href="@Url.Action("Dashboard", "Home")" class="nav-link">
+                <a href="@Url.Action("Dashboard", "Home")" class="nav-link active">
                     <i class="nav-icon fas fa-hospital-alt"></i>
                     <p>
                         Dashboard
@@ -50,7 +50,7 @@
             @if (User.IsInRole("Admin"))
             {
                 <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
+                    <a href="#" class="nav-link active">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                             Users
@@ -67,13 +67,13 @@
                     </li>*@
                         <li class="nav-item">
                             <a href="@Url.Action("ManageRoles", "Admin")" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
+                                <i class="far fa-circle text-user nav-icon"></i>
                                 <p>Role Assignment</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="@Url.Action("ManageUserProjectAssignments", "Projects")" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
+                                <i class="nav-icon far fa-circle text-user "></i>
                                 <p> Project Assignment</p>
                             </a>
                         </li>
@@ -82,10 +82,10 @@
             }
 
 
-            @if (User.IsInRole("Developer") || User.IsInRole("Submitter"))
+            @if (User.IsInRole("Developer") || User.IsInRole("Submitter") || User.IsInRole("ProjectManager"))
             {
-                <li class="nav-item">
-                    <a href="@Url.Action("Index", "Projects")" class="nav-link">
+                <li class="nav-item has-treeview menu-open">
+                    <a href="@Url.Action("Index", "Projects")" class="nav-link active">
                         <i class="fas fa-people-carry"></i>
                         <p>
                             Projects
@@ -93,10 +93,10 @@
                     </a>
                 </li>
             }
-            @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+            @if (User.IsInRole("Admin"))
             {
                 <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
+                    <a href="#" class="nav-link active">
                         <i class="nav-icon fas fa-people-carry"></i>
                         <p>
                             Projects
@@ -104,30 +104,21 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        @if (User.IsInRole("ProjectManager"))
-                        {
-                            <li class="nav-item">
-                                <a href="@Url.Action("Index", "Projects")" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>My Projects</p>
-                                </a>
-                            </li>
-                        }
                         <li class="nav-item">
                             <a href="@Url.Action("Index", "Projects")" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Active Project</p>
+                                <i class="far fa-circle text-project nav-icon"></i>
+                                <p>Project List</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="@Url.Action("Index", "Projects")" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>All Project</p>
+                            <a href="@Url.Action("Create", "Projects")" class="nav-link">
+                                <i class="far fa-circle text-project nav-icon"></i>
+                                <p>Create New Project</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="@Url.Action("ManageProjectUserAssignments", "Projects")" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
+                                <i class="far fa-circle text-project nav-icon"></i>
                                 <p>User Assignment</p>
                             </a>
                         </li>
@@ -162,6 +153,18 @@
                     </a>
                 </li>
             }
+            <li class="nav-item"></li>
+            <li class="nav-item"></li>
+            <li class="nav-item"></li>
+            <li class="nav-item"></li>
+            <li class="nav-item has-treeview menu-open">
+                <a href="@Url.Action("CustomLogOff", "Account")" class="nav-link active">
+                    <i class="nav-icon fas fa-beer"></i>
+                    <p>
+                        Sign Off
+                    </p>
+                </a>
+            </li>
         </ul>
 </nav>
         <!-- /.sidebar-menu -->

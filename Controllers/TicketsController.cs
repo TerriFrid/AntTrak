@@ -110,10 +110,7 @@ namespace AntTrak.Controllers
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name");
 
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name");
-            //TLF if we use the same view for edit and create then we would populate this, set it to Unassigned and then disable in view
-            //ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Name");
-
-            
+                      
             return View(ticket);
         }
 
@@ -187,9 +184,7 @@ namespace AntTrak.Controllers
                         ticket.IsArchived = true;
                         break;
 
-                }
-               
-                          
+                }    
                
                 ticket.Updated = DateTime.Now;
                 db.Entry(ticket).State = EntityState.Modified;

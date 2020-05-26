@@ -148,7 +148,17 @@ namespace AntTrak.Controllers
             TicketAttachment ticketAttachment = db.TicketAttachments.Find(id);
             db.TicketAttachments.Remove(ticketAttachment);
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+
+            if (!User.IsInRole("Developer"))
+            {
+                var newTicket = db.Tickets.Find(ticketAttachment.TicketId);
+                var newValue = newTicket.Attachments.Count();
+                var oldValue = newValue ++;
+
+                var success = notificationHelper.CreateNotification(newTicket, "number of attachments", oldValue.ToString(), newValue.ToString(), true);
+            }
+            return RedirectToAction("Details", "Tickets", new { id = ticketAttachment.TicketId });
         }
 
         protected override void Dispose(bool disposing)

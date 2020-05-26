@@ -221,8 +221,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Avatars\blank-avatar.jpg" />
+    <Content Include="Avatars\blank-avatar.png" />
+    <Content Include="Avatars\Tfrid-img.png" />
+    <Content Include="Content\adminlte.css" />
     <Content Include="Content\adminlte.min.css" />
     <Content Include="Content\all.min.css" />
+    <Content Include="Content\custom.css" />
     <Content Include="Content\dataTables.bootstrap4.min.css" />
     <Content Include="Content\daterangepicker.css" />
     <Content Include="Content\icheck-bootstrap.min.css" />
@@ -253,7 +257,6 @@
     <Content Include="Scripts\responsive.bootstrap4.min.js" />
     <Content Include="Scripts\summernote.js" />
     <Content Include="Scripts\tempusdominus-bootstrap-4.min.js" />
-    <Content Include="Avatars\Tfrid-img.jpg" />
     <Content Include="Avatars\TomCullen.png" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

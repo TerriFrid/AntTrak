@@ -106,7 +106,7 @@ namespace AntTrak.Helpers
                     Created = DateTime.Now,
                     TicketId = newTicket.Id,
                     SenderId = HttpContext.Current.User.Identity.GetUserId(),
-                    RecipientId = newTicket.DeveloperId != null ? newTicket.DeveloperId : oldValue,
+                    RecipientId = newTicket.DeveloperId == null && newTicket.TicketStatus.Name == "Unassigned" ? HttpContext.Current.User.Identity.GetUserId(): newTicket.DeveloperId,
                     Subject = "One of your assigned tickets has changed",
                     NotificationBody = $"Project: {newTicket.Project.Name} Ticket: { newTicket.Title} has been updated. The {property} has changed from {oldValue} to {newValue}."
                 });

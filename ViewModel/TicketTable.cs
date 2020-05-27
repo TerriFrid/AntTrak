@@ -14,5 +14,11 @@ namespace AntTrak.ViewModel
         public bool canAccess { get; set; }
 
         public List<Ticket> RequestedList { get; set; }
+
+        public TicketTable()
+        {
+
+        }
+
     }
 }

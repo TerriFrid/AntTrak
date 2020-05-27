@@ -14,6 +14,7 @@ using AntTrak.ViewModel;
 
 namespace AntTrak.Controllers
 {
+    
     public class HomeController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -41,6 +42,8 @@ namespace AntTrak.Controllers
             }
             ViewBag.CardTitle = "My Tickets";
             ViewBag.CardTitle2 =  "All Tickets";
+
+          // model.TicketTableVM.RequestedList = db.
             return View(model);
             
         }

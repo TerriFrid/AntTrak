@@ -16,6 +16,8 @@ namespace AntTrak.ViewModel
         
         public List <string> ProjectNames { get; set; }
 
+        public IEnumerable<SelectListItem> Roles { get; set; }
+
         public string FullName
         {
             get

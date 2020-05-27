@@ -1,0 +1,128 @@
+﻿
+@{Layout = null;}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Dr. d'Bug | Log in</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Font Awesome -->
+    <link href="~/Content/all.min.css" rel="stylesheet" />
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- icheck bootstrap -->
+    <link href="~/Content/icheck-bootstrap.min.css" rel="stylesheet" />
+    <!-- Theme style -->
+    <link href="~/Content/adminlte.min.css" rel="stylesheet" />
+    <!-- Google Font: Source Sans Pro -->
+    <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+</head>
+<body class="hold-transition login-page">
+    <div class="container">
+        <div class="row">
+            <!-- New Card row -->
+            <div class="col-6 offset-3">
+                @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken();
+                    @Html.Hidden("EmailKey")
+
+                    <div class="card  card-danger">
+                    <div class="card-header">
+                        <h3 class="card-title">Choose a Demo User</h3>
+                        <div class="card-tools"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <a class="nav-link" name= "emailKey" value = "DemoAdminEmail">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-danger"><i class="fas fa-user-tie"></i></span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-number">Administrator</span>
+                                            <span class="info-box-text">Controls everything</span>
+                                        </div>
+                                    </div>
+                                </a>                               
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <a class="nav-link" name= "emailKey" value = "DemoPMEmail">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-navy"><i class="fas fa-diagnoses"></i></span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-number">Project Manager</span>
+                                            <span class="info-box-text">Manages wards(projects) and resources</span>
+                                        </div>
+                                    </div>
+                                </a>                          
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <a class="nav-link"  name= "emailKey" value = "DemoDeveloperEmail">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-olive"><i class="fas fa-user-nurse"></i></span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-number">Developer</span>
+                                            <span class="info-box-text">Fixes the injuries (tickets)</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <a class="nav-link" name= "emailKey" value = "DemoSubmitterEmail">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-primary"><i class="fas fa-user-injured"></i></span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-number">Submitter</span>
+                                            <span class="info-box-text">Identified the injured (creates tickets)</span>
+                                        </div>
+                                    </div>
+                                </a>
+                               
+                            </div>
+                        </div>
+                    </div>                            <!-- /.card-body -->
+                    <div class="card-footer">
+                        <p class="mb-1">
+                            @Html.ActionLink("Forgot your password?", "ForgotPassword", "Account")
+                        </p>
+                        <p class="mb-0">
+                            @Html.ActionLink("Register as a new user", "Register", "Account")
+                        </p>
+                    </div>  <!-- /.card-footer-->
+                </div>  <!-- /.card -->
+                }
+            </div>
+        </div> <!-- (New Card row) -->
+    </div>
+
+    <!-- jQuery -->
+    <script src="~/Scripts/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/Scripts/adminlte.min.js"></script>
+    <script>
+        $("a.nav-link").on("click", function () {
+            var key = $(this).attr("value");
+            $("#EmailKey").val(key);
+            $(this).closest("form").submit();
+        })
+    </script>
+</body>
+</html>

@@ -12,6 +12,8 @@ using AntTrak.Models;
 using System.Web.Configuration;
 using System.Net.Mail;
 using AntTrak.ViewModel;
+using AntTrak.Helpers;
+using TFridBlog.Helpers;
 
 namespace AntTrak.Controllers
 {
@@ -22,6 +24,7 @@ namespace AntTrak.Controllers
         private ApplicationUserManager _userManager;
 
         private ApplicationDbContext db = new ApplicationDbContext();
+       
         
         public AccountController()
         {
@@ -98,6 +101,42 @@ namespace AntTrak.Controllers
             }
         }
 
+        // GET: /Account/Login
+        [AllowAnonymous]
+        public ActionResult DemoLogin()
+        {
+            //ViewBag.ReturnUrl = returnUrl;
+            return View();
+            //return RedirectToAction("DemoLogin", "Account");
+        }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DemoLoginAsync(string emailKey)
+        {
+            var email = WebConfigurationManager.AppSettings[emailKey];
+            var password = WebConfigurationManager.AppSettings["DemoPassword"];
+
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            // This doesn't count login failures towards account lockout
+            // To enable password failures to trigger account lockout, change to shouldLockout: true
+            var result = await SignInManager.PasswordSignInAsync(email, password, false, shouldLockout: false);
+            switch (result)
+            {
+                case SignInStatus.Success:
+                    return RedirectToAction("Dashboard", "Home");               
+                default:             
+                    //once I create a new demo login page I need to change this
+                    return RedirectToAction("Index", "Home");
+            }
+        }
+
         //
         // GET: /Account/VerifyCode
         [AllowAnonymous]
@@ -156,7 +195,7 @@ namespace AntTrak.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(ExtendedRegisterViewModel model)
+        public async Task<ActionResult> Register(ExtendedRegisterViewModel model, HttpPostedFileBase image)
         {
             if (ModelState.IsValid)
             {
@@ -165,8 +204,22 @@ namespace AntTrak.Controllers
                     UserName = model.Email, 
                     Email = model.Email,
                     FirstName = model.FirstName,
-                    LastName = model.LastName
+                    LastName = model.LastName,
+                    AvatarPath = "/Avatars/blank-user.jpg"
+               
                 };
+
+                if (image != null && ImageUploadValidator.IsWebFriendlyImage(image))
+                {
+                        var justFileName = System.IO.Path.GetFileNameWithoutExtension(image.FileName);
+                        justFileName = StringUtilities.URLFriendly(justFileName);
+                        justFileName = $"{justFileName}--{DateTime.Now.Ticks}";
+                        justFileName = $"{justFileName}{System.IO.Path.GetExtension(image.FileName)}";
+
+                        user.AvatarPath = "/Avatars/" + justFileName;
+                        image.SaveAs(System.IO.Path.Combine(Server.MapPath("~/Avatars/"), justFileName));                    
+                }
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -190,6 +243,7 @@ namespace AntTrak.Controllers
        [Authorize]
         public ActionResult EditUserProfile()
         {
+            ViewBag.CardTitle = "Edit Your User Profile";
             var currentUser = db.Users.Find(User.Identity.GetUserId());
             var user = new UserProfile();
 
@@ -197,6 +251,7 @@ namespace AntTrak.Controllers
             user.FirstName = currentUser.FirstName;
             user.LastName = currentUser.LastName;
             user.Email = currentUser.Email;
+            user.AvatarUrl = currentUser.AvatarPath;
 
             return View(user);
            
@@ -206,15 +261,28 @@ namespace AntTrak.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult EditUserProfile(UserProfile model)
+        public ActionResult EditUserProfile(UserProfile model, HttpPostedFileBase image)
         {
             if (ModelState.IsValid)
             {
+                if (image != null && ImageUploadValidator.IsWebFriendlyImage(image ))
+                {
+                    var justFileName = System.IO.Path.GetFileNameWithoutExtension(image.FileName);
+                    justFileName = StringUtilities.URLFriendly(justFileName);
+                    justFileName = $"{justFileName}--{DateTime.Now.Ticks}";
+                    justFileName = $"{justFileName}{System.IO.Path.GetExtension(image.FileName)}";
+
+                    model.AvatarUrl = "/Avatars/" + justFileName;
+                   image.SaveAs(System.IO.Path.Combine(Server.MapPath("~/Avatars/"), justFileName));
+                }
+
+
                 var currentUser = db.Users.Find(User.Identity.GetUserId());
                 currentUser.FirstName = model.FirstName;
                 currentUser.LastName = model.LastName;
                 currentUser.UserName = model.Email;
                 currentUser.Email = model.Email;
+                currentUser.AvatarPath = model.AvatarUrl;
 
                 db.SaveChanges();
                 return RedirectToAction("Dashboard", "Home");

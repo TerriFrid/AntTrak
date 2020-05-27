@@ -104,6 +104,16 @@
                         <div class="card-body">
                             <div class="tab-content" id="custom-tabs-one-tabContent">
                                 <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            @if (User.IsInRole("Submitter"))
+                                            {
+                                                <p>
+                                                    @Html.ActionLink("Create New Ticket", "Create", "Tickets", null, new { @class = "form-control btn btn-ticket" })
+                                                </p>
+                                            }
+                                        </div>
+                                    </div>
                                     <table class="table table-striped">
                                         <thead>
                                             <tr>

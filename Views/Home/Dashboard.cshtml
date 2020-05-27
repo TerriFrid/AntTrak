@@ -123,21 +123,26 @@
                         <div class="card-body">
                             <div class="tab-content" id="custom-tabs-one-tabContent">
                                 <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
-                                    @*My Tickets Tab*@
-                                    @if (User.IsInRole("Submitter"))
-                                    {
-                                        <p>
-                                            @Html.ActionLink("Create New", "Create", "Tickets")
-                                        </p>
-                                    }
+                                    <div class="row">
+                                        <div class="col-3">
+                                            @*My Tickets Tab*@
+                                            @if (User.IsInRole("Submitter"))
+                                            {
+                                                <p>
+                                                    @Html.ActionLink("Create New Ticket", "Create", "Tickets", null, new { @class = "form-control btn btn-ticket" })
+                                                </p>
+                                            }
+                                        </div>
+                                    </div>
+                                   
                                     @*@Html.Partial("_TicketTable", Model.AllMyTickets)*@
                                     @*@Html.Action("_TicketTable", "Home", 1)*@
-                                    @if (User.IsInRole("Submitter"))
+                                    @*@if (User.IsInRole("Submitter"))
                                     {
                                         <p>
                                             @Html.ActionLink("Create New", "Create", "Tickets")
                                         </p>
-                                    }
+                                    }*@
 
                                 <table class="table table-striped">
                                     <thead>

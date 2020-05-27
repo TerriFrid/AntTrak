@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AntTrak.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Dynamic;
@@ -29,6 +30,7 @@ namespace AntTrak.ViewModel
         public string AvatarUrl{ get; set; }
         public string Role { get; set; }
         
+        public List<Project> MyProjects { get; set; }
 
         public string FullName
         {

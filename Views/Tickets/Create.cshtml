@@ -32,7 +32,7 @@
                                             {
                                                 @Html.HiddenFor(m => Model.ProjectId)
                                                 var db = new ApplicationDbContext();
-                                                var projName = db.Projects.Find(Model.ProjectId);
+                                                var projName = db.Projects.Find(Model.ProjectId).Name;
                                                 <p> @projName</p>
                                             }
                                         </div>
@@ -89,7 +89,7 @@
                                     <div class="col">
                                         @*<span class="float-right">*@
                                             
-                                            @Html.ActionLink("Back to List", "Dashboard", "Home", new { @class = "form-control btn btn-dark" })
+                                            @Html.ActionLink("Back to List", "Dashboard", "Home", null, new {href= Request.UrlReferrer, @class = "form-control btn btn-dark" })
                                         @*</span>*@
                                     </div>
                                 </div>

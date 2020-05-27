@@ -20,69 +20,67 @@ namespace AntTrak.Controllers
         // GET: Admin
         public ActionResult ManageRoles()
         {
-            var roleManagementVMs = new List<RoleManagement>();
+            //var manageRolesVm = new List<RoleManagement>();
+            //var allUsers = db.Users.ToList();
 
-
-
-            //var viewData = new List<CustomUserData>();
-            var allUsers = db.Users.ToList();
             //foreach (var user in allUsers)
             //{
-            //    roleManagementVMs.Add(new RoleManagement
+            //    manageRolesVm.Add(new RoleManagement
             //    {
-            //        customUser
-            //        {
-            //            ful
-            //        }
+            //        CurrentUser = user,
             //        Roles = new SelectList(db.Roles, "Id", "Name", user.Roles.FirstOrDefault().RoleId)
             //    });
+            //}
+            //   
+            //return View(manageRolesVm);
 
-                //viewData.Add(new CustomUserData
-                //{
-                //    FirstName = user.FirstName,
-                //    LastName = user.LastName,
-                //    Email = user.Email,
-                //    RoleName = roleHelper.ListUserRoles(user.Id).FirstOrDefault() ?? "Unassigned"
-                //});
-          // }
+            ViewBag.CardTitle = "Manage User Roles";
+            var viewData = new List<CustomUserData>();
+            var users = db.Users.ToList().OrderBy(u=>u.Fullname);
+            foreach (var user in users)
+            {
+                viewData.Add(new CustomUserData
+                {
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    RoleName = roleHelper.ListUserRoles(user.Id).FirstOrDefault() ?? "Unassigned"
+                });
+            }
 
-        // ViewBag.UserIds = new MultiSelectList(db.Users, "Id", "Email");
+            ViewBag.UserIds = new MultiSelectList(db.Users.ToList().OrderBy(u => u.Fullname), "Id", "Fullname");
 
-        // ViewBag.CardTitle = "Manage User Roles";           
+            ViewBag.RoleName = new SelectList(db.Roles, "Name", "Name");
 
-       // View(roleManagementVMs);
-            return View();
+            return View(viewData);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        
         public ActionResult ManageRoles(List<string> userIds, string roleName)
         {
             if (userIds != null)
             {
-                foreach(var userId in userIds)
-                {                    
+                foreach (var userId in userIds)
+                {
                     var userRole = roleHelper.ListUserRoles(userId).FirstOrDefault();
 
-                    if(!string.IsNullOrEmpty(userRole))
+                    if (!string.IsNullOrEmpty(userRole))
                     {
-                       roleHelper.RemoveUserFromRole(userId, userRole);
+                        roleHelper.RemoveUserFromRole(userId, userRole);
                     }
 
                     if (!string.IsNullOrEmpty(roleName))
                     {
                         roleHelper.AddUserToRole(userId, roleName);
                         // TLF if the role is admin the user needs to be added to all existing projects.
-
-                   
                     }
-                    
                 }
-
             }
+            return RedirectToAction("ManageRoles");
+        }
 
-            return RedirectToAction("Dashboard", "Home");        }
-        
 
     }
 }

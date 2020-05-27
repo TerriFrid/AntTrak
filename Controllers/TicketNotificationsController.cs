@@ -23,48 +23,48 @@ namespace AntTrak.Controllers
         }
 
         // GET: TicketNotifications/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TicketNotification ticketNotification = db.TicketNotifications.Find(id);
-            if (ticketNotification == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ticketNotification);
-        }
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    TicketNotification ticketNotification = db.TicketNotifications.Find(id);
+        //    if (ticketNotification == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(ticketNotification);
+        //}
 
         // GET: TicketNotifications/Create
-        public ActionResult Create()
-        {
-            ViewBag.RecipientId = new SelectList(db.Users, "Id", "FirstName");
-            ViewBag.SenderId = new SelectList(db.Users, "Id", "FirstName");
-            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId");
-            return View();
-        }
+        //public ActionResult Create()
+        //{
+        //    ViewBag.RecipientId = new SelectList(db.Users, "Id", "FirstName");
+        //    ViewBag.SenderId = new SelectList(db.Users, "Id", "FirstName");
+        //    ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId");
+        //    return View();
+        //}
 
         // POST: TicketNotifications/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TicketId,SenderId,RecipientId,IsRead,NotificationBody,Created")] TicketNotification ticketNotification)
-        {
-            if (ModelState.IsValid)
-            {
-                db.TicketNotifications.Add(ticketNotification);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+        //public ActionResult Create([Bind(Include = "Id,TicketId,SenderId,RecipientId,IsRead,NotificationBody,Created")] TicketNotification ticketNotification)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.TicketNotifications.Add(ticketNotification);
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
 
-            ViewBag.RecipientId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.RecipientId);
-            ViewBag.SenderId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.SenderId);
-            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketNotification.TicketId);
-            return View(ticketNotification);
-        }
+        //    ViewBag.RecipientId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.RecipientId);
+        //    ViewBag.SenderId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.SenderId);
+        //    ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketNotification.TicketId);
+        //    return View(ticketNotification);
+        //}
 
         // GET: TicketNotifications/Edit/5
         public ActionResult Edit(int? id)
@@ -93,13 +93,14 @@ namespace AntTrak.Controllers
         {
             if (ModelState.IsValid)
             {
+                ticketNotification.IsRead = false;
                 db.Entry(ticketNotification).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
             }
-            ViewBag.RecipientId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.RecipientId);
-            ViewBag.SenderId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.SenderId);
-            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketNotification.TicketId);
+            //ViewBag.RecipientId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.RecipientId);
+            //ViewBag.SenderId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.SenderId);
+            //ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketNotification.TicketId);
             return View(ticketNotification);
         }
 

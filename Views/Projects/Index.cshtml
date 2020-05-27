@@ -15,12 +15,20 @@
                 </div>
             </div>
             <div class="card-body">
-                @if (ViewBag.MyRole == "Admin" || ViewBag.MyRole =="ProjectManager")
-                {
-                    @Html.ActionLink("Create New", "Create")
-                }
-                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div class="col-3">
+                        @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                        {
+                            @Html.ActionLink("Create New Project", "Create", null, null, new { @class = "form-control btn btn-project" })
+                            @*@Html.ActionLink("Create New", "Create")*@
+                        }
+                        @Html.AntiForgeryToken()
 
+                    </div>
+                    <br />
+                </div>
+               
+                <br />
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -58,8 +66,8 @@
 
                                 </td>
                                 <td>
-                                 
-                                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+
+                                    @Html.ActionLink("Details", "Details", new { id = item.Id }) 
 
                                     @if (User.IsInRole("Submitter"))
                                     {

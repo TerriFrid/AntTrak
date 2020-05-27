@@ -73,8 +73,8 @@
 
                             </div>
                             <div class="col">
-                                @Html.ActionLink("Back to List", null, null, null, Request.UrlReferrer.ToString(), null, null, new { @class = "form-control btn btn-primary " })
-                                <a href="@Url.Action(Request.UrlReferrer.ToString()) " class="form-control btn btn-dark">Back to list </a>
+                                @Html.ActionLink("Back to List", null, null, null, new {href= Request.UrlReferrer, @class = "form-control btn btn-dark " })
+                                @*<a href="@Url.Action(Request.UrlReferrer.ToString()) " class="form-control btn btn-dark">Back to list </a>*@
                                 @*@Html.ActionLink("Back to List", "Index", null, new { @class = "form-control btn btn-dark" })*@
                             </div>
                         </div>

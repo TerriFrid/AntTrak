@@ -18,14 +18,57 @@
     border-color: midnightblue;
 }
 
-
 .btn-user {
     color: white;
-    background-color: olive;
-    border-color: olive;
+    background-color: yellow;
+    border-color: yellow;
 }
 
-.card-project:not(.card-outline) > .card-header {
+/*priorities*/
+.btn-low {
+    color: white;
+    background-color: lemonchiffon;
+    border-color: lemonchiffon;
+}
+    .btn-med {
+    color: white;
+    background-color: orange;
+    border-color: orange;
+}
+
+.btn-high {
+    color: white;
+    background-color: firebrick;
+    border-color: firebrick;
+}
+
+/*statuses*/
+.btn-unassigned {
+    color: white;
+    background-color: cornflowerblue;
+    border-color: cornflowerblue;
+}
+.btn-assigned {
+    color: white;
+    background-color: darkgreen;
+    border-color: darkgreen;
+}
+
+.btn-resolved {
+    color: white;
+    background-color: midnightblue;
+    border-color: midnightblue;
+}
+
+.btn-archived {
+    color: white;
+    background-color: darkgrey;
+    border-color: darkgray;
+}
+
+
+
+    .card-project:not(.card-outline) > .card-header {
     background-color: midnightblue;
     color: #ffffff;
 }

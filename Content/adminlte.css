@@ -20201,6 +20201,8 @@ html.maximized-card {
 .register-logo a {
   color: #495057;
 }
+   
+
 
 .login-page,
 .register-page {
@@ -20215,6 +20217,8 @@ html.maximized-card {
   -ms-flex-pack: center;
   justify-content: center;
 }
+
+
 
 .login-box,
 .register-box {

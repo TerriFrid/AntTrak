@@ -48,25 +48,25 @@
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
-              
+
             </ul>
 
             <!-- SEARCH FORM -->
             @*<form class="form-inline ml-3">
-                <div class="input-group input-group-sm">
-                    <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-                    <div class="input-group-append">
-                        <button class="btn btn-navbar" type="submit">
-                            <i class="fas fa-search"></i>
-                        </button>
+                    <div class="input-group input-group-sm">
+                        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-navbar" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
                     </div>
-                </div>
-            </form>*@
+                </form>*@
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
                 <!-- Messages Dropdown Menu -->
-                
+
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-bell"></i>
@@ -104,31 +104,31 @@
                 </li>
                 <!-- Notifications Dropdown Menu -->
                 @*<li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="far fa-bell"></i>
-                        <span class="badge badge-warning navbar-badge">15</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <span class="dropdown-item dropdown-header">15 Notifications</span>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-envelope mr-2"></i> 4 new messages
-                            <span class="float-right text-muted text-sm">3 mins</span>
+                        <a class="nav-link" data-toggle="dropdown" href="#">
+                            <i class="far fa-bell"></i>
+                            <span class="badge badge-warning navbar-badge">15</span>
                         </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-users mr-2"></i> 8 friend requests
-                            <span class="float-right text-muted text-sm">12 hours</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-file mr-2"></i> 3 new reports
-                            <span class="float-right text-muted text-sm">2 days</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-                    </div>
-                </li>*@
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                            <span class="dropdown-item dropdown-header">15 Notifications</span>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-envelope mr-2"></i> 4 new messages
+                                <span class="float-right text-muted text-sm">3 mins</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-users mr-2"></i> 8 friend requests
+                                <span class="float-right text-muted text-sm">12 hours</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-file mr-2"></i> 3 new reports
+                                <span class="float-right text-muted text-sm">2 days</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                        </div>
+                    </li>*@
                 <li class="nav-item">
                     <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
                         <i class="fas fa-th-large"></i>
@@ -138,7 +138,6 @@
         </nav>
         <!-- /.navbar -->
         <!-- Main Sidebar Container -->
-
         @*Put the Partial Back Here!!*@
         @Html.Action("_SideNav", "Home");
 
@@ -152,10 +151,10 @@
         <!-- /.content-wrapper -->
         <footer class="main-footer">
             @*<strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
-            All rights reserved.
-            <div class="float-right d-none d-sm-inline-block">
-                <b>Version</b> 3.0.4
-            </div>*@
+                All rights reserved.
+                <div class="float-right d-none d-sm-inline-block">
+                    <b>Version</b> 3.0.4
+                </div>*@
         </footer>
 
         <!-- Control Sidebar -->
@@ -175,8 +174,7 @@
     </script>
     <!-- Bootstrap 4 -->
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
-    <!-- ChartJS -->
-    <script src="~/Scripts/Chart.min.js"></script>
+
     <!-- Sparkline  TLF I don't know what this is so I'm commenting it out for now -->
     @*<script src="plugins/sparklines/sparkline.js"></script>*@
     <!-- JQVMap TLF I don't think I need this so I'm commenting it out for now-->
@@ -198,10 +196,97 @@
     <script src="~/Scripts/dataTables.bootstrap4.min.js"></script>
     <script src="~/Scripts/dataTables.responsive.min.js"></script>
     <script src="~/Scripts/responsive.bootstrap4.min.js"></script>
+    <!-- ChartJS -->
+    <script src="~/Scripts/Chart.min.js"></script>
     <!-- AdminLTE App -->
     <script src="~/Scripts/adminlte.js"></script>
-
+    <script src="~/Scripts/adminlte.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script>
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetAllTicketPriorityChartData", "Chart")',
+            dataType: "json"
+        }).then(function (response) {
+            var donutChartCanvas = $('#pieChart').get(0).getContext('2d');
+            var donutData = {
+                labels: [response.Labels],
+                datasets: [
+                    {
+                        data: [response.Values],
+                        backgroundColor: [response.Colors]
+                    }
+                ]
+            };
+            var donutOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+            }
+
+            var pieChart = new Chart(donutChartCanvas, {
+                type: 'pie',
+                data: donutData,
+                options: donutOptions
+            })
+
+        });
+
+
+
+        //$(function () {
+
+        //    //-------------
+        //    //- DONUT CHART -
+        //    //-------------
+        //    // Get context with jQuery - using jQuery's .get() method.
+        //    var donutChartCanvas = $('#pieChart').get(0).getContext('2d');
+        //    var donutData = {
+        //        labels: [
+        //            'Unassigned',
+        //            'Assigned',
+        //            'Resolved',
+        //            'Archived',
+        //            'Opera',
+        //            'Navigator',
+        //        ],
+        //        datasets: [
+        //            {
+        //                data: [700, 500, 400, 600, 300, 100],
+        //                backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
+        //            }
+        //        ]
+        //    };
+        //    var donutOptions = {
+        //        maintainAspectRatio: false,
+        //        responsive: true,
+        //    };
+            //Create pie or douhnut chart
+            // You can switch between pie and douhnut using the method below.
+            //var donutChart = new Chart(donutChartCanvas, {
+            //    type: 'doughnut',
+            //    data: donutData,
+            //    options: donutOptions
+            //});
+
+            //-------------
+            //- PIE CHART -
+            //-------------
+            // Get context with jQuery - using jQuery's .get() method.
+        //    var pieChartCanvas = $('#pieChart').get(0).getContext('2d');
+        //    var pieData = donutData;
+        //    var pieOptions = {
+        //        maintainAspectRatio: false,
+        //        responsive: true,
+        //    };
+        //    //Create pie or douhnut chart
+        //    // You can switch between pie and douhnut using the method below.
+        //    var pieChart = new Chart(pieChartCanvas, {
+        //        type: 'pie',
+        //        data: pieData,
+        //        options: pieOptions
+        //    });
+        //});
+    </script>
     <script>
         var invalidSelection = '@TempData["InvalidSelection"]';
         if (invalidSelection != "") {

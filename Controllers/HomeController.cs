@@ -43,7 +43,7 @@ namespace AntTrak.Controllers
             ViewBag.CardTitle = "My Tickets";
             ViewBag.CardTitle2 =  "All Tickets";
 
-          // model.TicketTableVM.RequestedList = db.
+          
             return View(model);
             
         }

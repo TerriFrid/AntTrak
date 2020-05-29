@@ -12,6 +12,8 @@ namespace AntTrak.ViewModel
         public string name { get; set; }
         public string pmId { get; set; }
         public string pmName { get; set; }
+        public string description { get; set; }
+
 
         public List<ApplicationUser> ProjectMembers { get; set; }
     }

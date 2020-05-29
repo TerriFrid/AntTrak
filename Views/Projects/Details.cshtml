@@ -15,11 +15,7 @@
                     <!-- /.card -->
                     <div class="card-header">
                         <h1 class="card-title">@ViewBag.CardTitle </h1>
-                        <div class="card-tools">
-                            @*<button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>*@
-                        </div>
+                        <div class="card-tools"> </div>
                     </div>
                     <div class="card-body">
                         @Html.HiddenFor(model => model.Id)
@@ -40,14 +36,19 @@
                                 <p>@Model.Description</p>
                             </div>
                         </div>
-                        <div class="card-footer">                            
-                            <span class="float-right">
+                        <div class="card-footer">
+                            <div class="row">
                                 @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                                 {
-                                    @Html.ActionLink("Edit information", "Edit", new { id = Model.Id }, new { @class = "btn btn-project" })
-                                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-dark" })
+                                <div class="col">
+                                    @Html.ActionLink("Edit information", "Edit", new { id = Model.Id }, new { @class = "form-control btn btn-project" })
+                                </div>
+                                <div class="col">
+                                    @Html.ActionLink("Back to List", "Index", null, new { @class = "form-control btn btn-dark" })
+                                </div>
                                 }
-                            </span>                           
+                            </div>
+                                                    
                         </div>  <!-- /.card-footer-->
 
                     </div> <!-- /.card-body -->
@@ -70,7 +71,7 @@
                             @foreach (var member in Model.ProjectMembers)
                             {
                                 <li>
-                                    @member.Fullname
+                                    @member.Fullname 
                                 </li>
                             }
                         </ul>

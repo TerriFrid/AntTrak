@@ -1,7 +1,9 @@
-﻿using System;
+﻿using AntTrak.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+
 
 namespace AntTrak.ViewModel
 {
@@ -20,14 +22,10 @@ namespace AntTrak.ViewModel
             Values = new List<int>();
 
         }
+
+
+        
         
     }
-    //public class PieChartData
-    //{
-    //    //Ticket priorities
-    //    string label { get; set; }
-    //    string color { get; set; }
-    //    string value { get; set; }
-
-   //}
+    
 }

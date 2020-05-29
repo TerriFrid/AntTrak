@@ -286,10 +286,11 @@ namespace AntTrak.Controllers
         {
             var myUserId = User.Identity.GetUserId();
             var myProjects = new List<Project>();
+            var myProjectsVMs = new List<ProjectVM>();
             ViewBag.CardTitle = "My Projects";
-            ViewBag.MyRole = roleHelper.ListUserRoles(myUserId).FirstOrDefault();
+           
 
-            if (ViewBag.MyRole == "ProjectManager")
+            if (roleHelper.IsUserInRole(myUserId, "Project Manager"))
             {
                 myProjects = db.Projects.Where(p => p.ProjectManagerId == myUserId).ToList();
             }
@@ -297,8 +298,20 @@ namespace AntTrak.Controllers
             {
                 myProjects = projHelper.ListUserProjects(myUserId).ToList();
             }
+
+            foreach(var project in myProjects)
+            {
+                myProjectsVMs.Add(new ProjectVM
+                {
+                    id = project.Id,
+                    name = project.Name,
+                    pmId = project.ProjectManagerId,
+                    pmName = project.ProjectManagerId != null ? db.Users.Find(project.ProjectManagerId).Fullname : "Unassigned",
+                    description = project.Description
+                });
+            }
             
-            return View(myProjects);
+            return View(myProjectsVMs);
         }
 
         // GET: Projects/Details/5

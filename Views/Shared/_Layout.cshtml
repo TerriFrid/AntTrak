@@ -173,7 +173,7 @@
         $.widget.bridge('uibutton', $.ui.button)
     </script>
     <!-- Bootstrap 4 -->
-    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    @*<script src="~/Scripts/bootstrap.bundle.min.js"></script>*@
 
     <!-- Sparkline  TLF I don't know what this is so I'm commenting it out for now -->
     @*<script src="plugins/sparklines/sparkline.js"></script>*@
@@ -183,12 +183,12 @@
     <!-- jQuery Knob Chart TLF I don't think I need this so I'm commenting it out for now -->
     @*<script src="plugins/jquery-knob/jquery.knob.min.js"></script>*@
     <!-- daterangepicker TLF I might need this-->
-    <script src="~/Scripts/moment.min.js"></script>
-    <script src="~/Scripts/daterangepicker.js"></script>
+    @*<script src="~/Scripts/moment.min.js"></script>
+    <script src="~/Scripts/daterangepicker.js"></script>*@
     <!-- Tempusdominus Bootstrap 4 -->
     <script src="~/Scripts/tempusdominus-bootstrap-4.min.js"></script>
     <!-- Summernote -->
-    <script src="~/Scripts/summernote.js"></script>
+    @*<script src="~/Scripts/summernote.js"></script>*@
     <!-- overlayScrollbars -->
     <script src="~/Scripts/jquery.overlayScrollbars.min.js"></script>
     <!-- DataTables -->
@@ -199,7 +199,7 @@
     <!-- ChartJS -->
     <script src="~/Scripts/Chart.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="~/Scripts/adminlte.js"></script>
+    @*<script src="~/Scripts/adminlte.js"></script>*@
     <script src="~/Scripts/adminlte.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script>
@@ -208,84 +208,90 @@
             url: '@Url.Action("GetAllTicketPriorityChartData", "Chart")',
             dataType: "json"
         }).then(function (response) {
-            var donutChartCanvas = $('#pieChart').get(0).getContext('2d');
+            var donutChartCanvas = $('#pieChart1').get(0).getContext('2d');
             var donutData = {
-                labels: [response.Labels],
+                labels: response.Labels,
                 datasets: [
                     {
-                        data: [response.Values],
-                        backgroundColor: [response.Colors]
+                        data: response.Values,
+                        backgroundColor: response.Colors
                     }
                 ]
             };
             var donutOptions = {
                 maintainAspectRatio: false,
                 responsive: true,
-            }
+            };
 
             var pieChart = new Chart(donutChartCanvas, {
                 type: 'pie',
                 data: donutData,
                 options: donutOptions
-            })
+            });
+        });
 
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetAllTicketStatusChartData", "Chart")',
+            dataType: "json"
+        }).then(function (response) {
+            var donutChartCanvas = $('#pieChart2').get(0).getContext('2d');
+            var donutData = {
+                labels: response.Labels,
+                datasets: [
+                    {
+                        data: response.Values,
+                        backgroundColor: response.Colors
+                    }
+                ]
+            };
+            var donutOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+            };
+
+            var pieChart = new Chart(donutChartCanvas, {
+                type: 'pie',
+                data: donutData,
+                options: donutOptions
+            });
+        });
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetAllTicketTypesChartData", "Chart")',
+            dataType: "json"
+        }).then(function (response) {
+            var donutChartCanvas = $('#pieChart3').get(0).getContext('2d');
+            var donutData = {
+                labels: response.Labels,
+                datasets: [
+                    {
+                        data: response.Values,
+                        backgroundColor: response.Colors
+                    }
+                ]
+            };
+            var donutOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+            };
+
+            var pieChart = new Chart(donutChartCanvas, {
+                type: 'pie',
+                data: donutData,
+                options: donutOptions
+            });
         });
 
 
 
-        //$(function () {
 
-        //    //-------------
-        //    //- DONUT CHART -
-        //    //-------------
-        //    // Get context with jQuery - using jQuery's .get() method.
-        //    var donutChartCanvas = $('#pieChart').get(0).getContext('2d');
-        //    var donutData = {
-        //        labels: [
-        //            'Unassigned',
-        //            'Assigned',
-        //            'Resolved',
-        //            'Archived',
-        //            'Opera',
-        //            'Navigator',
-        //        ],
-        //        datasets: [
-        //            {
-        //                data: [700, 500, 400, 600, 300, 100],
-        //                backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
-        //            }
-        //        ]
-        //    };
-        //    var donutOptions = {
-        //        maintainAspectRatio: false,
-        //        responsive: true,
-        //    };
-            //Create pie or douhnut chart
-            // You can switch between pie and douhnut using the method below.
-            //var donutChart = new Chart(donutChartCanvas, {
-            //    type: 'doughnut',
-            //    data: donutData,
-            //    options: donutOptions
-            //});
 
-            //-------------
-            //- PIE CHART -
-            //-------------
-            // Get context with jQuery - using jQuery's .get() method.
-        //    var pieChartCanvas = $('#pieChart').get(0).getContext('2d');
-        //    var pieData = donutData;
-        //    var pieOptions = {
-        //        maintainAspectRatio: false,
-        //        responsive: true,
-        //    };
-        //    //Create pie or douhnut chart
-        //    // You can switch between pie and douhnut using the method below.
-        //    var pieChart = new Chart(pieChartCanvas, {
-        //        type: 'pie',
-        //        data: pieData,
-        //        options: pieOptions
-        //    });
-        //});
+
+
+
+
+
     </script>
     <script>
         var invalidSelection = '@TempData["InvalidSelection"]';

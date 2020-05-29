@@ -20,8 +20,8 @@
 
 .btn-user {
     color: white;
-    background-color: yellow;
-    border-color: yellow;
+    background-color: darkgreen;
+    border-color: darkgreen;
 }
 
 /*priorities*/
@@ -68,7 +68,7 @@
 
 
 
-    .card-project:not(.card-outline) > .card-header {
+.card-project:not(.card-outline) > .card-header {
     background-color: midnightblue;
     color: #ffffff;
 }
@@ -88,6 +88,11 @@ card-ticket:not(.card-outline) > .card-header,
 
 .card-ticket.card-outline {
     border-top: 3px solid cornflowerblue;
+}
+
+.card-user:not(.card-outline) > .card-header {
+    background-color: darkgreen;
+    color: #ffffff;
 }
 
 .card-primary.card-outline-tabs > .card-header a:hover {
@@ -118,4 +123,15 @@ card-ticket:not(.card-outline) > .card-header,
 }
 .txt-user {
     color: olive;
+}
+
+.sidebar-TLF-danger .nav-sidebar > .nav-item > .nav-link.active,
+.sidebar-light-danger .nav-sidebar > .nav-item > .nav-link.active {
+    background-color: gray;
+    color: #ffffff;
+}
+
+.sidebar-TLF-danger .nav-sidebar.nav-legacy > .nav-item > .nav-link.active,
+.sidebar-light-danger .nav-sidebar.nav-legacy > .nav-item > .nav-link.active {
+    border-color: gray;
 }

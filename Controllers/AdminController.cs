@@ -1,12 +1,14 @@
 ﻿using AntTrak.Helpers;
 using AntTrak.Models;
 using AntTrak.ViewModel;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
-
+using TFridBlog.Helpers;
 
 namespace AntTrak.Controllers
 {
@@ -16,6 +18,7 @@ namespace AntTrak.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private UserRolesHelper roleHelper = new UserRolesHelper();
+        private TicketHelper ticketHelper = new TicketHelper();
 
         // GET: Admin
         public ActionResult ManageRoles()
@@ -81,6 +84,93 @@ namespace AntTrak.Controllers
             return RedirectToAction("ManageRoles");
         }
 
+        public ActionResult UserProfileIndex()
+        {
+            ViewBag.CardTitle = "User Profiles";
+            var userProfilesVM = new List<UserProfile>();
+            var users = db.Users.ToList();
+
+            foreach (var user in users)
+            {
+                userProfilesVM.Add(new UserProfile
+                {
+                    Id = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Role = roleHelper.ListUserRoles(user.Id).FirstOrDefault(),
+                    Email = user.Email,
+                    AvatarUrl = user.AvatarPath
+                });
+
+            }
+            return View(userProfilesVM);
+        }
+
+        // GET: UserProfiles/Details/
+        [Authorize]
+        public ActionResult Details(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            UserProfile userProfile = db.UserProfiles.Find(id);
+            if (userProfile == null)
+            {
+                return HttpNotFound();
+            }
+            return View(userProfile);
+        }
+
+
+        [Authorize]
+        public ActionResult UserProfileEdit()
+        {
+            ViewBag.CardTitle = "Edit Your User Profile";
+            var currentUser = db.Users.Find(User.Identity.GetUserId());
+            var user = new UserProfile();
+
+            user.Id = currentUser.Id;
+            user.FirstName = currentUser.FirstName;
+            user.LastName = currentUser.LastName;
+            user.Email = currentUser.Email;
+            user.AvatarUrl = currentUser.AvatarPath;
+
+            return View(user);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult UserProfileEdit(UserProfile model, HttpPostedFileBase image)
+        {
+            if (ModelState.IsValid)
+            {
+                if (image != null && ImageUploadValidator.IsWebFriendlyImage(image))
+                {
+                    var justFileName = System.IO.Path.GetFileNameWithoutExtension(image.FileName);
+                    justFileName = StringUtilities.URLFriendly(justFileName);
+                    justFileName = $"{justFileName}--{DateTime.Now.Ticks}";
+                    justFileName = $"{justFileName}{System.IO.Path.GetExtension(image.FileName)}";
+
+                    model.AvatarUrl = "/Avatars/" + justFileName;
+                    image.SaveAs(System.IO.Path.Combine(Server.MapPath("~/Avatars/"), justFileName));
+                }
+
+
+                var currentUser = db.Users.Find(User.Identity.GetUserId());
+                currentUser.FirstName = model.FirstName;
+                currentUser.LastName = model.LastName;
+                currentUser.UserName = model.Email;
+                currentUser.Email = model.Email;
+                currentUser.AvatarPath = model.AvatarUrl;
+
+                db.SaveChanges();
+                return RedirectToAction("Dashboard", "Home");
+            }
+
+            return View();
+        }
 
     }
 }

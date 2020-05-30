@@ -20,5 +20,16 @@ namespace AntTrak.Helpers
             var db = new ApplicationDbContext();
             return db.TicketNotifications.Where(t => t.RecipientId == userId && !t.IsRead).ToList();
         }
+
+        public static List<TicketNotification> GetAllNotifications()
+        {
+
+            var userId = HttpContext.Current.User.Identity.GetUserId();
+            if (userId == null)
+                return new List<TicketNotification>();
+
+            var db = new ApplicationDbContext();
+            return db.TicketNotifications.Where(t => t.RecipientId == userId).OrderBy(t => t.IsRead).ToList();
+        }
     }
 }

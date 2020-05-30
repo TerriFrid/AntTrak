@@ -7,135 +7,45 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AntTrak.Models;
+using AntTrak.Helpers;
 
 namespace AntTrak.Controllers
 {
+    
     public class TicketNotificationsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        //private MessageHelper messageHelper = new MessageHelper();
         // GET: TicketNotifications
+
+      
         public ActionResult Index()
         {
             ViewBag.CardTitle = "Notifications";
-            var ticketNotifications = db.TicketNotifications.Include(t => t.Recipient).Include(t => t.Sender).Include(t => t.Ticket);
+            var ticketNotifications = MessageHelper.GetAllNotifications();
             return View(ticketNotifications.ToList());
         }
 
-        // GET: TicketNotifications/Details/5
-        //public ActionResult Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    TicketNotification ticketNotification = db.TicketNotifications.Find(id);
-        //    if (ticketNotification == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(ticketNotification);
-        //}
 
-        // GET: TicketNotifications/Create
-        //public ActionResult Create()
-        //{
-        //    ViewBag.RecipientId = new SelectList(db.Users, "Id", "FirstName");
-        //    ViewBag.SenderId = new SelectList(db.Users, "Id", "FirstName");
-        //    ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId");
-        //    return View();
-        //}
-
-        // POST: TicketNotifications/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include = "Id,TicketId,SenderId,RecipientId,IsRead,NotificationBody,Created")] TicketNotification ticketNotification)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.TicketNotifications.Add(ticketNotification);
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    ViewBag.RecipientId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.RecipientId);
-        //    ViewBag.SenderId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.SenderId);
-        //    ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketNotification.TicketId);
-        //    return View(ticketNotification);
-        //}
-
-        // GET: TicketNotifications/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TicketNotification ticketNotification = db.TicketNotifications.Find(id);
-            if (ticketNotification == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.RecipientId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.RecipientId);
-            ViewBag.SenderId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.SenderId);
-            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketNotification.TicketId);
-            return View(ticketNotification);
-        }
-
-        // POST: TicketNotifications/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,TicketId,SenderId,RecipientId,IsRead,NotificationBody,Created")] TicketNotification ticketNotification)
-        {
-            if (ModelState.IsValid)
-            {
-                ticketNotification.IsRead = false;
-                db.Entry(ticketNotification).State = EntityState.Modified;
-                db.SaveChanges();
-                //return RedirectToAction("Index");
-            }
-            //ViewBag.RecipientId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.RecipientId);
-            //ViewBag.SenderId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.SenderId);
-            //ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketNotification.TicketId);
-            return View(ticketNotification);
-        }
-
-        // GET: TicketNotifications/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TicketNotification ticketNotification = db.TicketNotifications.Find(id);
-            if (ticketNotification == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ticketNotification);
-        }
-
-        // POST: TicketNotifications/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            TicketNotification ticketNotification = db.TicketNotifications.Find(id);
-            db.TicketNotifications.Remove(ticketNotification);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-        public ActionResult Dismiss(int id)
+        public ActionResult DismissFromDashboard(int id)
         {
             var notification = db.TicketNotifications.Find(id);
             notification.IsRead = true;
             db.SaveChanges();
+           
             return RedirectToAction("Dashboard", "Home");
         }
+
+        public ActionResult DismissFromIndex(int id)
+        {
+            var notification = db.TicketNotifications.Find(id);
+            notification.IsRead = true;
+            db.SaveChanges();
+
+            return RedirectToAction("Index", "TicketNotifications");
+        }
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

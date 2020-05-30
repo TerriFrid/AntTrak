@@ -69,7 +69,7 @@ namespace AntTrak.Helpers
 
             foreach (var user in usersOnProject)
             {
-                if (!rolesHelper.IsUserInRole(user.Id, "Admin"))
+                if (rolesHelper.IsUserInRole(user.Id, "Submitter") || rolesHelper.IsUserInRole(user.Id, "Developer"))
                 {
                     members.Add(user);
                 }

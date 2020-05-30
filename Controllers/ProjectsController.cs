@@ -24,6 +24,7 @@ namespace AntTrak.Controllers
         private ProjectHelper projHelper = new ProjectHelper();
         private UserRolesHelper roleHelper = new UserRolesHelper();
         private AssignmentHelper assignHelper = new AssignmentHelper();
+        private TicketHelper ticketHelper = new TicketHelper();
 
         [Authorize(Roles = "Admin")]
         public ActionResult ManageUserProjectAssignments()
@@ -56,6 +57,7 @@ namespace AntTrak.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult ManageUserProjectAssignments(List<string> userIds, List<int> projectIds, bool addUser)
         {
             if (userIds == null || projectIds == null)
@@ -345,8 +347,20 @@ namespace AntTrak.Controllers
             model.ActiveTickets = project.Tickets.Where(t => t.IsArchived == false).ToList();
 
 
-
-            model.ProjectMembers = projHelper.ProjectMembers(project.Id).ToList();
+            //var usersOnProject = projHelper.ProjectMembers(project.Id).ToList();
+            //foreach (var user in usersOnProject)
+            //{
+            //    model.EnhancedProjectMembers.Add(new UserProfile
+            //    {
+            //        Id = user.Id,
+            //        FirstName = user.FirstName,
+            //        LastName = user.LastName,
+            //        AvatarUrl = user.AvatarPath,                    
+            //       // Role = roleHelper.ListUserRoles(user.Id).FirstOrDefault(),
+            //        nbrOpenTickets = ticketHelper.ListMyOpenProjectsTickets().Count
+            //    });
+            //}
+                model.ProjectMembers = projHelper.ProjectMembers(project.Id).ToList();
             
             return View(model);
         }

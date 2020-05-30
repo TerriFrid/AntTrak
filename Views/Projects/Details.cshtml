@@ -4,13 +4,13 @@
 
 @{
     TicketHelper ticketHelper = new TicketHelper();
+    UserRolesHelper roleHelper = new UserRolesHelper();
 }
 @Html.AntiForgeryToken()
     <div class="container">
         <div class="row">
             <!-- New Card row -->
             <div class="col-6">
-                @*body col*@
                 <div class="card card-project">
                     <!-- /.card -->
                     <div class="card-header">
@@ -53,28 +53,45 @@
 
                     </div> <!-- /.card-body -->
                 </div> <!-- /.card -->
-            </div>@*body col*@
+            </div>
             <div class="col-6">
-                @*<div class="col">*@
                 <div class="card card-project">
                     <div class="card-header">
                         <h3 class="card-title">Project Members</h3>
-                        <div class="card-tools">
-                            @*<button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>*@
-
-                        </div>
+                        <div class="card-tools"> </div>
                     </div>
                     <div class="card-body">
-                        <ul>
-                            @foreach (var member in Model.ProjectMembers)
-                            {
-                                <li>
-                                    @member.Fullname 
-                                </li>
-                            }
-                        </ul>
+                        <table class="table">                           
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th>Open Tickets</th>
+                                </tr>
+                                                   
+                                @foreach (var member in Model.ProjectMembers)
+                                { 
+                                    <tr>
+                                        <td>
+                                            @member.Fullname
+                                        </td>
+                                        <td>
+                                            @{ 
+                                                var Role = roleHelper.ListUserRoles(member.Id).FirstOrDefault();
+
+                                            }
+                                            @Role
+                                        </td>
+                                        <td>
+                                            @{ 
+                                                var nbrTickets = ticketHelper.ListUserOpenProjectsTickets(member.Id).Count();
+
+                                            }
+                                            @nbrTickets
+                                        </td>
+                                    </tr>
+                                }
+                        </table>
+
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">

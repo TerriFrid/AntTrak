@@ -73,14 +73,13 @@
 
                             </div>
                             <div class="col">
-                                @Html.ActionLink("Back to List", null, null, null, new {href= Request.UrlReferrer, @class = "form-control btn btn-dark " })
-                                @*<a href="@Url.Action(Request.UrlReferrer.ToString()) " class="form-control btn btn-dark">Back to list </a>*@
-                                @*@Html.ActionLink("Back to List", "Index", null, new { @class = "form-control btn btn-dark" })*@
+                                @Html.ActionLink("Back to Project", "Index", "Projects", new { id = Model.ProjectId }, new { @class = "form-control btn btn-dark " })
+                                
                             </div>
                         </div>
                     </div> <!-- /.card-footer-->
                 </div><!-- /.card -->
-                @*</div>*@
+              
             </div>
             <div class="col">
                 <div class="card card-ticket">
@@ -115,14 +114,13 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col offset-8">
-                                                        @*@if (comment.UserId == User.Identity.GetUserId())
+                                                        @if (comment.UserId == User.Identity.GetUserId())
                                                         {
-                                                            @Html.ActionLink("Edit", "Edit", "TicketComments", new { id = comment.Id }) |
-                                                            @Html.ActionLink("Delete", "Delete", "TicketComments", new { id = comment.Id })
-                                                        }*@
-                                                        @Html.ActionLink("Edit", "Edit", "TicketComments", new { id = comment.Id }, null) |
-                                                        @Html.ActionLink("Delete", "Delete", "TicketComments", new { id = comment.Id }, null)
+                                                            @Html.ActionLink("Edit", "Edit", "TicketComments", new { id = comment.Id }, null) <span>|</span>
+                                                            @Html.ActionLink("Delete", "Delete", "TicketComments", new { id = comment.Id }, null)
+                                                        }
 
+                                                       
                                                     </div>
                                                 </div>
                                                 <!-- /.direct-chat-text -->

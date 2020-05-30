@@ -4,7 +4,7 @@
         <div class="row">
             <!-- New Card row -->
             <div class="col">
-                <div class="card card-warning">
+                <div class="card card-user">
                     <div class="card-header">
                         <h3 class="card-title">@ViewBag.CardTitle</h3>
                         <div class="card-tools">
@@ -32,34 +32,40 @@
                                     <th>
                                         @Html.DisplayName("Read?")
                                     </th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                <tr>
-                                    <td>
-                                    @Html.DisplayFor(modelItem => item.Subject)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.NotificationBody)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Created)
-                                    </td>
-                                    <td>
-                                        
-                                        @Html.DisplayFor(modelItem => item.IsRead)
-                                    </td>
-                                </tr>
-                                }
-                            </tbody>
+                                    @*<a href="@Url.Action("Dismiss", "TicketNotifications", new {id = item.Id})">*@
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Subject)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.NotificationBody)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Created)
+                                            </td>
+                                            <td>
+
+                                                @Html.DisplayFor(modelItem => item.IsRead)
+                                            </td>
+                                            <td>
+                                                @Html.ActionLink("Mark Read", "DismissFromIndex", new { id = item.Id})
+                                            </td>
+                                        </tr>
+                                    @*</a>*@
+                                        }
+                                </tbody>
                         </table>
 
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
-                        Footer
+                     
                     </div>  <!-- /.card-footer-->
                 </div>  <!-- /.card -->
             </div>

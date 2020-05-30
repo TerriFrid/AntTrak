@@ -28,5 +28,12 @@ namespace AntTrak.ViewModel
         public List<Ticket> ClosedTickets { get; set; }
 
         public List<ApplicationUser> ProjectMembers { get; set; }
+        public List<UserProfile> EnhancedProjectMembers { get; set; }
+
+
+        public ProjectDetails()
+        {
+            
+        }
     }
 }

@@ -189,7 +189,6 @@ namespace AntTrak.Controllers
         }
 
 
-
         //
         // POST: /Account/Register
         [HttpPost]
@@ -240,56 +239,7 @@ namespace AntTrak.Controllers
             return View(model);
         }
 
-       [Authorize]
-        public ActionResult EditUserProfile()
-        {
-            ViewBag.CardTitle = "Edit Your User Profile";
-            var currentUser = db.Users.Find(User.Identity.GetUserId());
-            var user = new UserProfile();
-
-            user.Id = currentUser.Id;
-            user.FirstName = currentUser.FirstName;
-            user.LastName = currentUser.LastName;
-            user.Email = currentUser.Email;
-            user.AvatarUrl = currentUser.AvatarPath;
-
-            return View(user);
-           
-            
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditUserProfile(UserProfile model, HttpPostedFileBase image)
-        {
-            if (ModelState.IsValid)
-            {
-                if (image != null && ImageUploadValidator.IsWebFriendlyImage(image ))
-                {
-                    var justFileName = System.IO.Path.GetFileNameWithoutExtension(image.FileName);
-                    justFileName = StringUtilities.URLFriendly(justFileName);
-                    justFileName = $"{justFileName}--{DateTime.Now.Ticks}";
-                    justFileName = $"{justFileName}{System.IO.Path.GetExtension(image.FileName)}";
-
-                    model.AvatarUrl = "/Avatars/" + justFileName;
-                   image.SaveAs(System.IO.Path.Combine(Server.MapPath("~/Avatars/"), justFileName));
-                }
-
-
-                var currentUser = db.Users.Find(User.Identity.GetUserId());
-                currentUser.FirstName = model.FirstName;
-                currentUser.LastName = model.LastName;
-                currentUser.UserName = model.Email;
-                currentUser.Email = model.Email;
-                currentUser.AvatarPath = model.AvatarUrl;
-
-                db.SaveChanges();
-                return RedirectToAction("Dashboard", "Home");
-            }
-
-            return View();
-        }
+     
 
 
 

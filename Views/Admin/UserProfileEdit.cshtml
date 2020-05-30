@@ -4,7 +4,7 @@
 
 
 
-@using (Html.BeginForm("EditUserProfile", "Account", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+@using (Html.BeginForm("UserProfileEdit", "Admin", FormMethod.Post, new { enctype = "Multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id)

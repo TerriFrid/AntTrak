@@ -365,7 +365,6 @@
     <Content Include="private.config" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Projects\ManageProjectUserAssignments.cshtml" />
-    <Content Include="Views\Account\EditUserProfile.cshtml" />
     <Content Include="Views\Tickets\Create.cshtml" />
     <Content Include="Views\Tickets\Delete.cshtml" />
     <Content Include="Views\Tickets\Index.cshtml" />
@@ -383,6 +382,8 @@
     <Content Include="Views\Account\DemoLogin.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Admin\ManageRoles.cshtml" />
+    <Content Include="Views\Admin\UserProfileEdit.cshtml" />
+    <Content Include="Views\Admin\UserProfileIndex.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

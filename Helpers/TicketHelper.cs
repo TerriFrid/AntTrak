@@ -59,6 +59,35 @@ namespace AntTrak.Helpers
                     break;
             }
             return myTickets;
+        }
+
+        public List<Ticket> ListMyOpenTickets()
+        {
+            var myTickets = new List<Ticket>();
+            var userId = HttpContext.Current.User.Identity.GetUserId();
+            var user = db.Users.Find(userId);
+            var myRole = roleHelper.ListUserRoles(userId).FirstOrDefault();
+
+            switch (myRole)
+            {
+                case "Admin":
+                case "DemoAdmin":
+                    myTickets.AddRange(db.Tickets.Where(t => t.TicketStatus.Name == "Unassigned" || t.TicketStatus.Name == "Assigned"));
+                    break;
+                case "ProjectManager":
+                case "DemoPM":
+                    myTickets.AddRange(db.Projects.Where(p => p.ProjectManagerId == userId).SelectMany(p => p.Tickets).Where(t => t.TicketStatus.Name == "Unassigned" || t.TicketStatus.Name == "Assigned"));
+                    break;
+                case "Developer":
+                case "DemoDeveloper":
+                    myTickets.AddRange(db.Tickets.Where(t => t.TicketStatus.Name == "Unassigned" || t.TicketStatus.Name == "Assigned").Where(t => t.DeveloperId == userId));
+                    break;
+                case "Submitter":
+                case "DemoSubmitter":
+                    myTickets.AddRange(db.Tickets.Where(t => t.TicketStatus.Name == "Unassigned" || t.TicketStatus.Name == "Assigned").Where(t => t.SubmitterId == userId));
+                    break;
+            }
+            return myTickets;
 
         }
         public List<Ticket> ListMyProjectsTickets()
@@ -66,6 +95,21 @@ namespace AntTrak.Helpers
             var userId = HttpContext.Current.User.Identity.GetUserId();
             var myProjects = projHelper.ListProjectsForUser(userId);
             var myProjectTickets = myProjects.SelectMany(p => p.Tickets).ToList();
+            return myProjectTickets;
+        }
+
+        public List<Ticket> ListMyOpenProjectsTickets()
+        {
+            var userId = HttpContext.Current.User.Identity.GetUserId();
+            var myProjects = projHelper.ListProjectsForUser(userId);
+            var myProjectTickets = myProjects.SelectMany(p => p.Tickets).Where(t => t.TicketStatus.Name == "Unassigned" || t.TicketStatus.Name == "Assigned").ToList();
+            return myProjectTickets;
+        }
+
+        public List<Ticket> ListUserOpenProjectsTickets(string userId)
+        {
+            var myProjects = projHelper.ListProjectsForUser(userId);
+            var myProjectTickets = myProjects.SelectMany(p => p.Tickets).Where(t => t.TicketStatus.Name == "Unassigned" || t.TicketStatus.Name == "Assigned").ToList();
             return myProjectTickets;
         }
         public bool IsMyTicket(int TicketId)

@@ -29,6 +29,9 @@ namespace AntTrak.ViewModel
         public string Email { get; set; }
         public string AvatarUrl{ get; set; }
         public string Role { get; set; }
+
+        public string RoleId { get; set; }
+        public int nbrOpenTickets { get; set; }
         
         public List<Project> MyProjects { get; set; }
 

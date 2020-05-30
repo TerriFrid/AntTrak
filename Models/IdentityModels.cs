@@ -78,8 +78,6 @@ namespace AntTrak.Models
 
         public System.Data.Entity.DbSet<AntTrak.Models.TicketType> TicketTypes { get; set; }
 
-       
-
-        
+        public System.Data.Entity.DbSet<AntTrak.ViewModel.UserProfile> UserProfiles { get; set; }
     }
 }

@@ -91,13 +91,7 @@ namespace AntTrak.Controllers
             return View(model);
         }
 
-        //public void Dismiss(int id)
-        //{
-        //    var notification = db.TicketNotifications.Find(id);
-        //    notification.IsRead = true;
-        //    db.SaveChanges();
-            
-        //}
+       [Authorize]
         public PartialViewResult _SideNav()
         {
             var model = db.Users.Find(User.Identity.GetUserId());
@@ -105,6 +99,9 @@ namespace AntTrak.Controllers
             return PartialView(model);
         }
 
+        //TLF  Keeping this code because I still have faith I'm going to figure out how to communicate with _TicketTable
+       // to let it know if the user has permission to view ticket details and if it is being called from the dashboard or project detail
+       //  I know it won't be this method
         //public PartialViewResult _TicketTable( int tableMode)
         //{
         //    var model = db.Tickets.ToList();

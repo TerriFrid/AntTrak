@@ -58,7 +58,7 @@ namespace AntTrak.Migrations
                 Email = "admin@mailinator.com",
                 FirstName =  "Test",
                 LastName = "Admin",
-                AvatarPath = "Avatars/blank-avatar.jpg",
+                AvatarPath = "/Avatars/TestAdmin.png",
                 EmailConfirmed = true
             }, context, "Admin");
 
@@ -69,7 +69,7 @@ namespace AntTrak.Migrations
                 Email = "projectmanager@mailinator.com",
                 FirstName = "Test",
                 LastName = "ProjectManager",
-                AvatarPath = "Avatars/blank-avatar.jpg",
+                AvatarPath = "/Avatars/TestProjectManager.jpg",
                 EmailConfirmed = true
             }, context, "ProjectManager");
 
@@ -80,7 +80,7 @@ namespace AntTrak.Migrations
                 Email = "developer@mailinator.com",
                 FirstName = "Test",
                 LastName = "Developer",
-                AvatarPath = "Avatars/blank-avatar.jpg",
+                AvatarPath = "/Avatars/TestDeveloper.png",
                 EmailConfirmed = true
             }, context, "Developer");
 
@@ -91,7 +91,7 @@ namespace AntTrak.Migrations
                 Email = "submitter@mailinator.com",
                 FirstName = "Test",
                 LastName = "Submitter",
-                AvatarPath = "Avatars/blank-avatar.jpg",
+                AvatarPath = "/Avatars/TestSubmitter.png",
                 EmailConfirmed = true
             }, context, "Submitter");
             
@@ -105,54 +105,30 @@ namespace AntTrak.Migrations
 
             //if (!context.Users.Any(u => u.Email == "terriafsusa@gmail.com"))
             //{
-            //    var user = new ApplicationUser
-            //    {
-            //        UserName = "terriafsusa@gmail.com",
-            //        Email = "terriafsusa@gmail.com",
-            //        FirstName = "Terri",
-            //        LastName = "Frid"
-            //    };
+            AddUser(new ApplicationUser
+            {
+                UserName = "terriafsusa@gmail.com",
+                Email = "terriafsusa@gmail.com",
+                FirstName = "Terri",
+                LastName = "Frid",
+                AvatarPath= "/Avatars/Tfrid-img.png",
+                EmailConfirmed = true
+            }, context, "Admin");
             //    userManager.Create(user, "Test123!");
             //    userManager.AddToRoles(user.Id, "Admin");
             //}
 
-            //if (!context.Users.Any(u => u.Email == "JasonTwichell@coderfoundry.com"))
-            //{
-            //    var user = new ApplicationUser
-            //    {
-            //        UserName = "JasonTwichell@coderfoundry.com",
-            //        Email = "JasonTwichell@coderfoundry.com",
-            //        FirstName = "Jason",
-            //        LastName = "Twichell"
-            //    };
-
-            //    userManager.Create(user, "Abc&123!");
-            //    userManager.AddToRoles(user.Id, "Admin");
-            //}
-
-            //if (!context.Users.Any(u => u.Email == "aRussell@coderfoundry.com"))
-            //{
-            //    var user = new ApplicationUser
-            //    {
-            //        UserName = "aRussell@coderfoundry.com",
-            //        Email = "aRussell@coderfoundry.com",
-            //        FirstName = "Drew",
-            //        LastName = "Russell"
-            //    };
-            //    userManager.Create(user, "Abc&123!");
-            //    userManager.AddToRoles(user.Id, "Admin");
-
-            //}
-
             //if (!context.Users.Any(u => u.Email == "AFreeman@mailinator.com"))
             //{
-            //    var user = new ApplicationUser
-            //    {
-            //        UserName = "AFreeman@mailinator.com",
-            //        Email = "AFreeman@mailinator.com",
-            //        FirstName = "Abagail",
-            //        LastName = "Freeman"
-            //    };
+            AddUser(new ApplicationUser
+            {
+                UserName = "AFreeman@mailinator.com",
+                Email = "AFreeman@mailinator.com",
+                FirstName = "Abagail",
+                LastName = "Freeman",
+                AvatarPath = "/Avatars/AbagailFreeman.jpg",
+                EmailConfirmed = true
+            }, context, "ProjectManager");
             //    userManager.Create(user, "Test123!");
             //    userManager.AddToRoles(user.Id, "ProjectManager");
 
@@ -160,13 +136,15 @@ namespace AntTrak.Migrations
 
             //if (!context.Users.Any(u => u.Email == "RFlagg@mailinator.com"))
             //{
-            //    var user = new ApplicationUser
-            //    {
-            //        UserName = "RFlagg@mailinator.com",
-            //        Email = "RFlagg@mailinator.com",
-            //        FirstName = "Randall",
-            //        LastName = "Flagg"
-            //    };
+            AddUser(new ApplicationUser
+            {
+                UserName = "RFlagg@mailinator.com",
+                Email = "RFlagg@mailinator.com",
+                FirstName = "Randall",
+                LastName = "Flagg",
+                AvatarPath = "/Avatars/RandallFlagg.jpg",
+                EmailConfirmed = true
+            }, context, "ProjectManager");
             //    userManager.Create(user, "Test123!");
             //    userManager.AddToRoles(user.Id, "ProjectManager");
 
@@ -174,39 +152,45 @@ namespace AntTrak.Migrations
 
             //if (!context.Users.Any(u => u.Email == "SRedman@mailinator.com"))
             //{
-            //    var user = new ApplicationUser
-            //    {
-            //        UserName = "SRedman@mailinator.com",
-            //        Email = "SRedman@mailinator.com",
-            //        FirstName = "Stuart",
-            //        LastName = "Redman"
-            //    };
+            AddUser(new ApplicationUser
+            {
+                UserName = "SRedman@mailinator.com",
+                Email = "SRedman@mailinator.com",
+                FirstName = "Stuart",
+                LastName = "Redman",
+                AvatarPath = "/Avatars/StuRedman.png",
+                EmailConfirmed = true
+            }, context, "ProjectManager");
             //    userManager.Create(user, "Test123!");
             //    userManager.AddToRoles(user.Id, "ProjectManager");
             //}
 
             //if (!context.Users.Any(u => u.Email == "GBateman@mailinator.com"))
             //{
-            //    var user = new ApplicationUser
-            //    {
-            //        UserName = "GBateman@mailinator.com",
-            //        Email = "GBateman@mailinator.com",
-            //        FirstName = "Glen",
-            //        LastName = "Bateman"
-            //    };
+            AddUser(new ApplicationUser
+            {
+                UserName = "GBateman@mailinator.com",
+                Email = "GBateman@mailinator.com",
+                FirstName = "Glen",
+                LastName = "Bateman",
+                AvatarPath = "/Avatars/GlenBateman.jpg",
+                EmailConfirmed = true
+            }, context, "ProjectManager");
             //    userManager.Create(user, "Test123!");
             //    userManager.AddToRoles(user.Id, "ProjectManager");
             //}
 
             //if (!context.Users.Any(u => u.Email == "WHorgan@mailinator.com"))
             //{
-            //    var user = new ApplicationUser
-            //    {
-            //        UserName = "WHorgan@mailinator.com",
-            //        Email = "WHorgan@mailinator.com",
-            //        FirstName = "Whitney",
-            //        LastName = "Horgan"
-            //    };
+            AddUser(new ApplicationUser
+            {
+                UserName = "JFarris@mailinator.com",
+                Email = "JFarris@mailinator.com",
+                FirstName = "Judge",
+                LastName = "Farris",
+                AvatarPath = "/Avatars/JudgeFarris.png",
+                EmailConfirmed = true
+            }, context, "Developer");
             //    userManager.Create(user, "Test123!");
             //    userManager.AddToRoles(user.Id, "ProjectManager");
 
@@ -214,13 +198,15 @@ namespace AntTrak.Migrations
 
             //if (!context.Users.Any(u => u.Email == "FGoldsmith@Mailinator.com"))
             //{
-            //    var user = new ApplicationUser
-            //    {
-            //        UserName = "FGoldsmith@Mailinator.com",
-            //        Email = "FGoldsmith@Mailinator.com",
-            //        FirstName = "Frannie",
-            //        LastName = "Goldsmith"
-            //    };
+            AddUser(new ApplicationUser
+            {
+                UserName = "FGoldsmith@Mailinator.com",
+                Email = "FGoldsmith@Mailinator.com",
+                FirstName = "Frannie",
+                LastName = "Goldsmith",
+                AvatarPath = "/Avatars/franniegoldsmith.jpg",
+                EmailConfirmed = true
+            }, context, "Developer");
             //    userManager.Create(user, "Test123!");
             //    userManager.AddToRoles(user.Id, "Developer");
 
@@ -228,13 +214,15 @@ namespace AntTrak.Migrations
 
             //if (!context.Users.Any(u => u.Email == "NAndros@mailinator.com"))
             //{
-            //    var user = new ApplicationUser
-            //    {
-            //        UserName = "NAndros@mailinator.com",
-            //        Email = "NAndros@mailinator.com",
-            //        FirstName = "Nick",
-            //        LastName = "Andros"
-            //    };
+            AddUser(new ApplicationUser
+            {
+                UserName = "NAndros@mailinator.com",
+                Email = "NAndros@mailinator.com",
+                FirstName = "Nick",
+                LastName = "Andros",
+                AvatarPath = "/Avatars/nickandros.jpg",
+                EmailConfirmed = true
+            }, context, "Developer");
             //    userManager.Create(user, "Test123!");
             //    userManager.AddToRoles(user.Id, "Developer");
 
@@ -242,80 +230,86 @@ namespace AntTrak.Migrations
 
             //if (!context.Users.Any(u => u.Email == "LHenreid@mailinator.com"))
             //{
-            //    var user = new ApplicationUser
-            //    {
-            //        UserName = "LHenreid@mailinator.com",
-            //        Email = "LHenreid@mailinator.com",
-            //        FirstName = "Lloyd",
-            //        LastName = "Henreid"
-            //    };
+            AddUser(new ApplicationUser
+            {
+                UserName = "LHenreid@mailinator.com",
+                Email = "LHenreid@mailinator.com",
+                FirstName = "Lloyd",
+                LastName = "Henreid",
+                AvatarPath = "/Avatars/lloydhenreid.jpg",
+                EmailConfirmed = true
+            }, context, "Developer");
             //    userManager.Create(user, "Test123!");
             //    userManager.AddToRoles(user.Id, "Developer");
             //}
 
             //if (!context.Users.Any(u => u.Email == "DJurgens@mailinator.com"))
             //{
-            //    var user = new ApplicationUser
-            //    {
-            //        UserName = "DJurgens@mailinator.com",
-            //        Email = "DJurgens@mailinator.com",
-            //        FirstName = "Dayna",
-            //        LastName = "Jurgens"
-            //    };
+            AddUser(new ApplicationUser
+            {
+                UserName = "DJurgens@mailinator.com",
+                Email = "DJurgens@mailinator.com",
+                FirstName = "Dayna",
+                LastName = "Jurgens",
+                AvatarPath = "/Avatars/daynajurgens.png",
+                EmailConfirmed = true
+            }, context, "Developer");
             //    userManager.Create(user, "Test123!");
             //    userManager.AddToRoles(user.Id, "Developer");
             //}
 
             //if (!context.Users.Any(u => u.Email == "NCross@mailinator.com"))
             //{
-            //    var user = new ApplicationUser
-            //    {
-            //        UserName = "NCross@mailinator.com",
-            //        Email = "NCross@mailinator.com",
-            //        FirstName = "Nadine",
-            //        LastName = "Cross"
-            //    };
+            AddUser(new ApplicationUser
+            {
+                UserName = "NCross@mailinator.com",
+                Email = "NCross@mailinator.com",
+                FirstName = "Nadine",
+                LastName = "Cross",
+                AvatarPath = "/Avatars/nadinecross.png",
+                EmailConfirmed = true
+            }, context, "Developer");
             //    userManager.Create(user, "Test123!");
             //    userManager.AddToRoles(user.Id, "Developer");
             //}
 
-
-            //if (!context.Users.Any(u => u.Email == "CCampion@mailinator.com"))
-            //{
-            //    var user = new ApplicationUser
-            //    {
-            //        UserName = "CCampion@mailinator.com",
-            //        Email = "CCampion@mailinator.com",
-            //        FirstName = "Charlie",
-            //        LastName = "Campion"
-            //    };
-            //    userManager.Create(user, "Test123!");
-            //    userManager.AddToRoles(user.Id, "Developer");
-            //}
+            AddUser(new ApplicationUser
+            {
+                UserName = "RBrenter@mailinator.com",
+                Email = "RBrenter@mailinator.com",
+                FirstName = "Ralph",
+                LastName = "Brenter",
+                AvatarPath = "/Avatars/ralphbrenter.png",
+                EmailConfirmed = true
+            }, context, "Submitter");
 
 
             //if (!context.Users.Any(u => u.Email == "HLauder@mailinator.com"))
             //{
-            //    var user = new ApplicationUser
-            //    {
-            //        UserName = "HLauder@mailinator.com",
-            //        Email = "HLauder@mailinator.com",
-            //        FirstName = "Harold",
-            //        LastName = "Lauder"
-            //    };
+            AddUser(new ApplicationUser
+            {
+                UserName = "HLauder@mailinator.com",
+                Email = "HLauder@mailinator.com",
+                FirstName = "Harold",
+                LastName = "Lauder",
+                AvatarPath = "/Avatars/haroldlauder.png",
+                EmailConfirmed = true
+            }, context, "Submitter");
             //    userManager.Create(user, "Test123!");
             //    userManager.AddToRoles(user.Id, "Submitter");
             //}
 
             //if (!context.Users.Any(u => u.Email == "TCullen@mailinator.com"))
             //{
-            //    var user = new ApplicationUser
-            //    {
-            //        UserName = "TCullen@mailinator.com",
-            //        Email = "TCullen@mailinator.com",
-            //        FirstName = "Tom",
-            //        LastName = "Cullen"
-            //    };
+            AddUser(new ApplicationUser
+            {
+                UserName = "TCullen@mailinator.com",
+                Email = "TCullen@mailinator.com",
+                FirstName = "Tom",
+                LastName = "Cullen",
+                AvatarPath = "/Avatars/tomcullen.png",
+                EmailConfirmed = true
+            }, context, "Submitter");
             //    userManager.Create(user, "Test123!");
             //    userManager.AddToRoles(user.Id, "Submitter");
             //}
@@ -323,54 +317,65 @@ namespace AntTrak.Migrations
 
             //if (!context.Users.Any(u => u.Email == "SusanStern@mailinator.com"))
             //{
-            //    var user = new ApplicationUser
-            //    {
-            //        UserName = "SusanStern@mailinator.com",
-            //        Email = "SusanStern@mailinator.com",
-            //        FirstName = "Susan",
-            //        LastName = "Stern"
-            //    };
+            AddUser(new ApplicationUser
+            {
+                UserName = "SusanStern@mailinator.com",
+                Email = "SusanStern@mailinator.com",
+                FirstName = "Susan",
+                LastName = "Stern",
+                AvatarPath = "/Avatars/susanstern.png",
+                EmailConfirmed = true
+            }, context, "Submitter");
             //    userManager.Create(user, "Test123!");
             //    userManager.AddToRoles(user.Id, "Submitter");
             //}
 
+            AddUser(new ApplicationUser
+            {
+                UserName = "JLawry@mailinator.com",
+                Email = "JLawry@mailinator.com",
+                FirstName = "Julie",
+                LastName = "Lawry",
+                AvatarPath = "/Avatars/julielawry.png",
+                EmailConfirmed = true
+            }, context, "Submitter");
             #endregion
 
             #region RANDOM USERS
             //create 5 Project Managers
-            for (int pm = 0; pm < 5; pm++)
-            {
-                AddUser(CreateRandomUser(), context, "ProjectManager");
-            }
-            //create 10 Developers
-            for (int pm = 0; pm< 10; pm++)
-            {
-                AddUser(CreateRandomUser(), context, "Developer");
-            }
+            //for (int pm = 0; pm < 5; pm++)
+            //{
+            //    AddUser(CreateRandomUser(), context, "ProjectManager");
+            //}
+            ////create 10 Developers
+            //for (int pm = 0; pm< 10; pm++)
+            //{
+            //    AddUser(CreateRandomUser(), context, "Developer");
+            //}
 
-            //create 5 Submitterss
-            for (int pm = 0; pm < 5; pm++)
-            {
-                AddUser(CreateRandomUser(), context, "Submitter");
-            }
+            ////create 5 Submitterss
+            //for (int pm = 0; pm < 5; pm++)
+            //{
+            //    AddUser(CreateRandomUser(), context, "Submitter");
+            //}
             #endregion
 
             #region Load Up Ticket Types
-                context.TicketTypes.AddOrUpdate(
+            context.TicketTypes.AddOrUpdate(
                     t => t.Name,
-                         new TicketType { Name = "Defect" },
-                         new TicketType { Name = "Display" },
-                         new TicketType { Name = "Functionality" },
-                        new TicketType { Name = "New Feature" }
+                         new TicketType { Name = "Defect", Color = "maroon"},
+                         new TicketType { Name = "Display", Color = "indigo" },
+                         new TicketType { Name = "Functionality", Color = "teal" },
+                        new TicketType { Name = "New Feature", Color="thistle"}
                     );
 
                 #endregion
             #region Load Up Ticket Priorities
                 context.TicketPriorities.AddOrUpdate(
                     t => t.Name,
-                         new TicketPriority { Name = "High" },
-                         new TicketPriority { Name = "Medium" },
-                         new TicketPriority { Name = "Low" }
+                         new TicketPriority { Name = "High", Color ="firebrick" },
+                         new TicketPriority { Name = "Medium", Color = "orange" },
+                         new TicketPriority { Name = "Low", Color = "yellow" }
 
                     );
 
@@ -379,17 +384,17 @@ namespace AntTrak.Migrations
             #region Load Up Ticket Status
                 context.TicketStatus.AddOrUpdate(
                     t => t.Name,
-                         new TicketStatus { Name = "Unassigned" },
-                         new TicketStatus { Name = "Assigned" },
-                         new TicketStatus { Name = "Completed" },
-                        new TicketStatus { Name = "Archived" }
+                         new TicketStatus { Name = "Unassigned", Color = "cornflowerblue" },
+                         new TicketStatus { Name = "Assigned", Color = "darkgreen" },
+                         new TicketStatus { Name = "Completed", Color = "midnightblue" },
+                        new TicketStatus { Name = "Archived", Color = "gray" }
                     );
 
                 #endregion
 
             context.SaveChanges();
 
-            CreateProjects(20);
+            CreateProjects(7);
             CreateTickets(10);
 
            
@@ -405,31 +410,31 @@ namespace AntTrak.Migrations
                         userManager.AddToRoles(user.Id, role);
                     }
                 }
-        public ApplicationUser CreateRandomUser()
-        {
-            List<string> firstNames = new List<string> { "Michael", "Ethan", "Peter", "Josh", "Jace",
-            "Ben", "Katie", "Craig", "Trevor", "Allison", "Lawson", "Brian", "TK", "Shane", "Chris",
-            "Ashton", "Terri", "Jaylon", "Matt"};
-            List<string> lastNames = new List<string> { "Carreno", "Nance", "Fralick", "Casteel", "Matthews",
-            "Yarema", "Rosario", "Hoffman", "Popham", "Popham", "Tsatsa", "Ott", "Quinn", "McMiller",
-            "Corthum", "Fulp", "Wray", "Frid", "Martin", "Wendel"};
+        //public ApplicationUser CreateRandomUser()
+        //{
+        //    List<string> firstNames = new List<string> { "Michael", "Ethan", "Peter", "Josh", "Jace",
+        //    "Ben", "Katie", "Craig", "Trevor", "Allison", "Lawson", "Brian", "TK", "Shane", "Chris",
+        //    "Ashton", "Terri", "Jaylon", "Matt"};
+        //    List<string> lastNames = new List<string> { "Carreno", "Nance", "Fralick", "Casteel", "Matthews",
+        //    "Yarema", "Rosario", "Hoffman", "Popham", "Popham", "Tsatsa", "Ott", "Quinn", "McMiller",
+        //    "Corthum", "Fulp", "Wray", "Frid", "Martin", "Wendel"};
 
-            Random rand = new Random();
+        //    Random rand = new Random();
 
-            var first = firstNames[rand.Next(0, firstNames.Count)];
-            var last = lastNames[rand.Next(0, lastNames.Count)];
-            var email = $"{first}.{last}@mailinator.com";
+        //    var first = firstNames[rand.Next(0, firstNames.Count)];
+        //    var last = lastNames[rand.Next(0, lastNames.Count)];
+        //    var email = $"{first}.{last}@mailinator.com";
 
-            return new ApplicationUser
-            {
-                UserName = email, 
-                Email = email,
-                FirstName = first,
-                LastName = last, 
-                AvatarPath = "Avatars/blank-avatar.jpg",
-                EmailConfirmed = true
-            };
-        }
+        //    return new ApplicationUser
+        //    {
+        //        UserName = email, 
+        //        Email = email,
+        //        FirstName = first,
+        //        LastName = last, 
+        //        AvatarPath = "Avatars/blank-avatar.jpg",
+        //        EmailConfirmed = true
+        //    };
+        //}
 
         public void CreateProjects(int numberOfProjects)
         {
@@ -438,11 +443,11 @@ namespace AntTrak.Migrations
             var rand = new Random();
             var rolesHelper = new AntTrak.Helpers.UserRolesHelper();
             var projHelper = new AntTrak.Helpers.ProjectHelper();
-            var projManagers = rolesHelper.UsersInRole("ProjectManager").ToList();
+            var projManagers = rolesHelper.UsersInRole("ProjectManager").ToList();            
 
-            for (int i = 1; i <= 20; i++)
+            for (int i = 1; i <= numberOfProjects; i++)
             {
-                var seededProjectName = $"Project {21 - i} (Seeded)";
+                var seededProjectName = $"Project {8 - i} (Seeded)";
                 db.Projects.AddOrUpdate(p => p.Name, new Project
                 {
                     Name = seededProjectName,
@@ -463,6 +468,7 @@ namespace AntTrak.Migrations
 
             var developers = rolesHelper.UsersInRole("Developer").ToList();
             var submitters = rolesHelper.UsersInRole("Submitter").ToList();
+            var admin = rolesHelper.UsersInRole("Admin").FirstOrDefault();
 
             var seedTicketType = db.TicketTypes.Select(t => t.Id).ToList();
             var seedTicketPriority = db.TicketPriorities.Select(t => t.Id).ToList();
@@ -474,8 +480,9 @@ namespace AntTrak.Migrations
             {
                 var seedSub = submitters[rand.Next(0, submitters.Count)];
                 projHelper.AddUserToProject(seedSub.Id, project.Id);
+                projHelper.AddUserToProject(admin.Id, project.Id);
 
-               for (int j = 1; j <= 10; j++)
+                for (int j = 1; j <= 10; j++)
                 {
                     db.Tickets.AddOrUpdate(t => t.Title, new Ticket
                     {

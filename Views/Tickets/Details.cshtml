@@ -54,10 +54,11 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-5" })
+                                @Html.Label("Description")
 
-                                @Html.TextArea("Description", new { @class = "form-control h-100" })
-                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                               @*// @Html.TextArea("Description", new { @class = "form-control h-100" })*@
+                                <p> @Model.Description</p>
+                                
                                 <br />
                             </div>
                         </div>
@@ -73,7 +74,7 @@
 
                             </div>
                             <div class="col">
-                                @Html.ActionLink("Back to Project", "Index", "Projects", new { id = Model.ProjectId }, new { @class = "form-control btn btn-dark " })
+                                @Html.ActionLink("Back to Project", "Details", "Projects", new { id = Model.ProjectId }, new { @class = "form-control btn btn-dark " })
                                 
                             </div>
                         </div>
@@ -168,29 +169,34 @@
                                     </th>
                                     <th>
                                         @Html.DisplayName("File Name")
+                                        
                                     </th>
                                     <th>
                                     </th>
                                 </tr>
 
-                                @foreach (var item in Model.Attachments)
-                                {
-                                    <tr>
-                                        <td>
-                                            <img src="@AttachmentHelper.ShowIcon(item.FilePath)" />
-                                        </td>
-                                        <td>
-                                            <a target="_blank" href="@Url.Content(item.FilePath)">@item.FileName</a>
 
-                                        </td>
-                                        <td>
-                                            @if (item.UserId == User.Identity.GetUserId())
-                                            {
-                                                @Html.ActionLink("Delete Attachment", "Delete", "TicketAttachments", new { id = item.Id }, null)
-                                            }
-                                        </td>
-                                    </tr>
-                                }
+                                @if (Model.Attachments.Count > 0)
+                                { 
+                                    foreach (var item in Model.Attachments)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <img src="@AttachmentHelper.ShowIcon(item.FilePath)" />
+                                            </td>
+                                            <td>
+                                                <a target="_blank" href="@Url.Content(item.FilePath)">@item.FileName</a>
+
+                                            </td>
+                                            <td>
+                                                @if (item.UserId == User.Identity.GetUserId())
+                                                {
+                                                    @Html.ActionLink("Delete Attachment", "Delete", "TicketAttachments", new { id = item.Id }, null)
+                                                }
+                                            </td>
+                                        </tr>
+                                        }
+                                    }
                             </table>
 
                         </div>

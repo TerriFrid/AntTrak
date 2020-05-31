@@ -40,12 +40,19 @@
                             <div class="row">
                                 @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                                 {
-                                <div class="col">
-                                    @Html.ActionLink("Edit information", "Edit", new { id = Model.Id }, new { @class = "form-control btn btn-project" })
-                                </div>
-                                <div class="col">
-                                    @Html.ActionLink("Back to List", "Index", null, new { @class = "form-control btn btn-dark" })
-                                </div>
+                                    <div class="col">
+                                        @Html.ActionLink("Edit information", "Edit", new { id = Model.Id }, new { @class = "form-control btn btn-project" })
+                                    </div>
+                                    <div class="col">
+                                        @Html.ActionLink("Back to List", "Index", null, new { @class = "form-control btn btn-dark" })
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-6"></div>
+                                    <div class="col-6">
+                                        @Html.ActionLink("Back to List", "Index", null, new { @class = "form-control btn btn-dark" })
+                                    </div>
                                 }
                             </div>
                                                     

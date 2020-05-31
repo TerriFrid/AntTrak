@@ -90,7 +90,7 @@ card-ticket:not(.card-outline) > .card-header,
     border-top: 3px solid cornflowerblue;
 }
 
-.card-user:not(.card-outline) > .card-header {
+.card-developer:not(.card-outline) > .card-header {
     background-color: darkgreen;
     color: #ffffff;
 }
@@ -115,13 +115,13 @@ card-ticket:not(.card-outline) > .card-header,
 .txt-delete {
     color:firebrick;
 }
-.txt-project {
-    color: midnightblue;
+.text-project {
+    color: darkblue;
 }
-.txt-ticket {
+.text-ticket {
     color: cornflowerblue;
 }
-.txt-user {
+.text-user {
     color: olive;
 }
 

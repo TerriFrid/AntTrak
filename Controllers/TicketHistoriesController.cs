@@ -10,6 +10,7 @@ using AntTrak.Models;
 
 namespace AntTrak.Controllers
 {
+    [Authorize]
     public class TicketHistoriesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

@@ -5,7 +5,7 @@
             <!-- New Card row -->
             <br />
             <br />           
-            <div class="col-8">
+            <div class="col-8 offset-2">
                 @*body col*@
                 <div class="card card-project">
                     <!-- /.card -->
@@ -78,10 +78,11 @@
                             <div class="row">
                                 <br />
                                 <div class="col">
-                                    <span class="float-right">
-                                        <input type="submit" value="Save Changes" class="btn btn-project" />
-                                        @Html.ActionLink("Back To Project", "Details", new { id = Model.Id }, new { @class = "btn btn-dark" })
-                                    </span>
+                                    <input type="submit" value="Save Changes" class="form-control btn btn-project" />
+                                </div>
+                                <div class="col">
+                                    @Html.ActionLink("Back To Project", "Details", new { id = Model.Id }, new { @class = "form-control btn btn-dark" })
+                                
                                 </div>
                             </div>
 

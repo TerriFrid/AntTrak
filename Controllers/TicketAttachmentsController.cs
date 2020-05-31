@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 
 namespace AntTrak.Controllers
 {
+    [Authorize]
     public class TicketAttachmentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -68,26 +69,28 @@ namespace AntTrak.Controllers
                     ticketAttachment.FilePath = "/Attachments/" + justFileName;
                     Attachment.SaveAs(System.IO.Path.Combine(Server.MapPath("~/Attachments/"), justFileName));
 
-                }
+                
                
-                ticketAttachment.Created = DateTime.Now;
-                ticketAttachment.UserId = User.Identity.GetUserId();
-                db.TicketAttachments.Add(ticketAttachment);
-                db.SaveChanges();
+                    ticketAttachment.Created = DateTime.Now;
+                    ticketAttachment.UserId = User.Identity.GetUserId();
+                    db.TicketAttachments.Add(ticketAttachment);
+                    db.SaveChanges();
 
-                if (!User.IsInRole("Developer"))
-                {
-                    var newTicket = db.Tickets.Find(ticketAttachment.TicketId);
-                    var newValue = newTicket.Attachments.Count();
-                    var oldValue = newValue - 1;
+                    if (!User.IsInRole("Developer"))
+                    {
+                        var newTicket = db.Tickets.Find(ticketAttachment.TicketId);
+                        var newValue = newTicket.Attachments.Count();
+                        var oldValue = newValue - 1;
 
-                    var success = notificationHelper.CreateNotification(newTicket, "number of attachments", oldValue.ToString(), newValue.ToString(), true);
+                        var success = notificationHelper.CreateNotification(newTicket, "number of attachments", oldValue.ToString(), newValue.ToString(), true);
+                    }
+
+                    return RedirectToAction("Details", "Tickets", new{Id=ticketAttachment.TicketId });
                 }
-                return RedirectToAction("Details", "Tickets", new{Id=ticketAttachment.TicketId });
             }
 
            
-            return RedirectToAction("Details", "Tickets", new{ticketAttachment.TicketId});
+            return RedirectToAction("Details", "Tickets", new{Id=ticketAttachment.TicketId});
         }
 
         // GET: TicketAttachments/Edit/5

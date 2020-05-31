@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace AntTrak.Controllers
 {
-    
+    [Authorize]
     public class ChartController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

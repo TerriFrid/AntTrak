@@ -1,0 +1,62 @@
+﻿
+@using AntTrak.ViewModel;
+@using AntTrak.Helpers;
+
+@model UserProfile
+
+    <div class="container">
+        <div class="row">
+            <!-- New Card row -->
+            <div class="col-6 offset-3">
+                <div class="card card-warning">
+                    <div class="card-header">
+                        <h1 class="card-title">@Model.FullName</h1>
+                        <div class="card-tools"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <img src="@Model.AvatarUrl" class="img-circle elevation-2">
+                            </div>
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col">
+                                        <h4>@Model.FullName</h4>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <p>@Model.Email</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <p>@Model.Role</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <p><b>Projects</b></p>
+                                        <ul>
+                                            @foreach (var proj in Model.MyProjects)
+                                            {
+                                            <li>  @proj.Name</li>
+                                              
+                                            }
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        @Html.ActionLink("Close", "UserProfileIndex", "Admin", null, new { @class = "form-control btn btn-dark btn-block" })
+                    </div>  <!-- /.card-footer-->
+                </div>  <!-- /.card -->
+            </div>
+        </div> <!-- (New Card row) -->
+        
+    </div>

@@ -81,7 +81,15 @@ namespace AntTrak.Helpers
         }
         public ICollection<Project>ListProjectsForUser(string userId)
         {
-            return db.Users.Find(userId).Projects;
+            if(rolesHelper.IsUserInRole(userId, "ProjectManager"))
+            {
+                return db.Projects.Where(p => p.ProjectManagerId == userId).ToList();
+            }
+            else
+            {
+                return db.Users.Find(userId).Projects;
+            }
+            
         }
 
         public ICollection<ApplicationUser>ListUsersNotOnProject(int projectId)

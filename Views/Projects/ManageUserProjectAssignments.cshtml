@@ -7,7 +7,7 @@
         <div class="row">
             <!-- New Card row -->
             <div class="col">
-                <div class="card card-olive">
+                <div class="card card-warning">
                     <div class="card-header">
                         <h3 class="card-title">@ViewBag.CardTitle</h3>
                         <div class="card-tools">
@@ -52,7 +52,7 @@
                                 <button type="submit" value="false" name="addUser" class="form-control btn-danger">Remove from Projects</button>
                             </div>
                             <div class="col">
-                                @Html.ActionLink("Close", "Dashboard", "Home", new { @class = "form-control btn btn-dark" })
+                                @Html.ActionLink("Close", "Dashboard", "Home", null, new { @class = "form-control btn btn-dark" })
                             </div>
                         </div>
                     </div>  <!-- /.card-footer-->

@@ -223,8 +223,27 @@
     <Compile Include="ViewModel\UserProfile.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Avatars\AbagailFreeman.jpg" />
     <Content Include="Avatars\blank-avatar.jpg" />
     <Content Include="Avatars\blank-avatar.png" />
+    <Content Include="Avatars\DaynaJurgens.png" />
+    <Content Include="Avatars\franniegoldsmith.jpg" />
+    <Content Include="Avatars\GlenBateman.jpg" />
+    <Content Include="Avatars\HaroldLauder.jpg" />
+    <Content Include="Avatars\JudgeFarris.png" />
+    <Content Include="Avatars\julielawry.png" />
+    <Content Include="Avatars\larryunderwood.png" />
+    <Content Include="Avatars\Lloydhenreid.jpg" />
+    <Content Include="Avatars\nadinecross.png" />
+    <Content Include="Avatars\NickAndros.jpg" />
+    <Content Include="Avatars\ralphbrenter.png" />
+    <Content Include="Avatars\RandallFlagg.jpg" />
+    <Content Include="Avatars\StuRedman.png" />
+    <Content Include="Avatars\susanstern.png" />
+    <Content Include="Avatars\TestAdmin.png" />
+    <Content Include="Avatars\TestDeveloper.png" />
+    <Content Include="Avatars\TestProjectManager.jpg" />
+    <Content Include="Avatars\TestSubmitter.png" />
     <Content Include="Avatars\Tfrid-img.png" />
     <Content Include="Content\adminlte.css" />
     <Content Include="Content\adminlte.min.css" />
@@ -384,6 +403,7 @@
     <Content Include="Views\Admin\ManageRoles.cshtml" />
     <Content Include="Views\Admin\UserProfileEdit.cshtml" />
     <Content Include="Views\Admin\UserProfileIndex.cshtml" />
+    <Content Include="Views\Admin\UserProfileDetails.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

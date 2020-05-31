@@ -1,9 +1,11 @@
 ﻿using AntTrak.Helpers;
 using AntTrak.Models;
 using AntTrak.ViewModel;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -19,6 +21,7 @@ namespace AntTrak.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private UserRolesHelper roleHelper = new UserRolesHelper();
         private TicketHelper ticketHelper = new TicketHelper();
+        private ProjectHelper projHelper = new ProjectHelper();
 
         // GET: Admin
         public ActionResult ManageRoles()
@@ -88,7 +91,7 @@ namespace AntTrak.Controllers
         {
             ViewBag.CardTitle = "User Profiles";
             var userProfilesVM = new List<UserProfile>();
-            var users = db.Users.ToList();
+            var users = db.Users.ToList().OrderBy(u => u.LastName);
 
             foreach (var user in users)
             {
@@ -108,17 +111,27 @@ namespace AntTrak.Controllers
 
         // GET: UserProfiles/Details/
         [Authorize]
-        public ActionResult Details(string id)
+        public ActionResult UserProfileDetails(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UserProfile userProfile = db.UserProfiles.Find(id);
-            if (userProfile == null)
+            UserProfile userProfile = new UserProfile();
+            var user = db.Users.Find(id);
+            if (user == null)
             {
                 return HttpNotFound();
             }
+
+            userProfile.FirstName = user.FirstName;
+            userProfile.LastName = user.LastName;
+            userProfile.Email = user.Email;
+            userProfile.AvatarUrl = user.AvatarPath;
+            userProfile.Role = roleHelper.ListUserRoles(user.Id).FirstOrDefault();
+            userProfile.MyProjects = projHelper.ListProjectsForUser(user.Id).ToList();
+            ViewBag.CardTitle = "User Profile";
+
             return View(userProfile);
         }
 

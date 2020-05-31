@@ -65,21 +65,21 @@
                         </a>
 
                         <ul class="nav nav-treeview">
-                            @*<li class="nav-item">
-                                    <a href="pages/charts/inline.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                            <li class="nav-item">
+                                    <a href="@Url.Action("UserProfileIndex", "Admin")" class="nav-link">
+                                        <i class="far fa-circle text-warning nav-icon"></i>
                                         <p>View All Users</p>
                                     </a>
-                            </li>*@
+                            </li>
                             <li class="nav-item">
                                 <a href="@Url.Action("ManageRoles", "Admin")" class="nav-link">
-                                    <i class="far fa-circle text-user nav-icon"></i>
+                                    <i class="far fa-circle text-warning nav-icon"></i>
                                     <p>Role Assignment</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="@Url.Action("ManageUserProjectAssignments", "Projects")" class="nav-link">
-                                    <i class="nav-icon far fa-circle text-user "></i>
+                                    <i class="nav-icon far fa-circle text-warning "></i>
                                     <p> Project Assignment</p>
                                 </a>
                             </li>
@@ -134,7 +134,6 @@
 
                 @if (User.IsInRole("Submitter"))
                 {
-                    @*<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">*@
                     <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
                     <li class="nav-item has-treeview menu-open">
                         <a href="@Url.Action("Create", "Tickets")" class="nav-link active">
@@ -145,7 +144,6 @@
                         </a>
                     </li>
 
-                    @*</ul>*@
                 }
 
                 @if (User.IsInRole("Developer"))

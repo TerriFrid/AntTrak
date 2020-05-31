@@ -11,14 +11,14 @@ using AntTrak.Helpers;
 
 namespace AntTrak.Controllers
 {
-    
+    [Authorize]
     public class TicketNotificationsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         //private MessageHelper messageHelper = new MessageHelper();
         // GET: TicketNotifications
 
-      
+        [Authorize(Roles = "Developer")]
         public ActionResult Index()
         {
             ViewBag.CardTitle = "Notifications";
@@ -26,7 +26,7 @@ namespace AntTrak.Controllers
             return View(ticketNotifications.ToList());
         }
 
-
+        [Authorize(Roles = "Developer")]
         public ActionResult DismissFromDashboard(int id)
         {
             var notification = db.TicketNotifications.Find(id);
@@ -36,6 +36,7 @@ namespace AntTrak.Controllers
             return RedirectToAction("Dashboard", "Home");
         }
 
+        [Authorize(Roles = "Developer")]
         public ActionResult DismissFromIndex(int id)
         {
             var notification = db.TicketNotifications.Find(id);

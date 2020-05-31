@@ -118,6 +118,7 @@ namespace AntTrak.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult ManageProjectUserAssignments(List<string> userIds, List<int> projectIds, bool addUser)
         {
             if (userIds == null || projectIds == null)
@@ -167,6 +168,8 @@ namespace AntTrak.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, ProjectManager")]
+       
         public ActionResult TeamManagement(int id, string projectManagerId, List<string> SubmitterIds, List<string> DeveloperIds, bool addMember)
         {
             var project = db.Projects.Find(id);
@@ -215,6 +218,7 @@ namespace AntTrak.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, ProjectManager")]
         public ActionResult AssignMembers(int id, string projectManagerId, List<string> SubmitterIds, List<string> DeveloperIds)
         {
             var project = db.Projects.Find(id);
@@ -260,6 +264,7 @@ namespace AntTrak.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, ProjectManager")]
         public ActionResult RemoveMembers(int id, List<string> SubmitterIds, List<string> DeveloperIds)
         {
             var project = db.Projects.Find(id);
@@ -283,6 +288,7 @@ namespace AntTrak.Controllers
 
 
         }
+        
         // GET: Projects
         public ActionResult Index()
         {
@@ -292,7 +298,7 @@ namespace AntTrak.Controllers
             ViewBag.CardTitle = "My Projects";
            
 
-            if (roleHelper.IsUserInRole(myUserId, "Project Manager"))
+            if (roleHelper.IsUserInRole(myUserId, "ProjectManager"))
             {
                 myProjects = db.Projects.Where(p => p.ProjectManagerId == myUserId).ToList();
             }
@@ -382,6 +388,7 @@ namespace AntTrak.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, ProjectManager")]
         public ActionResult Create([Bind(Include = "Id,ProjectManagerId, Name,Description")] Project project)
         {
             if (ModelState.IsValid)
@@ -430,6 +437,7 @@ namespace AntTrak.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, ProjectManager")]
         public ActionResult Edit([Bind(Include = "Id,Name,Description,ProjectManagerId,Created,Updated,IsArchived")] Project project)
         {
             if (ModelState.IsValid)
@@ -446,31 +454,6 @@ namespace AntTrak.Controllers
             return View(project);
         }
 
-        // GET: Projects/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Project project = db.Projects.Find(id);
-            if (project == null)
-            {
-                return HttpNotFound();
-            }
-            return View(project);
-        }
-
-        // POST: Projects/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Project project = db.Projects.Find(id);
-            db.Projects.Remove(project);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
 
         protected override void Dispose(bool disposing)
         {

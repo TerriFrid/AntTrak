@@ -3,14 +3,11 @@
 
     <div class="container">
         <div class="row">
-            <div class="col">
+            <div class="col-8 offset-2">
                 <div class="card card-ticket">
                     <div class="card-header">
                         <h4 class="card-title">@ViewBag.CardTitle</h4>
                         <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
                         </div>
                     </div>
                     @using (Html.BeginForm("Edit", "Tickets", FormMethod.Post))

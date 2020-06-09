@@ -7,171 +7,171 @@
     UserRolesHelper roleHelper = new UserRolesHelper();
 }
 @Html.AntiForgeryToken()
-    <div class="container">
-        <div class="row">
-            <!-- New Card row -->
-            <div class="col-6">
-                <div class="card card-project">
-                    <!-- /.card -->
-                    <div class="card-header">
-                        <h1 class="card-title">@ViewBag.CardTitle </h1>
-                        <div class="card-tools"> </div>
-                    </div>
-                    <div class="card-body">
-                        @Html.HiddenFor(model => model.Id)
-                        @Html.HiddenFor(model => model.IsArchived)
-                        <div class="row">
-                            <div class="col-4">
-                                @Html.Label("Project Manager", new { @class = "form-label" })
-                                <p>@Model.ProjectManagerName</p>
-                            </div>
+<div class="container">
+    <div class="row">
+        <!-- New Card row -->
+        <div class="col-6">
+            <div class="card card-project">
+                <!-- /.card -->
+                <div class="card-header">
+                    <h1 class="card-title">@ViewBag.CardTitle </h1>
+                    <div class="card-tools"> </div>
+                </div>
+                <div class="card-body">
+                    @Html.HiddenFor(model => model.Id)
+                    @Html.HiddenFor(model => model.IsArchived)
+                    <div class="row">
+                        <div class="col-4">
+                            @Html.Label("Project Manager", new { @class = "form-label" })
+                            <p>@Model.ProjectManagerName</p>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                @Html.Label("Description", new { @class = "control-label" })
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <p>@Model.Description</p>
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="row">
-                                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
-                                {
-                                    <div class="col">
-                                        @Html.ActionLink("Edit information", "Edit", new { id = Model.Id }, new { @class = "form-control btn btn-project" })
-                                    </div>
-                                    <div class="col">
-                                        @Html.ActionLink("Back to List", "Index", null, new { @class = "form-control btn btn-dark" })
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="col-6"></div>
-                                    <div class="col-6">
-                                        @Html.ActionLink("Back to List", "Index", null, new { @class = "form-control btn btn-dark" })
-                                    </div>
-                                }
-                            </div>
-                                                    
-                        </div>  <!-- /.card-footer-->
-
-                    </div> <!-- /.card-body -->
-                </div> <!-- /.card -->
-            </div>
-            <div class="col-6">
-                <div class="card card-project">
-                    <div class="card-header">
-                        <h3 class="card-title">Project Members</h3>
-                        <div class="card-tools"> </div>
                     </div>
-                    <div class="card-body">
-                        <table class="table">                           
-                                <tr>
-                                    <th></th>
-                                    <th></th>
-                                    <th>Open Tickets</th>
-                                </tr>
-                                                   
-                                @foreach (var member in Model.ProjectMembers)
-                                { 
-                                    <tr>
-                                        <td>
-                                            @member.Fullname
-                                        </td>
-                                        <td>
-                                            @{ 
-                                                var Role = roleHelper.ListUserRoles(member.Id).FirstOrDefault();
-
-                                            }
-                                            @Role
-                                        </td>
-                                        <td>
-                                            @{ 
-                                                var nbrTickets = ticketHelper.ListUserOpenProjectsTickets(member.Id).Count();
-
-                                            }
-                                            @nbrTickets
-                                        </td>
-                                    </tr>
-                                }
-                        </table>
-
+                    <div class="row">
+                        <div class="col">
+                            @Html.Label("Description", new { @class = "control-label" })
+                        </div>
                     </div>
-                    <!-- /.card-body -->
+                    <div class="row">
+                        <div class="col">
+                            <p>@Model.Description</p>
+                        </div>
+                    </div>
                     <div class="card-footer">
-                        @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
-                        {
-                            @Html.ActionLink("Update Members", "TeamManagement", new { id = Model.Id }, new { @class = "btn btn-project" })
-                        }
-                    </div>  <!-- /.card-footer-->
-                </div>  <!-- /.card -->
-            </div>@*Project Members*@
-        </div> <!-- (New Card row) -->
-        <div class="row">
-            @*Tickets Card*@
-            <div class="col-12">
-                <div class="col-12">
-                    <div class="card card-project card-tabs">
-                        <div class="card-header p-0 pt-1">
-                            <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Active Tickets</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Closed Tickets</a>
-                                </li>
-
-                            </ul>
+                        <div class="row">
+                            @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                            {
+                                <div class="col">
+                                    @Html.ActionLink("Edit information", "Edit", new { id = Model.Id }, new { @class = "form-control btn btn-project" })
+                                </div>
+                                <div class="col">
+                                    @Html.ActionLink("Back to List", "Index", null, new { @class = "form-control btn btn-dark" })
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-6"></div>
+                                <div class="col-6">
+                                    @Html.ActionLink("Back to List", "Index", null, new { @class = "form-control btn btn-dark" })
+                                </div>
+                            }
                         </div>
-                        <div class="card-body">
-                            <div class="tab-content" id="custom-tabs-one-tabContent">
-                                <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
-                                    <div class="row">
-                                        <div class="col-3">
-                                            @if (User.IsInRole("Submitter"))
-                                            {
-                                                <p>
-                                                    @Html.ActionLink("Create New Ticket", "Create", "Tickets", null, new { @class = "form-control btn btn-ticket" })
-                                                </p>
-                                            }
-                                        </div>
+
+                    </div>  <!-- /.card-footer-->
+
+                </div> <!-- /.card-body -->
+            </div> <!-- /.card -->
+        </div>
+        <div class="col-6">
+            <div class="card card-project">
+                <div class="card-header">
+                    <h3 class="card-title">Project Members</h3>
+                    <div class="card-tools"> </div>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th>Open Tickets</th>
+                        </tr>
+
+                        @foreach (var member in Model.ProjectMembers)
+                        {
+                            <tr>
+                                <td>
+                                    @member.Fullname
+                                </td>
+                                <td>
+                                    @{
+                                        var Role = roleHelper.ListUserRoles(member.Id).FirstOrDefault();
+
+                                    }
+                                    @Role
+                                </td>
+                                <td>
+                                    @{
+                                        var nbrTickets = ticketHelper.ListUserOpenProjectsTickets(member.Id).Count();
+
+                                    }
+                                    @nbrTickets
+                                </td>
+                            </tr>
+                        }
+                    </table>
+
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                    {
+                        @Html.ActionLink("Update Members", "TeamManagement", new { id = Model.Id }, new { @class = "btn btn-project" })
+                    }
+                </div>  <!-- /.card-footer-->
+            </div>  <!-- /.card -->
+        </div>@*Project Members*@
+    </div> <!-- (New Card row) -->
+    <div class="row">
+        @*Tickets Card*@
+        <div class="col-12">
+            <div class="col-12">
+                <div class="card card-project card-tabs">
+                    <div class="card-header p-0 pt-1">
+                        <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Active Tickets</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Closed Tickets</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content" id="custom-tabs-one-tabContent">
+                            <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+                                <div class="row">
+                                    <div class="col-3">
+                                        @if (User.IsInRole("Submitter"))
+                                        {
+                                            <p>
+                                                @Html.ActionLink("Create New Ticket", "Create", "Tickets", new { projectId = Model.Id }, new { @class = "form-control btn btn-ticket" })
+                                            </p>
+                                        }
                                     </div>
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>
-                                                    @Html.DisplayName("Developer")
-                                                </th>
-                                                <th>
-                                                    @Html.DisplayName("Title")
-                                                </th>
-                                                <th>
-                                                    @Html.DisplayName("Submitter")
-                                                </th>
-                                                <th>
-                                                    @Html.DisplayName("Priority")
-                                                </th>
-                                                <th>
-                                                    @Html.DisplayName("Type")
-                                                </th>
-                                                <th>
-                                                    @Html.DisplayName("Status")
-                                                </th>
-                                                <th>
-                                                    @Html.DisplayName("Created")
-                                                </th>
-                                                <th>
-                                                    @Html.DisplayName("Last Updated")
-                                                </th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var item in Model.ActiveTickets)
-                                            {
+                                </div>
+                                <table id="ActiveProjectTickets" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                @Html.DisplayName("Developer")
+                                            </th>
+                                            <th>
+                                                @Html.DisplayName("Title")
+                                            </th>
+                                            <th>
+                                                @Html.DisplayName("Submitter")
+                                            </th>
+                                            <th>
+                                                @Html.DisplayName("Priority")
+                                            </th>
+                                            <th>
+                                                @Html.DisplayName("Type")
+                                            </th>
+                                            <th>
+                                                @Html.DisplayName("Status")
+                                            </th>
+                                            <th>
+                                                @Html.DisplayName("Created")
+                                            </th>
+                                            <th>
+                                                @Html.DisplayName("Last Updated")
+                                            </th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.ActiveTickets)
+                                        {
                                             <tr>
                                                 <td>
                                                     @{
@@ -213,44 +213,44 @@
                                                 }
 
                                             </tr>
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
-                                    <table class="table table-striped ">
-                                        <thead>
-                                            <tr>
-                                                <th>
-                                                    @Html.DisplayName("Developer")
-                                                </th>
-                                                <th>
-                                                    @Html.DisplayName("Title")
-                                                </th>
-                                                <th>
-                                                    @Html.DisplayName("Submitter")
-                                                </th>
-                                                <th>
-                                                    @Html.DisplayName("Priority")
-                                                </th>
-                                                <th>
-                                                    @Html.DisplayName("Type")
-                                                </th>
-                                                <th>
-                                                    @Html.DisplayName("Status")
-                                                </th>
-                                                <th>
-                                                    @Html.DisplayName("Created")
-                                                </th>
-                                                <th>
-                                                    @Html.DisplayName("Last Updated")
-                                                </th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var item in Model.ClosedTickets)
-                                            {
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                                <table id="ClosedProjectTickets" class="table table-striped ">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                @Html.DisplayName("Developer")
+                                            </th>
+                                            <th>
+                                                @Html.DisplayName("Title")
+                                            </th>
+                                            <th>
+                                                @Html.DisplayName("Submitter")
+                                            </th>
+                                            <th>
+                                                @Html.DisplayName("Priority")
+                                            </th>
+                                            <th>
+                                                @Html.DisplayName("Type")
+                                            </th>
+                                            <th>
+                                                @Html.DisplayName("Status")
+                                            </th>
+                                            <th>
+                                                @Html.DisplayName("Created")
+                                            </th>
+                                            <th>
+                                                @Html.DisplayName("Last Updated")
+                                            </th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.ClosedTickets)
+                                        {
                                             <tr>
                                                 <td>
                                                     @{
@@ -291,18 +291,28 @@
                                                     <td></td>
                                                 }
                                             </tr>
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
-                        </div><!-- /.card -->
-                    </div>
+                        </div>
+                    </div><!-- /.card -->
                 </div>
             </div>
-        </div> @*Tickets Card*@
+        </div>
+    </div> @*Tickets Card*@
 
-    </div>
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-    }
+</div>
+@section scripts {
+    <script>
+       
+            $("#ActiveProjectTickets, #ClosedProjectTickets").DataTable(
+                {
+                    "responsive": true,
+                    "autoWidth": false,
+                });
+           
+
+      
+    </script>
+}

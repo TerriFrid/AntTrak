@@ -106,6 +106,10 @@ namespace AntTrak.Controllers
         public ActionResult DemoLogin()
         {
             //ViewBag.ReturnUrl = returnUrl;
+            if(User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("CustomLogOff", "Account");
+            }
             return View();
             //return RedirectToAction("DemoLogin", "Account");
         }
@@ -519,6 +523,10 @@ namespace AntTrak.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("CustomLogOff", "Account");
+            }
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }

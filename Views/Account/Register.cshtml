@@ -17,10 +17,12 @@
     <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- icheck bootstrap -->
     <link href="~/Content/icheck-bootstrap.min.css" rel="stylesheet" />
-    <!-- Theme style -->   
+    <!-- Theme style -->
     <link href="~/Content/adminlte.min.css" rel="stylesheet" />
     <!-- Google Font: Source Sans Pro -->
     <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    @*My Custom StyleSheet*@
+    <link href="~/Content/custom.css" rel="stylesheet" />
 </head>
 <body class="hold-transition register-page">
     @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { enctype = "Multipart/form-data" }))
@@ -29,17 +31,17 @@
         @Html.Hidden("key", "")
         <div class="register-box">
             <div class="register-logo">
-                <a href="../../index2.html">AntTrak</a>
+                <a href="../../index2.html">Dr. d'Bug</a>
             </div>
 
             <div class="card card-danger">
                 <div class="card-body register-card-body">
-                    @*<p class="login-box-msg">Register a new user</p>*@
+                  
                     <H3>Register a new user!</H3>
 
                     <br />
                     <p>Upload an Avatar</p>
-                    @*<form action="../../index.html" method="post">*@
+                   
                     <div class="input-group mb-3">
                         <input type="file" name="image" class="form-control" placeholder="">
                         <div class="input-group-append">
@@ -103,19 +105,7 @@
                         </div>
                         <!-- /.col -->
                     </div>
-                    @*</form>*@
-
-                    @*<div class="social-auth-links text-center">
-            <p>- OR -</p>
-            <a href="#" class="btn btn-block btn-primary">
-                <i class="fab fa-facebook mr-2"></i>
-                Sign up using Facebook
-            </a>
-            <a href="#" class="btn btn-block btn-danger">
-                <i class="fab fa-google-plus mr-2"></i>
-                Sign up using Google+
-            </a>
-        </div>*@
+  
                     <a href="@Url.Action("Login", "Account")" class="text-center">Registered User Sign On</a>
                 </div>
                 <!-- /.form-box -->

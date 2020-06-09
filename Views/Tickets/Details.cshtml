@@ -4,292 +4,302 @@
 
 @model Ticket
 
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                @*<div class="row">*@
-                <div class="card card-ticket">
-                    <div class="card-header">
-                        <h4 class="card-title">@ViewBag.CardTitle</h4>
-                        <div class="card-tools">
-                            
-                        </div>
+<div class="col">
+    <div class="row">
+        <div class="col-3">
+            @*<div class="row">*@
+            <div class="card card-ticket">
+                <div class="card-header">
+                    <h4 class="card-title">@ViewBag.CardTitle</h4>
+                    <div class="card-tools">
+
                     </div>
-                    <div class="card-body">
-                        @Html.AntiForgeryToken()
-                        @Html.HiddenFor(Model => Model.ProjectId)
-                        @*@Html.HiddenFor(Model => Model.SubmitterId)
-                        @Html.HiddenFor(Model => Model.Title)
-                        @Html.HiddenFor(Model => Model.Created)
-                        @Html.HiddenFor(Model => Model.TicketStatusId)
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
-                        <div class="row">
-                            @*row for select input*@
-                            <div class="col">
-                                @{
-                                    var dev = @Model.Developer;
-                                    var devName = dev != null ? dev.Fullname : "Unassigned";
-                                }
-                                <p>@Html.Label("Assigned Developer"): @devName</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <p>@Html.Label("Status"): @Model.TicketStatus.Name</p>
-                            </div>
-                            <div class="col">
-                                <p>@Html.Label("Priority"): @Model.TicketPriority.Name</p>
-                            </div>
-                            <div class="col">
-                                <p>@Html.Label("Type"): @Model.TicketType.Name</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <p>@Html.Label("Submitter"): @Model.Submitter.Fullname</p>
-                            </div>
-                            <div class="col">
-                                <p>@Html.Label("Created"):  @Model.Created.ToString("MMM, dd, yyyy")</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                @Html.Label("Description")
-
-                               @*// @Html.TextArea("Description", new { @class = "form-control h-100" })*@
-                                <p> @Model.Description</p>
-                                
-                                <br />
-                            </div>
-                        </div>
-                    </div><!-- /.card-body -->
-                    <div class="card-footer">
-                        <div class="row">
-                            <br />
-                            <div class="col">
-                                @if (!Model.IsArchived)
-                                {
-                                    @Html.ActionLink("Edit information", "Edit", new { id = Model.Id }, new { @class = "form-control btn btn-ticket " })
-                                }
-
-                            </div>
-                            <div class="col">
-                                @Html.ActionLink("Back to Project", "Details", "Projects", new { id = Model.ProjectId }, new { @class = "form-control btn btn-dark " })
-                                
-                            </div>
-                        </div>
-                    </div> <!-- /.card-footer-->
-                </div><!-- /.card -->
-              
-            </div>
-            <div class="col">
-                <div class="card card-ticket">
-                    <div class="card-header">
-                        <h3 class="card-title">Comments (@Model.Comments.Count)</h3>
-                        <div class="card-tools">
-                            
-                        </div>
+                </div>
+                <div class="card-body">
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(Model => Model.ProjectId)
+                    @*@Html.HiddenFor(Model => Model.SubmitterId)
+        @Html.HiddenFor(Model => Model.Title)
+        @Html.HiddenFor(Model => Model.Created)
+        @Html.HiddenFor(Model => Model.TicketStatusId)
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
+                    <div class="row">
+                        @*row for select input*@
+                        @*<div class="col">*@
+                        @{
+                            var dev = @Model.Developer;
+                            var devName = dev != null ? dev.Fullname : "Unassigned";
+                        }
+                        <p>@Html.Label("Developer:") @devName</p>
+                        @*</div>*@
                     </div>
                     <div class="row">
+                        <p>@Html.Label("Status:") @Model.TicketStatus.Name</p>
+                    </div>
+                    <div class="row">
+                        <p>@Html.Label("Priority:") @Model.TicketPriority.Name</p>
+                    </div>
+                    <div class="row">
+                        <p>@Html.Label("Type:") @Model.TicketType.Name</p>
+                    </div>
+                    <div class="row">
+                        <p>@Html.Label("Submitter:") @Model.Submitter.Fullname</p>
+                    </div>
+                    <div class="row">
+                        <p>@Html.Label("Created:")  @Model.Created.ToString("MMM, dd, yyyy")</p>
+                    </div>
+
+                    <div class="row">
+                        <p> @Html.Label("Description:")</p>
+                    </div>
+                    <div class="row">
+                        <p> @Model.Description </p>
+                        <br />
+                    </div>
+                </div><!-- /.card-body -->
+                <div class="card-footer">
+                    <div class="row">
+                        <br />
                         <div class="col">
-                            @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post, null))
+                            @if (!Model.IsArchived)
                             {
-                                <div class="card-body">
-                                    <div class="direct-chat-messages">
-                                        <!-- Message. Default to the left -->
-                                        @foreach (var comment in Model.Comments.OrderBy(c => c.Created).ToList())
-                                        {
-                                            <div class="direct-chat-msg">
-                                                <div class="direct-chat-infos clearfix">
-                                                    <span class="direct-chat-name float-left">@comment.User.Fullname</span>
-                                                    @{
-                                                        var commentDate = comment.Updated != null ? comment.Updated : comment.Created;
-                                                    }
-                                                    <span class="direct-chat-timestamp float-right">@commentDate</span>
-                                                </div>
-                                                <!-- /.direct-chat-infos -->
-                                                <img class="direct-chat-img" src="@comment.User.AvatarPath" alt="">
-                                                <!-- /.direct-chat-img -->
-                                                <div class="direct-chat-text">
-                                                    @comment.Body
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col offset-8">
-                                                        @if (comment.UserId == User.Identity.GetUserId())
-                                                        {
-                                                            @Html.ActionLink("Edit", "Edit", "TicketComments", new { id = comment.Id }, null) <span>|</span>
-                                                            @Html.ActionLink("Delete", "Delete", "TicketComments", new { id = comment.Id }, null)
-                                                        }
-
-                                                       
-                                                    </div>
-                                                </div>
-                                                <!-- /.direct-chat-text -->
-                                            </div> <!-- /.direct-chat-msg -->
-                                            <!-- /.direct-chat-msg -->
-                                        }
-    
-                                    </div>
-                                </div> <!-- /.card-body -->
-                                <div class="card-footer">
-
-                                    @Html.AntiForgeryToken()
-                                    @Html.Hidden("ticketId", Model.Id)
-                                    <div class="input-group">
-                                        <input type="text" name="commentBody" placeholder="Type Comment ..." class="form-control">
-                                        <span class="input-group-append">
-                                            <button type="submit" class="btn btn-ticket">Add</button>
-                                        </span>
-                                    </div>
-
-
-                                </div> <!-- /.card-footer-->
+                                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "form-control btn btn-ticket " })
                             }
+
+                        </div>
+                        <div class="col">
+                            @Html.ActionLink("Return", "Details", "Projects", new { id = Model.ProjectId }, new { @class = "form-control btn btn-dark " })
+
+                        </div>
+                    </div>
+                </div> <!-- /.card-footer-->
+            </div><!-- /.card -->
+
+        </div>
+        <div class="col-9">
+            <div class="row">
+                <div class="col">
+                    <div class="card card-ticket">
+                        <div class="card-header">
+                            <h3 class="card-title">Comments (@Model.Comments.Count)</h3>
+                            <div class="card-tools">
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post, null))
+                                {
+                                    <div class="card-body">
+                                        <div class="direct-chat-messages">
+                                            <!-- Message. Default to the left -->
+                                            @foreach (var comment in Model.Comments.OrderBy(c => c.Created).ToList())
+                                            {
+                                                <div class="direct-chat-msg">
+                                                    <div class="direct-chat-infos clearfix">
+                                                        <span class="direct-chat-name float-left">@comment.User.Fullname</span>
+                                                        @{
+                                                            var commentDate = comment.Updated != null ? comment.Updated : comment.Created;
+                                                        }
+                                                        <span class="direct-chat-timestamp float-right">@commentDate</span>
+                                                    </div>
+                                                    <!-- /.direct-chat-infos -->
+                                                    <img class="direct-chat-img" src="@comment.User.AvatarPath" alt="">
+                                                    <!-- /.direct-chat-img -->
+                                                    <div class="direct-chat-text">
+                                                        @comment.Body
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col offset-8">
+                                                            @if (comment.UserId == User.Identity.GetUserId())
+                                                            {
+                                                                @Html.ActionLink("Edit", "Edit", "TicketComments", new { id = comment.Id }, null) <span>|</span>
+                                                                @Html.ActionLink("Delete", "Delete", "TicketComments", new { id = comment.Id }, null)
+                                                            }
+
+
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.direct-chat-text -->
+                                                </div> <!-- /.direct-chat-msg -->
+                                                <!-- /.direct-chat-msg -->
+                                            }
+
+                                        </div>
+                                    </div> <!-- /.card-body -->
+                                    <div class="card-footer">
+
+                                        @Html.AntiForgeryToken()
+                                        @Html.Hidden("ticketId", Model.Id)
+                                        <div class="input-group">
+                                            <input type="text" name="commentBody" placeholder="Type Comment ..." class="form-control">
+                                            <span class="input-group-append">
+                                                <button type="submit" class="btn btn-ticket">Add</button>
+                                            </span>
+                                        </div>
+
+
+                                    </div> <!-- /.card-footer-->
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        
+                <div class="col">
+                    @using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <div class="card card-ticket">
+                            <div class="card-header">
+                                <h3 class="card-title">Attachments (@Model.Attachments.Count)</h3>
+                                <div class="card-tools"></div>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <tr>
+                                        <th>
+                                        </th>
+                                        <th>
+                                            @Html.DisplayName("File Name")
 
-        <div class="row">
-            
-            <div class="col">
-                @using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                {
+                                        </th>
+                                        <th>
+                                        </th>
+                                    </tr>
+
+
+                                    @if (Model.Attachments.Count > 0)
+                                    {
+                                        foreach (var item in Model.Attachments)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <img src="@AttachmentHelper.ShowIcon(item.FilePath)" />
+                                                </td>
+                                                <td>
+                                                    <a target="_blank" href="@Url.Content(item.FilePath)">@item.FileName</a>
+
+                                                </td>
+                                                <td>
+                                                    @if (item.UserId == User.Identity.GetUserId())
+                                                    {
+                                                        @Html.ActionLink("Delete Attachment", "Delete", "TicketAttachments", new { id = item.Id }, null)
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </table>
+
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                                @Html.AntiForgeryToken()
+                                @Html.Hidden("TicketId", Model.Id)
+
+                                <div class="row p-1">
+                                    <div class="col">
+                                        @Html.LabelFor(model => model.Attachments, htmlAttributes: new { @class = "control-label col-md-5" })
+                                        <input name="Attachment" type="file" class="form-control" id="fileUpload" />
+                                    </div>
+                                </div>
+                                <div class="row p-1">
+                                    <br />
+                                    <div class="col">
+
+                                        <input name="FileName" class="form-control" placeholder="File Name">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <button type="submit" class="form-control btn btn-ticket">Save Attachment</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-footer-->
+                        </div>
+                    }
+                    <!-- /.card -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
                     <div class="card card-ticket">
                         <div class="card-header">
-                            <h3 class="card-title">Attachments (@Model.Attachments.Count)</h3>
-                            <div class="card-tools"></div>
+                            <h3 class="card-title">Ticket History</h3>
+                            <div class="card-tools"> </div>
                         </div>
                         <div class="card-body">
-                            <table class="table table-striped">
-                                <tr>
-                                    <th>
-                                    </th>
-                                    <th>
-                                        @Html.DisplayName("File Name")
-                                        
-                                    </th>
-                                    <th>
-                                    </th>
-                                </tr>
-
-
-                                @if (Model.Attachments.Count > 0)
-                                { 
-                                    foreach (var item in Model.Attachments)
+                            <table id="History" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayName("Changed By")
+                                        </th>
+                                        <th>
+                                            @Html.DisplayName("Property")
+                                        </th>
+                                        <th>
+                                            @Html.DisplayName("OldValue")
+                                        </th>
+                                        <th>
+                                            @Html.DisplayName("NewValue")
+                                        </th>
+                                        <th>
+                                            @Html.DisplayName("Changed On")
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Histories)
                                     {
                                         <tr>
                                             <td>
-                                                <img src="@AttachmentHelper.ShowIcon(item.FilePath)" />
+                                                @Html.DisplayFor(modelItem => item.User.Fullname)
                                             </td>
                                             <td>
-                                                <a target="_blank" href="@Url.Content(item.FilePath)">@item.FileName</a>
-
+                                                @Html.DisplayFor(modelItem => item.Property)
                                             </td>
                                             <td>
-                                                @if (item.UserId == User.Identity.GetUserId())
-                                                {
-                                                    @Html.ActionLink("Delete Attachment", "Delete", "TicketAttachments", new { id = item.Id }, null)
-                                                }
+                                                @Html.DisplayFor(modelItem => item.OldValue)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.NewValue)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ChangedOn)
                                             </td>
                                         </tr>
-                                        }
                                     }
+                                </tbody>
                             </table>
-
-                        </div>
-                        <!-- /.card-body -->
+                        </div> <!-- /.card-body -->
                         <div class="card-footer">
-                            @Html.AntiForgeryToken()
-                            @Html.Hidden("TicketId", Model.Id)
 
-                            <div class="row">
-                                <div class="col">
-                                    @Html.LabelFor(model => model.Attachments, htmlAttributes: new { @class = "control-label col-md-5" })
-                                    <input name="Attachment" type="file" class="form-control" id="fileUpload" />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-
-                                    <input name="FileName" class="form-control" placeholder="File Name">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col offset-8">
-                                    <button type="submit" class="btn btn-ticket">Save Attachment</button>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.card-footer-->
+                        </div> <!-- /.card-footer-->
                     </div>
-                }
-                <!-- /.card -->
-            </div>
-         
-            <div class="col">
-                <div class="card card-ticket">
-                    <div class="card-header">
-                        <h3 class="card-title">Ticket History</h3>
-                        <div class="card-tools"> </div>
-                    </div>
-                    <div class="card-body">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        @Html.DisplayName("Changed By")
-                                    </th>
-                                    <th>
-                                        @Html.DisplayName("Property")
-                                    </th>
-                                    <th>
-                                        @Html.DisplayName("OldValue")
-                                    </th>
-                                    <th>
-                                        @Html.DisplayName("NewValue")
-                                    </th>
-                                    <th>
-                                        @Html.DisplayName("Changed On")
-                                    </th>
+                    <!-- /.card -->
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model.Histories)
-                                {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.User.Fullname)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Property)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.OldValue)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.NewValue)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ChangedOn)
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div> <!-- /.card-body -->
-                    <div class="card-footer">
-
-                    </div> <!-- /.card-footer-->
                 </div>
-                <!-- /.card -->
-
-
             </div>
+        </div>
+    </div>
+</div>
+@section scripts
+    {
+    <script>
+        $(function () {
+            $("#History").DataTable(
+                    {"responsive": true,
+                    "autoWidth": false,
+                //    "paging": true,
+                //    "lengthChange": false,
+                //    "searching": false,
+                //    "ordering": true,
+                //    "info": true
+                }
+            );
 
-        </div>
-        </div>
+        });
+    </script>
+}

@@ -1,92 +1,111 @@
 ﻿@model IEnumerable<AntTrak.ViewModel.CustomUserData>
 
-    <div class="container">
-        <div class="col-8 offset-2">
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken();
-                <div class="row">
-                    <!-- New Card row -->
-                    <div class="col">
-                        <div class="card card-warning">
-                            <div class="card-header">
-                                <h3 class="card-title">@ViewBag.CardTitle</h3>
-                                <div class="card-tools"></div>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col">
-                                        @Html.ListBox("UserIds", null, new { @class = "form-control h-100" })
-                                    </div>
-                                    <div class="col">
-                                        @Html.DropDownList("RoleName", null, "Select Role", new { @class = "form-control" })
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /.card-body -->
-                            <div class="card-footer">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <button type="submit" class="form-control btn-warning">Assign User Roles</button>
-                                    </div>
-                                    <div class="col-6">
-                                        @Html.ActionLink("Back to List", "Index", null, new { @class = "form-control btn btn-dark" })
-                                    </div>
-                                </div>
-                            </div>  <!-- /.card-footer-->
-                        </div>  <!-- /.card -->
-                    </div>
-                </div> <!-- (New Card row) -->
-            }
-
+<div class="container">
+    <div class="col-8 offset-2">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken();
             <div class="row">
                 <!-- New Card row -->
                 <div class="col">
-                    <div class="card">
+                    <div class="card card-warning">
                         <div class="card-header">
-                            <h3 class="card-title"></h3>
-                            <div class="card-tools">    </div>
+                            <h3 class="card-title">@ViewBag.CardTitle</h3>
+                            <div class="card-tools"></div>
                         </div>
                         <div class="card-body">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            @Html.DisplayName("Full Name")
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Email)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.RoleName)
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var user in Model)
-                                    {
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(model => user.FullName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(model => user.Email)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(model => user.RoleName)
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
+                            <div class="row">
+                                <div class="col">
+                                    @Html.ListBox("UserIds", null, new { @class = "form-control h-100" })
+                                </div>
+                                <div class="col">
+                                    @Html.DropDownList("RoleName", null, "Select Role", new { @class = "form-control" })
+                                </div>
+                            </div>
                         </div>
                         <!-- /.card-body -->
-                        <div class="card-footer"> </div>  <!-- /.card-footer-->
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-6">
+                                    <button type="submit" class="form-control btn-warning">Assign User Roles</button>
+                                </div>
+                                <div class="col-6">
+                                    @Html.ActionLink("Back to List", "Dashboard", "Home", null, new { @class = "form-control btn btn-dark" })
+                                </div>
+                            </div>
+                        </div>  <!-- /.card-footer-->
                     </div>  <!-- /.card -->
                 </div>
             </div> <!-- (New Card row) -->
-        </div>
+        }
+
+        <div class="row">
+            <!-- New Card row -->
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"></h3>
+                        <div class="card-tools">    </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayName("Full Name")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Email)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.RoleName)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var user in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(model => user.FullName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => user.Email)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => user.RoleName)
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer"> </div>  <!-- /.card-footer-->
+                </div>  <!-- /.card -->
+            </div>
+        </div> <!-- (New Card row) -->
     </div>
+</div>
+
+
+@section scripts {
+    <script>
+        $(function () {
+            $("table").DataTable(
+                 //   {"responsive": true,
+                 //  "autoWidth": false,
+                //    "paging": true,
+                //    "lengthChange": false,
+                //    "searching": false,
+                //    "ordering": true,
+                //    "info": true
+                //}
+            );
+
+        });
+    </script>
+}
 
 
 
@@ -94,9 +113,6 @@
 
 
 
-            
-            
-       
 
 
 

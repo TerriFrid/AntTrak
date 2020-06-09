@@ -12,79 +12,106 @@
                     </div>
                     @using (Html.BeginForm("Edit", "Tickets", FormMethod.Post))
                     {
-                        <div class="card-body">
-                            @Html.AntiForgeryToken()
-                            @Html.HiddenFor(Model => Model.ProjectId)
-                            @Html.HiddenFor(Model => Model.SubmitterId)                           
-                            @Html.HiddenFor(Model => Model.Created)
-                           
-                           
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            <div class="row">
-                                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            @*<div class="row">*@
-                            @*row for select input*@
-                            <div class="row">
-                                <div class="col-6">
-                                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
-                                    {
-                                        @Html.DropDownList("DeveloperId", null, "Unassigned", new { @class = "form-control" })
+                <div class="card-body">
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(Model => Model.ProjectId)
+                    @Html.HiddenFor(Model => Model.SubmitterId)
+                    @Html.HiddenFor(Model => Model.Created)
 
-                                        @Html.ValidationMessageFor(model => model.DeveloperId, "", new { @class = "text-danger" })
-                                    }
-                                    @if (User.IsInRole("Developer") || User.IsInRole("Submitter"))
-                                    {
-                                        @Html.HiddenFor(Model => Model.DeveloperId)
-                                        <p>@Html.Label("Developer"): @Model.Developer.Fullname</p>
-                                    }
-                                </div>
-                                <div class="col-6">
-                                    @if (User.IsInRole("Submitter"))
-                                    {
-                                        @Html.HiddenFor(Model => Model.TicketStatusId)
-                                        <p>@Html.Label("Status") @Model.TicketStatus.Name</p>
-                                    }
-                                    else
-                                    {
-                                        @Html.DropDownList("TicketStatusId", null, null, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.TicketStatusId, "", new { @class = "text-danger" })
-                                    }
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    @Html.DropDownList("TicketPriorityId", null, null, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.TicketPriorityId, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col">
-                                    @Html.DropDownList("TicketTypeId", null, null, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.TicketTypeId, "", new { @class = "text-danger" })
-                                    <br />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <p>@Html.Label("Submitter"): @Model.Submitter.Fullname</p>
-                                </div>
-                                <div class="col">
-                                    <p>@Html.Label("Created"): @Model.Created.ToString("MMM, dd, yyyy")</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-5" })
 
-                                    @Html.TextArea("Description", new { @class = "form-control h-100" })
-                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                                    <br />
-                                </div>
-                            </div>
-                        </div><!-- /.card-body -->
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="row p-1">
+                        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    @*<div class="row">*@
+                    @*row for select input*@
+                <div class="row">
+                    <div class="col-2">
+                        <p>@Html.Label("Developer:")</p>
+                    </div>
+                    <div class="col-4">
+                        @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                        {
+                            @Html.DropDownList("DeveloperId", null, "Unassigned", new { @class = "form-control" })
+
+                            @Html.ValidationMessageFor(model => model.DeveloperId, "", new { @class = "text-danger" })
+                        }
+                        @if (User.IsInRole("Developer") || User.IsInRole("Submitter"))
+                        {
+                            @Html.HiddenFor(Model => Model.DeveloperId)
+
+                            if (Model.DeveloperId != null)
+                            {
+                                <p> @Model.Developer.Fullname</p>
+                            }
+                            else
+                            {
+                                <p>Unassigned</p>
+                            }
+                        }
+                    </div>
+                    <div class="col-2">
+                        <p>@Html.Label("Status:")</p>
+                    </div>
+                    <div class="col-4">
+                        @if (User.IsInRole("Submitter"))
+                        {
+                            @Html.HiddenFor(Model => Model.TicketStatusId)
+                            <p> @Model.TicketStatus.Name</p>
+                        }
+                        else
+                        {
+                            @Html.DropDownList("TicketStatusId", null, null, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.TicketStatusId, "", new { @class = "text-danger" })
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <p>@Html.Label("Priority:")</p>
+                    </div>
+                    <div class="col-4">
+                        @Html.DropDownList("TicketPriorityId", null, null, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.TicketPriorityId, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-2">
+                        <p>@Html.Label("Type:")</p>
+                    </div>
+                    <div class="col-4">
+                        @Html.DropDownList("TicketTypeId", null, null, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.TicketTypeId, "", new { @class = "text-danger" })
+                        <br />
+                    </div>
+                </div>
+                    
+                <div class="row">
+                    <div class="col-2">
+                        <p>@Html.Label("Submitter:") </p>
+                    </div>
+                    <div class="col-4">
+                        <p>@Model.Submitter.Fullname</p>
+                    </div>
+                    <div class="col-2">
+                        <p>@Html.Label("Created:") </p>
+                    </div>
+                    <div class="col-4">
+                        <p>@Model.Created.ToString("MMM, dd, yyyy")</p>
+                    </div>
+                </div>
+                    <div class="row p-1">
+                        <div class="col">
+                            @Html.Label("Description:", new { @class = "control-label col-md-5" })
+
+                            @Html.TextArea("Description", new { @class = "form-control h-100" })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            <br />
+                        </div>
+                    </div>
+                </div><!-- /.card-body -->
                         <div class="card-footer">
                             <div class="row">
                                 <br />

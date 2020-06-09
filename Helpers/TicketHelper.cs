@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Microsoft.AspNet.Identity;
+using System.Data.Entity.Core.Objects;
 
 namespace AntTrak.Helpers
 {
@@ -61,6 +62,34 @@ namespace AntTrak.Helpers
             return myTickets;
         }
 
+        public List<Ticket> ListMyChartTickets()
+        {
+            var myTickets = new List<Ticket>();
+            var userId = HttpContext.Current.User.Identity.GetUserId();
+            var user = db.Users.Find(userId);
+            var myRole = roleHelper.ListUserRoles(userId).FirstOrDefault();
+
+            switch (myRole)
+            {
+                case "Admin":
+                case "DemoAdmin":
+                    myTickets.AddRange(db.Tickets);
+                    break;
+                case "ProjectManager":
+                case "DemoPM":
+                    myTickets.AddRange(db.Projects.Where(p => p.ProjectManagerId == userId).SelectMany(p => p.Tickets));
+                    break;
+                case "Developer":
+                case "DemoDeveloper":
+                    myTickets.AddRange(db.Tickets.Where(t => t.DeveloperId == userId));
+                    break;
+                case "Submitter":
+                case "DemoSubmitter":
+                    myTickets.AddRange(db.Tickets.Where(t => t.SubmitterId == userId));
+                    break;
+            }
+            return myTickets;
+        }
         public List<Ticket> ListMyOpenTickets()
         {
             var myTickets = new List<Ticket>();
@@ -103,6 +132,11 @@ namespace AntTrak.Helpers
             var userId = HttpContext.Current.User.Identity.GetUserId();
             var myProjects = projHelper.ListProjectsForUser(userId);
             var myProjectTickets = myProjects.SelectMany(p => p.Tickets).Where(t => t.TicketStatus.Name == "Unassigned" || t.TicketStatus.Name == "Assigned").ToList();
+            if (HttpContext.Current.User.IsInRole("Developer"))
+            {
+                myProjectTickets = myProjects.SelectMany(p => p.Tickets).Where(t => t.TicketStatus.Name == "Assigned" && t.DeveloperId == userId).ToList();
+            }
+            
             return myProjectTickets;
         }
 
@@ -110,6 +144,10 @@ namespace AntTrak.Helpers
         {
             var myProjects = projHelper.ListProjectsForUser(userId);
             var myProjectTickets = myProjects.SelectMany(p => p.Tickets).Where(t => t.TicketStatus.Name == "Unassigned" || t.TicketStatus.Name == "Assigned").ToList();
+            if(roleHelper.IsUserInRole(userId, "Developer"))
+            {
+               myProjectTickets = myProjects.SelectMany(p => p.Tickets).Where(t => t.TicketStatus.Name == "Assigned" && t.DeveloperId == userId).ToList();
+            }
             return myProjectTickets;
         }
         public bool IsMyTicket(int TicketId)

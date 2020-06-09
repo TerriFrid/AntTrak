@@ -13,18 +13,14 @@
                 <div class="card card-project">
                     <div class="card-header">
                         <h3 class="card-title">@ViewBag.CardTitle</h3>
-
                         <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-6">
                                 @if (User.IsInRole("Admin"))
-                                {                                    
+                                {
                                     @Html.DropDownList("ProjectManagerId", null, "Unassigned", new { @class = "form-control" })
                                 }
                             </div>
@@ -56,10 +52,10 @@
                 <div class="card-footer">
                     <div class="row">
                         <br />
-                        <div class="col">                            
-                            <button type="submit" value="true" name="addMember" class="form-control btn-success">Assign to Project</button>                        
+                        <div class="col">
+                            <button type="submit" value="true" name="addMember" class="form-control btn-success">Assign to Project</button>
                         </div>
-                        <div class="col">                           
+                        <div class="col">
                             <button type="submit" value="false" name="addMember" class="form-control btn-danger">Remove from Project</button>
                         </div>
                         <div class="col">
@@ -128,4 +124,21 @@
             </div>
         </div>
     </div>
+}
+@section scripts {
+    <script>
+        $(function () {
+            $("table").DataTable(
+                 //   {"responsive": true,
+                 //  "autoWidth": false,
+                //    "paging": true,
+                //    "lengthChange": false,
+                //    "searching": false,
+                //    "ordering": true,
+                //    "info": true
+                //}
+            );
+
+        });
+    </script>
 }

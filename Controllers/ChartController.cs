@@ -53,7 +53,7 @@ namespace AntTrak.Controllers
         {
             var pieChartVM = new PieCharts();
             var statuses = db.TicketStatus.ToList();
-            var myTickets = ticketHelper.ListMyTickets();
+            var myTickets = ticketHelper.ListMyChartTickets();
 
             foreach (var status in statuses)
             {

@@ -23,6 +23,10 @@ namespace AntTrak.Controllers
         private TicketHelper ticketHelper = new TicketHelper();
         public ActionResult Index()
         {
+            if(User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("CustomLogOff", "Account");
+            }
             return View();
         }
 

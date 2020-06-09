@@ -1,11 +1,21 @@
 /* your styles go here */
 
+.body-demo{
+    background-color: gainsboro
+}
+
+.info-box{
+    cursor: pointer;
+}
+
+.info-box:hover {
+    background-color: #ccc;
+}
 
 .btn-ticket {
     color: white;
     background-color: cornflowerblue;
     border-color: cornflowerblue;
-    
 }
 .btn-projectx {
     color: white;

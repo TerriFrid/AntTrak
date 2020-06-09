@@ -403,8 +403,20 @@
         </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+@section scripts {
+    <script>
+        $(function () {
+            $("table").DataTable(
+                 //   {"responsive": true,
+                 //  "autoWidth": false,
+                //    "paging": true,
+                //    "lengthChange": false,
+                //    "searching": false,
+                //    "ordering": true,
+                //    "info": true
+                //}
+            );
 
-    
+        });
+    </script>    
 }

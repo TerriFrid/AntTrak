@@ -90,7 +90,7 @@
                     </div>
                 </li>
                 <!-- Notifications Dropdown Menu -->
-                
+
                 <li class="nav-item">
                     <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
                         <i class="fas fa-th-large"></i>
@@ -136,34 +136,20 @@
     </script>
     <!-- Bootstrap 4 -->
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
-
-    <!-- Sparkline  TLF I don't know what this is so I'm commenting it out for now -->
-    @*<script src="plugins/sparklines/sparkline.js"></script>*@
-    <!-- JQVMap TLF I don't think I need this so I'm commenting it out for now-->
-    @*<script src="plugins/jqvmap/jquery.vmap.min.js"></script>
-        <script src="plugins/jqvmap/maps/jquery.vmap.usa.js"></script>*@
-    <!-- jQuery Knob Chart TLF I don't think I need this so I'm commenting it out for now -->
-    @*<script src="plugins/jquery-knob/jquery.knob.min.js"></script>*@
-    <!-- daterangepicker TLF I might need this-->
-    @*<script src="~/Scripts/moment.min.js"></script>*@
-    @* <script src="~/Scripts/daterangepicker.js"></script>*@
-    <!-- Tempusdominus Bootstrap 4 -->
-    @*<script src="~/Scripts/tempusdominus-bootstrap-4.min.js"></script>*@
-    <!-- Summernote -->
-    @*<script src="~/Scripts/summernote.js"></script>*@
     <!-- overlayScrollbars -->
     <script src="~/Scripts/jquery.overlayScrollbars.min.js"></script>
     <!-- DataTables -->
     <script src="~/Scripts/jquery.dataTables.min.js"></script>
     <script src="~/Scripts/dataTables.bootstrap4.min.js"></script>
     <script src="~/Scripts/dataTables.responsive.min.js"></script>
-    @*<script src="~/Scripts/responsive.bootstrap4.min.js"></script>*@
+
     <!-- ChartJS -->
     <script src="~/Scripts/Chart.min.js"></script>
     <!-- AdminLTE App -->
-    @*<script src="~/Scripts/adminlte.js"></script>*@
+
     <script src="~/Scripts/adminlte.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    
     <script>
         $.ajax({
             type: "POST",
@@ -246,14 +232,6 @@
         });
 
 
-
-
-
-
-
-
-
-
     </script>
     <script>
         var invalidSelection = '@TempData["InvalidSelection"]';
@@ -275,23 +253,7 @@
             })
         }
     </script>
-    <script>
-        $(function () {
-            $("table").DataTable({
-                "responsive": true,
-                "autoWidth": false,
-            });
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-            });
-        });
-    </script>
+
     @RenderSection("scripts", required: false)
 </body>
 </html>

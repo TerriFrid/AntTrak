@@ -1,80 +1,97 @@
 ﻿@using AntTrak.ViewModel
 @model IEnumerable<ProjectVM>
 
+    <div class="container">
+        <div class="row">
+            <!-- New Card row -->
+            <div class="col">
+                <div class="card card-project">
+                    <div class="card-header">
+                        <h3 class="card-title">@ViewBag.CardTitle</h3>
+                        <div class="card-tools">
 
-<div class="row">
-    <!-- New Card row -->
-    <div class="col">
-        <div class="card card-project">
-            <div class="card-header">
-                <h3 class="card-title">@ViewBag.CardTitle</h3>
-                <div class="card-tools">
-                                       
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-3">
-                        @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
-                        {
-                            @Html.ActionLink("Create New Project", "Create", null, null, new { @class = "form-control btn btn-project" })
-                        
-                        }
-                        @Html.AntiForgeryToken()
-
+                        </div>
                     </div>
-                    <br />
-                </div>
-               
-                <br />
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayName("Name")
-                            </th>
-                            <th>
-                                @Html.DisplayName("Description")
-                            </th>
-                            <th>
-                                @Html.DisplayName("Project Manager")
-                            </th>
-                            <th>
-                                Actions
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.description)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.pmName)
-                                </td>
-                                <td>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-3">
+                                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                                {
+                                    @Html.ActionLink("Create New Project", "Create", null, null, new { @class = "form-control btn btn-project" })
 
-                                    @Html.ActionLink("Details", "Details", new { id = item.id }) 
+                                }
+                                @Html.AntiForgeryToken()
 
-                                    @if (User.IsInRole("Submitter"))
-                                    {
-                                        @Html.ActionLink("Create Ticket", "Create", "Tickets", new { projectId = item.id }, null)
-                                    }
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                            </div>
+                            <br />
+                        </div>
+
+                        <br />
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayName("Name")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Description")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Project Manager")
+                                    </th>
+                                    <th>
+                                        Actions
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.description)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.pmName)
+                                        </td>
+                                        <td>
+
+                                            @Html.ActionLink("Details", "Details", new { id = item.id })
+
+                                            @if (User.IsInRole("Submitter"))
+                                            {
+                                                @Html.ActionLink("Create Ticket", "Create", "Tickets", new { projectId = item.id }, null)
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                    </div>  <!-- /.card-footer-->
+                </div>  <!-- /.card -->
             </div>
-            <!-- /.card-body -->
-            <div class="card-footer">
-               
-            </div>  <!-- /.card-footer-->
-        </div>  <!-- /.card -->
+        </div> <!-- (New Card row) -->
     </div>
-</div> <!-- (New Card row) -->
+@section Scripts {
+    <script>
+        $(function () {
+            $("table").DataTable(
+                 //   {"responsive": true,
+                 //  "autoWidth": false,
+                //    "paging": true,
+                //    "lengthChange": false,
+                //    "searching": false,
+                //    "ordering": true,
+                //    "info": true
+                //}
+            );
+
+        });
+    </script>
+}

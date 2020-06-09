@@ -136,9 +136,10 @@ namespace AntTrak.Controllers
         }
 
 
-        [Authorize]
+        [AllowAnonymous]
         public ActionResult UserProfileEdit()
         {
+                        
             ViewBag.CardTitle = "Edit Your User Profile";
             var currentUser = db.Users.Find(User.Identity.GetUserId());
             var user = new UserProfile();
@@ -153,7 +154,7 @@ namespace AntTrak.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult UserProfileEdit(UserProfile model, HttpPostedFileBase image)
         {
